@@ -1,0 +1,97 @@
+/*
+  Pure CSS off-canvas menu using :target
+  Usage (HTML sketch):
+  <a href="#offcanvas" class="menu-button">Menu</a>
+  <div id="offcanvas" class="side-menu_root">
+    <a href="#" class="side-menu-overlay" aria-hidden="true"></a>
+    <aside class="side-menu_component" role="dialog" aria-modal="true">
+      <a href="#" class="close-button">Close</a>
+      <div class="side-menu-wrapper">
+        <div class="side-menu-item-wrapper">Item</div>
+        ...
+      </div>
+    </aside>
+  </div>
+*/
+
+:root{
+  --offcanvas-width: 360px;
+  --offcanvas-maxw: 88vw;
+  --offcanvas-ease: ease;
+  --offcanvas-dur: .35s;
+}
+
+/* Root wrapper with the id used by :target */
+.side-menu_root{
+  position: static;
+}
+
+/* Fullscreen overlay (child of the :target element) */
+.side-menu-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--offcanvas-dur) var(--offcanvas-ease),
+              background-color var(--offcanvas-dur) var(--offcanvas-ease);
+  z-index: 98;
+  display: block;
+}
+
+/* Slide-in panel */
+.side-menu_component{
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: var(--offcanvas-width);
+  max-width: var(--offcanvas-maxw);
+  transform: translateX(100%);
+  transition: transform var(--offcanvas-dur) var(--offcanvas-ease);
+  visibility: hidden;
+  background: #ffffff;
+  z-index: 99;
+  will-change: transform;
+  overflow-y: auto;
+}
+
+/* Optional background layer if you keep it as a separate element */
+.side-menu-background{ position: absolute; inset: 0; }
+
+/* Stagger-style entrance for items (simple) */
+.side-menu_component .side-menu-item-wrapper{
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .3s var(--offcanvas-ease) .08s,
+              transform .3s var(--offcanvas-ease) .08s;
+}
+
+/* OPEN STATE – when #offcanvas is targeted */
+#offcanvas:target .side-menu-overlay{
+  opacity: 1;
+  background: rgba(0,0,0,.48);
+  pointer-events: auto;
+}
+
+#offcanvas:target .side-menu_component{
+  transform: translateX(0%);
+  visibility: visible;
+}
+
+#offcanvas:target .side-menu_component .side-menu-item-wrapper{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Close button basic reset */
+.close-button{ cursor: pointer; }
+
+/* Prefer-reduced-motion support */
+@media (prefers-reduced-motion: reduce){
+  .side-menu-overlay,
+  .side-menu_component,
+  .side-menu_component .side-menu-item-wrapper{ transition: none !important; }
+}
+
+
