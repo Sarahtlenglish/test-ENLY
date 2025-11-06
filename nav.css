@@ -1,0 +1,220 @@
+<style>
+
+/* ============================================
+   NAVBAR SCROLL STATE
+   ============================================ */
+
+.navbar_component {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 999;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+body.scrolled .navbar_component {
+  top: 1.5rem;
+  max-width: 100rem;
+  width: calc(100% - clamp(3rem, 8vw, 6rem));
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: clamp(1rem, 4vw, 3rem);
+  padding-right: clamp(1rem, 4vw, 3rem);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.nav-link-wrapper .logo {
+  transition: height 0.5s ease;
+}
+
+body.scrolled .nav-link-wrapper {
+  background-color: var(--color-primary);
+}
+
+body.scrolled .nav-link-wrapper .logo {
+  height: 2rem;
+}
+
+body.scrolled .nav-menu .btn-bounce-text {
+  color: #000;
+  font-size: 1.225rem;
+}
+
+/* Trustpilot widget text color - always dark */
+.trustpilot-widget,
+.trustpilot-widget * {
+  color: #000 !important;
+}
+
+/* ============================================
+   SIDE-MENU CLOSE ICON
+   ============================================ */
+.btn-stop-motion__icon-line {
+  transform-origin: 50% 50%;
+}
+.btn-stop-motion.is-nav-btn.is-close-icon,
+.side-menu_component .btn-stop-motion.is-nav-btn,
+[data-wf--menu-button--variant="module-btn"] {
+  --x-offset: 6px;
+}
+.btn-stop-motion.is-nav-btn.is-close-icon .btn-stop-motion__icon-line:nth-child(1) { transform: translateY(var(--x-offset)) rotate(45deg) !important; }
+.btn-stop-motion.is-nav-btn.is-close-icon .btn-stop-motion__icon-line:nth-child(2) { opacity: 0 !important; }
+.btn-stop-motion.is-nav-btn.is-close-icon .btn-stop-motion__icon-line:nth-child(3) { transform: translateY(calc(-1 * var(--x-offset))) rotate(-45deg) !important; }
+
+.side-menu_component .btn-stop-motion.is-nav-btn .btn-stop-motion__icon-line:nth-child(1) { transform: translateY(var(--x-offset)) rotate(45deg) !important; }
+.side-menu_component .btn-stop-motion.is-nav-btn .btn-stop-motion__icon-line:nth-child(2) {
+  opacity: 0 !important;
+}
+.side-menu_component .btn-stop-motion.is-nav-btn .btn-stop-motion__icon-line:nth-child(3) { transform: translateY(calc(-1 * var(--x-offset))) rotate(-45deg) !important; }
+
+[data-wf--menu-button--variant="module-btn"] .btn-stop-motion__icon-line:nth-child(1) { transform: translateY(var(--x-offset)) rotate(45deg) !important; }
+[data-wf--menu-button--variant="module-btn"] .btn-stop-motion__icon-line:nth-child(2) {
+  opacity: 0 !important;
+}
+[data-wf--menu-button--variant="module-btn"] .btn-stop-motion__icon-line:nth-child(3) { transform: translateY(calc(-1 * var(--x-offset))) rotate(-45deg) !important; }
+
+/* Prevent active state from changing module-btn appearance */
+[data-wf--menu-button--variant="module-btn"].active .btn-stop-motion__icon-line:nth-child(1),
+[data-wf--menu-button--variant="module-btn"]:active .btn-stop-motion__icon-line:nth-child(1) {
+  transform: translateY(var(--x-offset)) rotate(45deg) !important;
+}
+
+[data-wf--menu-button--variant="module-btn"].active .btn-stop-motion__icon-line:nth-child(2),
+[data-wf--menu-button--variant="module-btn"]:active .btn-stop-motion__icon-line:nth-child(2) {
+  opacity: 0 !important;
+}
+
+[data-wf--menu-button--variant="module-btn"].active .btn-stop-motion__icon-line:nth-child(3),
+[data-wf--menu-button--variant="module-btn"]:active .btn-stop-motion__icon-line:nth-child(3) {
+  transform: translateY(calc(-1 * var(--x-offset))) rotate(-45deg) !important;
+}
+
+.btn-stop-motion.is-nav-btn.active .btn-stop-motion__icon-line:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.btn-stop-motion.is-nav-btn.active .btn-stop-motion__icon-line:nth-child(2) {
+  opacity: 0;
+}
+
+.btn-stop-motion.is-nav-btn.active .btn-stop-motion__icon-line:nth-child(3) {
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+/* ============================================
+   NAV MENU STATES
+   ============================================ */
+
+body:not(.scrolled) .nav-menu {
+  color: #fff;
+}
+body:not(.scrolled) .nav-menu .btn-bounce-text:not(:hover) {
+  text-shadow: 0.1em 0.1em 0 #000, 0px var(--text-duplicate-distance) currentColor;
+}
+
+body.scrolled .nav-menu .btn-bounce-text {
+  color: #000;
+  font-size: 1.225rem;
+}
+
+/* Tablet - hide text on secondary button */
+@media (max-width: 1270px) {
+  .navbar_component,
+  body.scrolled .navbar_component {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+  
+  .btn-stop-motion__p.is-seconda {
+    display: none;
+  }
+  
+  .nav-menu .btn-bounce-text {
+    font-size: 1rem !important;
+  }
+  
+  .btn-stop-motion.is-secondary .btn-stop-motion__p {
+    font-size: 1rem !important;
+  }
+  
+  .btn-stop-motion.is-secondary {
+    flex: 0 auto !important;
+    height: 2.5rem !important;
+    padding-left: 0.3em !important;
+    padding-right: 0.3em !important;
+  }
+  
+  /* Minimal scaling of Trustpilot widget */
+  .rating-container {
+    transform: scale(0.9) !important;
+    transform-origin: left center !important;
+    width: fit-content !important;
+  }
+}
+
+@media (min-width: 796px) and (max-width: 1000px) {
+  .rating-container.is-menu {
+    display: none;
+  }
+}
+
+@media (hover:hover) and (pointer:fine) {
+  body:not(.scrolled) .nav-menu .btn-bounce:hover .btn-bounce-bg,
+  body:not(.scrolled) .nav-menu .btn-bounce:focus-visible .btn-bounce-bg {
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+
+  body:not(.scrolled) .nav-menu .btn-bounce:hover .btn-bounce-text {
+    color: var(--color-secondary) !important;
+    text-shadow: 
+      0px var(--text-duplicate-distance) currentColor,
+      0.1em 3.1em 0 #000 !important;
+    transform: translate(
+      0px,
+      calc(-1 * var(--text-duplicate-distance))
+    ) !important;
+    letter-spacing: var(--letter-spacing) !important;
+  }
+
+  body.scrolled .nav-menu .btn-bounce:hover .btn-bounce-bg,
+  body.scrolled .nav-menu .btn-bounce:focus-visible .btn-bounce-bg {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+  }
+
+  body.scrolled .nav-menu .btn-bounce:hover .btn-bounce-text {
+    color: var(--color-secondary) !important;
+    text-shadow: 
+      0px var(--text-duplicate-distance) currentColor,
+      0.1em 3.1em 0 #000 !important;
+    transform: translate(
+      0px,
+      calc(-1 * var(--text-duplicate-distance))
+    ) !important;
+    letter-spacing: var(--letter-spacing) !important;
+  }
+
+  body.scrolled .nav-menu .btn-bounce:hover,
+  body:not(.scrolled) .nav-menu .btn-bounce:hover {
+    transform: scale(0.92) rotate(-1deg) !important;
+  }
+
+  body.scrolled .nav-menu .btn-bounce:hover .btn-bounce-text__wrap,
+  body:not(.scrolled) .nav-menu .btn-bounce:hover .btn-bounce-text__wrap {
+    transform: rotate(1deg) !important;
+  }
+}
+
+</style>

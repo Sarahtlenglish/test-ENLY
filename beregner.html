@@ -180,7 +180,9 @@
     }
     
     .option-icon {
-      font-size: 48px;
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
       margin-bottom: 16px;
       display: block;
     }
@@ -266,7 +268,9 @@
     }
     
     .region-map {
-      font-size: 48px;
+      width: 120px;
+      height: 80px;
+      object-fit: contain;
       margin-bottom: 16px;
     }
     
@@ -396,6 +400,9 @@
     .choice-icon {
       font-size: 32px;
       margin-bottom: 8px;
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
     }
     
     .choice-text {
@@ -485,18 +492,18 @@
           
           <div class="options-grid">
             <div class="option-card" onclick="selectHousing('lejlighed')">
-              <span class="option-icon">🏢</span>
+              <img src="img/flat.png" alt="Lejlighed" class="option-icon">
               <div class="option-text">Jeg bor i lejlighed</div>
             </div>
             <div class="option-card" onclick="selectHousing('hus')">
-              <span class="option-icon">🏠</span>
+              <img src="img/house.png" alt="Hus" class="option-icon">
               <div class="option-text">Jeg bor i hus</div>
-      </div>
+            </div>
             <div class="option-card" onclick="selectHousing('hus+elbil')">
-              <span class="option-icon">🏠🚗</span>
+              <img src="img/car.png" alt="Hus med elbil" class="option-icon">
               <div class="option-text">Jeg bor i hus & har elbil</div>
             </div>
-          </div>
+      </div>
           
           <div class="navigation">
             <div></div>
@@ -532,14 +539,14 @@
           
           <div class="region-options">
             <div class="region-card" onclick="selectRegion('vest')">
-              <div class="region-map">🗺️</div>
+              <img src="img/west.png" alt="Vest for Storebælt" class="region-map">
               <div class="region-text">Vest for Storebælt</div>
-      </div>
+            </div>
             <div class="region-card" onclick="selectRegion('øst')">
-              <div class="region-map">🗺️</div>
+              <img src="img/east.png" alt="Øst for Storebælt" class="region-map">
               <div class="region-text">Øst for Storebælt</div>
             </div>
-          </div>
+      </div>
           
           <div class="navigation">
             <button class="nav-btn secondary" onclick="prevStep()">Tilbage</button>
@@ -566,11 +573,11 @@
                 <div class="choice-text" id="choicePeople">4 personer</div>
               </div>
               <div class="choice-item">
-                <div class="choice-icon">🏠</div>
+                <img src="img/house.png" alt="Boligtype" class="choice-icon" id="choiceHousingIcon">
                 <div class="choice-text" id="choiceHousing">Hus</div>
               </div>
               <div class="choice-item">
-                <div class="choice-icon">🗺️</div>
+                <img src="img/east.png" alt="Region" class="choice-icon" id="choiceRegionIcon">
                 <div class="choice-text" id="choiceRegion">Øst for Storebælt</div>
               </div>
       </div>
@@ -763,14 +770,36 @@
         'hus+elbil': 'Hus + elbil'
       };
       
+      const housingImages = {
+        'lejlighed': 'img/flat.png',
+        'hus': 'img/house.png',
+        'hus+elbil': 'img/car.png'
+      };
+      
       const regionLabels = {
         'vest': 'Vest for Storebælt',
         'øst': 'Øst for Storebælt'
+      };
+      
+      const regionImages = {
+        'vest': 'img/west.png',
+        'øst': 'img/east.png'
       };
 
       document.getElementById('choicePeople').textContent = `${data.people} personer`;
       document.getElementById('choiceHousing').textContent = housingLabels[data.housing] || 'Ikke valgt';
       document.getElementById('choiceRegion').textContent = regionLabels[data.region] || 'Ikke valgt';
+      
+      // Update images
+      const housingIcon = document.getElementById('choiceHousingIcon');
+      const regionIcon = document.getElementById('choiceRegionIcon');
+      
+      if (housingIcon && data.housing) {
+        housingIcon.src = housingImages[data.housing];
+      }
+      if (regionIcon && data.region) {
+        regionIcon.src = regionImages[data.region];
+      }
     }
 
     function handleCTA() {
