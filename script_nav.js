@@ -10,13 +10,13 @@ pageFunctions.addFunction('Navigation', function() {
 
       if (!gsapRef) {
         document.addEventListener('click', (e) => {
-          if (e.target.closest('.menu-button') || e.target.closest('[data-wf--menu-button--variant="nav-btn"]')) {
-            e.preventDefault();
-            document.body.classList.toggle('is-menu-open');
+          if (e.target.closest('[data-wf--menu-button--variant="nav-btn"]')) { 
+            e.preventDefault(); 
+            document.body.classList.toggle('is-menu-open'); 
           }
-          if (e.target.closest('.side-menu-overlay')) {
-            e.preventDefault();
-            document.body.classList.remove('is-menu-open');
+          if (e.target.closest('.side-menu-overlay')) { 
+            e.preventDefault(); 
+            document.body.classList.remove('is-menu-open'); 
           }
         });
         return;
@@ -25,7 +25,7 @@ pageFunctions.addFunction('Navigation', function() {
       const qs = (s) => document.querySelector(s);
       const qsa = (s) => Array.from(document.querySelectorAll(s));
 
-      const navBtns = qsa('.menu-button, [data-wf--menu-button--variant="nav-btn"]');
+      const navBtns = qsa('[data-wf--menu-button--variant="nav-btn"]');
       const closeBtns = qsa('.side-menu_close, [data-close-menu], .btn-close-menu');
       const overlay = qs('.side-menu-overlay');
       const bg = qs('.side-menu-background');
@@ -377,27 +377,9 @@ pageFunctions.addFunction('Navigation', function() {
     initNavbar();
     handleScroll();
 
-    let scrollTicking = false;
-    window.addEventListener('scroll', () => {
-      if (!scrollTicking) {
-        window.requestAnimationFrame(() => {
-          handleScroll();
-          scrollTicking = false;
-        });
-        scrollTicking = true;
-      }
-    });
+    window.addEventListener('scroll', handleScroll);
 
-    let resizeTicking = false;
-    window.addEventListener('resize', () => {
-      if (!resizeTicking) {
-        window.requestAnimationFrame(() => {
-          handleResize();
-          resizeTicking = false;
-        });
-        resizeTicking = true;
-      }
-    });
+    window.addEventListener('resize', handleResize);
   })();
 
 
@@ -409,8 +391,9 @@ pageFunctions.addFunction('Navigation', function() {
     let lastScrollY = window.scrollY;
     let isHidden = false;
     let scrollEndTimeout = null;
+    let scrollTicking = false;
     const navbar = document.querySelector('.navbar_component');
-    
+
     if (!navbar) return;
 
     function showNavbar() {
@@ -462,15 +445,21 @@ pageFunctions.addFunction('Navigation', function() {
 
     // Detect scroll end - show navbar when user stops scrolling
     window.addEventListener('scroll', () => {
-      onScroll();
-      
-      // Reset scroll end timer
-      if (scrollEndTimeout) {
-        clearTimeout(scrollEndTimeout);
+      if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+          onScroll();
+          scrollTicking = false;
+
+          // Reset scroll end timer
+          if (scrollEndTimeout) {
+            clearTimeout(scrollEndTimeout);
+          }
+          scrollEndTimeout = setTimeout(() => {
+            showNavbar();
+          }, 300);
+        });
+        scrollTicking = true;
       }
-      scrollEndTimeout = setTimeout(() => {
-        showNavbar();
-      }, 300);
     });
   })();
 
