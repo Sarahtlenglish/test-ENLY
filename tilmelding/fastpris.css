@@ -1,0 +1,1321 @@
+/* Font import removed - using system sans-serif fonts */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #F9F9F9;
+  color: #333333;
+}
+
+.signup__page {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.signup__page form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+#group-container {
+  flex: 1;
+  order: 1;
+}
+
+.signup__page a {
+  text-decoration: underline;
+  color: #333333;
+  word-wrap: break-word;
+}
+
+.signup__page a:hover,
+.signup__page a:focus,
+.signup__page a:active {
+  text-decoration: underline;
+  color: #333333;
+}
+
+.signup__page,
+input,
+.datepicker {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.signup__page p {
+  flex-basis: 100%;
+  margin-bottom: 15px;
+}
+
+.signup__form-field {
+  padding: 0 18px;
+  margin-top: .25em;
+  margin-bottom: 25px;
+}
+
+.signup__form-help {
+  font-size: 12px;
+  line-height: 18px;
+  color: #666;
+  margin: 0;
+}
+
+
+.signup__form-title {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 35px;
+  text-align: center;
+  margin: 50px 0 10px;
+  color: #333333;
+  padding: 0 15px;
+}
+
+.signup__section-title {
+  font-size: clamp(16px, 2vw, 20px) !important;
+  text-align: center !important;
+  color: #333333 !important;
+  margin-top: 0 !important;
+  margin-bottom: clamp(1rem, 2vh, 2rem) !important;
+  font-family: 'Gotham Book', sans-serif !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+}
+
+.signup__group-title {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 30px;
+  flex-basis: 100%;
+  padding: 0 .5em;
+}
+
+.signup__form-field input[type=text],
+.signup__form-field input[type=search],
+.signup__form-field input[type=date] {
+  width: 100%;
+}
+
+.signup__page .signup__form-field input[type="text"],
+.signup__page .signup__form-field input[type="search"] {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  background: #fff;
+  border: 1px solid #ECECEC;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.06);
+  padding: 18px 20px;
+  font-size: 14px;
+  line-height: 14px;
+  color: #333333;
+  border-radius: 3px;
+  outline: 0;
+  margin: 0;
+  height: 50px;
+}
+
+.signup__page .signup__form-field .signup__has-error input[type="text"] {
+  border-color: #a00;
+}
+
+.signup__page .signup__form-field input[type="text"]::placeholder,
+.signup__page .signup__form-field input[type="search"]::placeholder,
+.signup__page .signup__form-field input[type="text"]::-webkit-placeholder,
+.signup__page .signup__form-field input[type="search"]::-webkit-placeholder {
+  color: #999999;
+}
+
+.signup__has-error .signup__error-message {
+  color: #a00;
+  font-size: 12px;
+  padding: 0;
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+}
+
+.signup__base-errors.signup__error-message {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #a00;
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+}
+
+.signup__form-field--checkbox .signup__has-error .signup__error-message {
+  padding-left: 30px;
+  flex: 0 0 100%;
+  -ms-flex: 0 0 100%;
+}
+
+.signup__has-error.signup__input--changed .signup__error-message {
+  display: none;
+}
+
+.signup__customer,
+.signup__installation_address_select,
+.signup__installation_address_search,
+.signup__installation_address,
+.signup__permissions_extras,
+.signup__payment_pbs_more {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 -18px;
+}
+
+.signup__payment_pbs_more {
+  margin: 0 -18px;
+}
+
+.signup__payment_pbs_more .signup__group-title {
+  margin-left: 18px;
+  flex-basis: 100%;
+}
+
+@media only screen and (max-width: 980px) {
+  .signup__form-field {
+    flex-basis: 100% !important;
+  }
+  .signup__form-section {
+    padding: 40px 20px 15px;
+  }
+  .signup__page .hero img {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.signup__customer .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__installation_address_search .signup__form-field {
+  flex-basis: 50%;
+  max-width: none;
+}
+
+.signup__installation_address .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__payment_pbs_cpr {
+  flex-basis: 50%;
+}
+
+.signup__payment_pbs_reg {
+  flex-basis: 15%;
+}
+
+.signup__payment_pbs_account {
+  flex-basis: 35%;
+}
+
+.signup__payment_pbs_more .signup__form-group .signup__payment_ls_more{
+  flex-basis: 100%;
+  padding: 0 .5em;
+}
+
+.signup__sales_responsible, .signup__sales_responsible_two {
+  flex-basis: 25%;
+}
+
+.disabled {
+  background-color: #888;
+}
+
+.signup__page .signup__permissions-earliest-date p {
+  padding-left: 0;
+  font-size: 14px;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label {
+  position: relative;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 10px;
+  top: 1px;
+  width: 20px;
+  height: 20px; 
+  opacity: 0.8;
+  background-repeat: no-repeat;
+  background-image: url(https://digitallydev.dk/nettopower/calendar.svg);
+  background-size: cover;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label input {
+  padding-left: 38px;
+}
+
+.signup__page .signup__form-field input[type="text"],
+.signup__page .signup__form-field input[type="search"] {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  background: #fff;
+  border: 1px solid #ECECEC;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.06);
+  padding: 18px 20px;
+  font-size: 14px;
+  line-height: 14px;
+  color: #333333;
+  border-radius: 3px;
+  outline: 0;
+  margin: 0;
+  height: 50px;
+}
+
+.signup__page .signup__form-field .signup__has-error input[type="text"] {
+  border-color: #a00;
+}
+
+.signup__page .signup__form-field input[type="text"]::placeholder,
+.signup__page .signup__form-field input[type="search"]::placeholder,
+.signup__page .signup__form-field input[type="text"]::-webkit-placeholder,
+.signup__page .signup__form-field input[type="search"]::-webkit-placeholder {
+  color: #999999;
+}
+
+.signup__customer .signup__form-field label>span,
+.signup__installation_address_manual .signup__form-field label>span,
+.signup__payment_pbs_more .signup__payment_pbs_cpr label>span,
+.signup__payment_pbs_more .signup__payment_pbs_reg label>span,
+.signup__payment_pbs_more .signup__payment_pbs_account label>span {
+  display: none;
+}
+
+/* Skjul required asterisk */
+.signup__form--required label span::after,
+.signup__form--required label::after,
+.signup__form-field.signup__form--required label span::after,
+.signup__form-field.signup__form--required label::after,
+.signup__form--required label span::before,
+.signup__form--required label::before,
+.signup__form-field.signup__form--required label span::before,
+.signup__form-field.signup__form--required label::before {
+  display: none !important;
+  content: none !important;
+}
+
+.signup__form-field label>span.signup__radio-text,
+.signup__form-field label>span.signup__checkbox-text {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  margin-left: 30px;
+  color: #333333;
+}
+
+.signup__form-field.signup__form-field--radio label,
+.signup__form-field.signup__form-field--checkbox label {
+  display: flex;
+  display: -ms-flexbox;
+  align-items: center;
+  -ms-flex-align: center;
+  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+}
+
+.signup__form-field label>span.signup__radio-wrap,
+.signup__form-field label>span.signup__checkbox-wrap {
+  position: relative;
+}
+
+.signup__form-field label>span.signup__radio-wrap input,
+.signup__form-field label>span.signup__checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.signup__form-field label>span.signup__radio-wrap .signup__radio-pseudo:before,
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #333333;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: -1px;
+}
+
+.signup__form-field label.signup__has-error>span.signup__radio-wrap .signup__radio-pseudo:before, 
+.signup__form-field label.signup__has-error>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  border-color: #a00;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  border-radius: 3px;
+}
+
+.signup__form-field label>span.signup__radio-wrap .signup__radio-pseudo:after {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: -1px;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:after {
+  content: "✓";
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5px;
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  opacity: 0;
+  color: #FFE066;
+  background: none;
+  transition: all 0.3s ease-out;
+  margin-top: -3px;
+}
+
+.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:before,
+.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
+  background: transparent;
+  border-color: #FFE066;
+}
+
+.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:after {
+  background: #FFE066;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after {
+  opacity: 1;
+}
+
+
+.signup__page .hero {
+  max-width: 550px;
+  text-align: center;
+  margin: 0 auto 0;
+}
+
+.signup__page .hero a {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+}
+
+.signup__page .hero p:first-child {
+  margin-bottom: 0;
+  margin-top: 0;
+  line-height: 0;
+}
+
+.signup__page .hero p:last-child {
+  line-height: 24px;
+  font-size: 20px;
+  margin: 20px 0;
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+}
+
+.signup__page .hero img {
+  position: absolute;
+  top: 50px;
+  left: 0;
+}
+
+
+/* Situation date sections - override with column layout */
+.signup__situation_cos_more {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 800px;
+  margin: clamp(1rem, 2vh, 2rem) auto 0;
+  padding: clamp(20px, 4vw, 40px);
+  text-align: left;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: none;
+}
+
+/* COS section order: Checkbox (1) -> Date picker (2) -> Legal text (3) */
+.signup__situation_cos_more .signup__form-field--checkbox {
+  order: 1;
+}
+
+.signup__situation_cos_more .signup__situation_cos_start_date {
+  order: 2;
+}
+
+.signup__situation_cos_more .signup__situation_cos_start_date .signup__form-field {
+  order: 1;
+}
+
+.signup__situation_cos_more .signup__situation_cos_start_date .signup__form-help {
+  order: 2;
+}
+
+.signup__situation_move_start_date {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 800px;
+  margin: clamp(1rem, 2vh, 2rem) auto 0;
+  padding: clamp(20px, 4vw, 40px);
+  text-align: left;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: none;
+}
+
+/* Move section order: Date picker (1) -> Text (2) -> Checkbox (3) */
+.signup__situation_move_start_date .signup__form-field:not(.signup__situation_move_acknowledged) {
+  order: 1;
+}
+
+.signup__situation_move_start_date .signup__form-help {
+  order: 2;
+}
+
+.signup__situation_move_start_date .signup__situation_move_acknowledged {
+  order: 3;
+}
+
+/* COS start date should be inline with checkbox, not separate card */
+.signup__situation_cos_start_date {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  margin: clamp(0.75rem, 1.5vh, 1.5rem) 0 0 0;
+  padding: 0;
+  text-align: left;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+
+.signup__situation .signup__form-field--radio {
+  padding: 0;
+  margin: 0;
+}
+
+.signup__situation .signup__form-field--radio,
+.signup__situation_cos_more .signup__form-field--checkbox,
+.signup__payment .signup__form-field--radio,
+.signup__permissions .signup__form-field--checkbox,
+.signup__electrical_product .signup__form-field--radio,
+.signup__electrical_product .signup__form-field--checkbox,
+.signup__gas_product .signup__form-field--radio,
+.signup__gas_product .signup__form-field--checkbox {
+  padding: 0;
+  margin: 0;
+}
+
+.signup__product_electrical_basic_more .signup__form-field--checkbox,
+.signup__permissions .signup__form-field--checkbox {
+  margin-bottom: 0;
+}
+
+.signup__product_electrical_basic_more .signup__form-help,
+.signup__payment .signup__form-help,
+.signup__permissions .signup__form-help {
+  margin-top: 5px;
+  padding-left: 30px;
+}
+
+.signup__payment .signup__form-help {
+  margin-bottom: 0;
+}
+
+@media only screen and (max-width: 980px) {
+  .signup__form-field {
+    flex-basis: 100% !important;
+  }
+  .signup__form-section {
+    padding: 40px 20px 15px;
+  }
+  .signup__page .hero img {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.signup__customer .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__customer .signup__first_name,
+.signup__customer .signup__last_name,
+.signup__customer .signup__email {
+  flex-basis: 33.3333%;
+}
+
+.signup__customer .signup__phone,
+.signup__customer .signup__cpr {
+  flex-basis: 33.3333%;
+}
+
+.signup__installation_address_search .signup__form-field {
+  flex-basis: 66.6666%;
+  max-width: none;
+}
+
+.signup__installation_address .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__payment_pbs_cpr {
+  flex-basis: 50%;
+}
+
+.signup__payment_pbs_reg {
+  flex-basis: 20%;
+}
+
+.signup__payment_pbs_account {
+  flex-basis: 30%;
+}
+
+.signup__payment_pbs_more .signup__form-group {
+  flex-basis: 100%;
+  padding: 0 18px;
+}
+
+.signup__payment_card_more p {
+  padding: 0;
+}
+
+.signup__sales_responsible {
+  flex-basis: 25%;
+}
+
+.signup__section--permissions {
+  margin-bottom: -15px;
+  padding-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.signup__section--submit {
+  border-radius: 0;
+  text-align: center;
+  padding: 0px;
+  background: none;
+}
+
+.signup__section--submit .signup__form-group {
+  background: #f6f7fa;
+  padding-top: 45px;
+  text-align: center;
+}
+
+.signup__section--submit .signup__section-title {
+  display: none;
+}
+
+.signup__submit {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  background-color: #FFE066;
+  border: none;
+  border-radius: 30px;
+  padding: 15px 40px;
+  color: #333333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.signup__submit:hover,
+.signup__submit:focus {
+  opacity: 0.8;
+}
+
+.signup__dawa_autocomplete label > span {
+  display: none;
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions {
+  margin: 10px 18px 0;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 10px rgba(0,0,0,0.16);
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion {
+  color: #333333;
+  padding: 14px 20px;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected, 
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:hover {
+  background: #f6f7fa;
+}
+
+
+.shortcode-mbp {
+    height: 26px;
+    width: 26px;
+    background-color: transparent;
+    background-image: url(https://kunde.gronelforsyning.dk/assets/signup/icon_mobilepay-a372aa8506552352f97d481f74acd720170e8f783c2b03de5d0d6071c1cd9bcf.svg);
+}
+
+.footer {
+  margin-top: -16px;
+}
+
+.footer p:first-child, .footer p:nth-child(2) {
+  background: #f6f7fa;
+  padding-top: 15px;
+  margin: 0;
+}
+
+.footer p:first-child {
+  padding-top: 45px;
+}
+
+.footer p:last-child {
+  font-size: 14px;
+}
+
+.footer p:nth-child(2) {
+  font-size: 14px;
+  padding-bottom: 45px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+label[for="ev_charger_previously_at_monta"] .signup__checkbox-text {
+  padding-left: 24px;
+  position: relative;
+  top: 2px;
+}
+
+#progress-bar {
+  background: #FFE066;
+}
+
+/* Step indicator styling */
+#progress-container {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: clamp(1rem, 2vh, 2rem) auto clamp(1rem, 2vh, 2rem) auto;
+  width: 100%;
+  max-width: 1200px;
+  order: 999;
+  margin-top: auto !important;
+}
+
+.signup__page form #progress-container {
+  order: 999;
+  margin-top: auto !important;
+  margin-bottom: clamp(1rem, 2vh, 2rem);
+}
+
+#progress-text {
+  display: block !important;
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 400;
+  font-size: clamp(14px, 1.5vw, 16px);
+  color: #333333;
+  margin: 0;
+  text-align: center;
+}
+
+.progress-background {
+  display: none !important;
+}
+
+#progress-bar {
+  display: none !important;
+}
+
+/* Hide Next button */
+.actions #next-button {
+  display: none !important;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: clamp(1rem, 2vh, 2rem);
+  padding: 0 18px;
+}
+
+/* Housing type selector styling */
+.signup__electrical_product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+/* .housing-type-selector - all styles set inline in JS */
+
+.housing-option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  flex: 0 0 auto;
+  width: 240px;
+  height: 280px;
+  padding: 2.5rem 1.5rem;
+  background-color: transparent;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.housing-option-card:hover:not(.selected):not([data-selected="true"]) {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  transform: translateY(-2px);
+}
+
+.housing-option-card img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.housing-option-card:hover:not(.selected):not([data-selected="true"]) img {
+  transform: scale(1.02);
+}
+
+.housing-option-card > div:not(img) {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333333;
+  margin-top: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.housing-option-card.selected,
+.housing-option-card[data-selected="true"] {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: none;
+  background-color: #fff;
+}
+
+/* Ensure the container doesn't have background that conflicts */
+.signup__electrical_product .signup__form-section {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.signup__electrical_product .signup__group-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+/* Situation selector styling - samme som housing selector */
+.signup__situation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: center;
+  min-height: auto;
+  max-height: 100vh;
+  overflow-y: auto;
+  padding: clamp(0.5rem, 1vh, 1rem) clamp(1rem, 2vw, 2rem);
+}
+
+/* Ensure step indicator appears at bottom */
+.signup__situation #progress-container {
+  order: 999;
+  margin-top: auto;
+  margin-bottom: clamp(1rem, 2vh, 2rem);
+}
+
+
+.situation-option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  flex: 0 0 auto;
+  width: clamp(200px, 25vw, 280px);
+  height: auto;
+  min-height: clamp(240px, 30vh, 320px);
+  padding: clamp(0.75rem, 1.5vw, 1rem) clamp(0.5rem, 1vw, 1rem);
+  background-color: transparent;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.situation-option-card:hover:not(.selected):not([data-selected="true"]) {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  transform: translateY(-2px);
+}
+
+.situation-option-card img {
+  width: clamp(100px, 15vw, 160px);
+  height: clamp(100px, 15vw, 160px);
+  object-fit: contain;
+  margin-bottom: clamp(0.75rem, 1.5vh, 1.5rem);
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.situation-option-card:hover:not(.selected):not([data-selected="true"]) img {
+  transform: scale(1.02);
+}
+
+.situation-option-card > div:not(img) {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.5;
+  color: #333333;
+  margin-top: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.situation-option-card.selected,
+.situation-option-card[data-selected="true"] {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.signup__situation .signup__form-section {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+
+/* Styling for dato-felter og samtykke i situation-sektionen */
+.signup__situation_cos_start_date .signup__group-title {
+  display: none !important;
+}
+
+.signup__situation_move_start_date .signup__group-title {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.3;
+  color: #333333;
+  margin: 0 0 clamp(0.5rem, 1vh, 1rem) 0;
+  width: 100%;
+  text-align: left;
+  display: block;
+}
+
+/* Move section - add label for date input */
+.signup__situation_move_start_date .signup__form-field:first-child label::before {
+  content: "Angiv din indflytningsdato.";
+  display: block;
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 12px;
+  color: #333333;
+  margin-bottom: clamp(0.25rem, 0.5vh, 0.5rem);
+  font-weight: 400;
+}
+
+/* Dato input felter - begge sektioner */
+.signup__situation_cos_start_date .signup__form-field,
+.signup__situation_move_start_date .signup__form-field:not(.signup__situation_move_acknowledged) {
+  width: 100%;
+  padding: 0;
+  margin-bottom: clamp(0.5rem, 1vh, 1rem);
+}
+
+.signup__situation_cos_start_date .signup__form-field label,
+.signup__situation_move_start_date .signup__form-field label:not(.signup__situation_move_acknowledged label) {
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 12px;
+  color: #333333;
+  margin-bottom: clamp(0.25rem, 0.5vh, 0.5rem);
+  display: block;
+  font-weight: 400;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"],
+.signup__situation_move_start_date .signup__form-field input[type="date"],
+.signup__situation_cos_start_date .signup__form-field input[type="text"],
+.signup__situation_move_start_date .signup__form-field input[type="text"] {
+  width: 100%;
+  max-width: 22.5rem;
+  padding: clamp(12px, 2vh, 18px) clamp(15px, 2vw, 20px);
+  padding-right: clamp(40px, 5vw, 50px);
+  font-size: 12px;
+  line-height: 1;
+  color: #333333;
+  background: #fff;
+  border: 1px solid #ECECEC;
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.06);
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-input-placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-input-placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-moz-placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-moz-placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]:-ms-input-placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="date"]:-ms-input-placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+/* Kalender ikon for dato felter */
+.signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label,
+.signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label,
+.signup__situation_cos_start_date .signup__form-field:has(input[type="text"]) label,
+.signup__situation_move_start_date .signup__form-field:has(input[type="text"]) label {
+  position: relative;
+}
+
+.signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label::after,
+.signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label::after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url(https://digitallydev.dk/nettopower/calendar.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Alternativ: kalender ikon direkte i input feltet */
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-calendar-picker-indicator,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.8;
+  margin-left: 10px;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::placeholder,
+.signup__situation_cos_start_date .signup__form-field input[type="text"]::placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="text"]::placeholder {
+  color: #999;
+}
+
+/* Forklarende tekst */
+.signup__situation_cos_start_date .signup__form-help,
+.signup__situation_move_start_date .signup__form-help {
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 12px;
+  color: #666;
+  line-height: 1.5;
+  margin-top: clamp(0.25rem, 0.5vh, 0.5rem);
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+/* Situation checkboxes - konsolideret styling */
+.signup__situation_cos_more .signup__form-field--checkbox,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
+  margin-top: clamp(0.75rem, 1.5vh, 1.5rem);
+}
+
+/* Ensure date input is always visible for COS section - override toggle behavior */
+.signup__situation_cos_start_date {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin-top: clamp(0.75rem, 1.5vh, 1.5rem);
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #333333;
+  line-height: 1.5;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap {
+  position: relative !important;
+  display: inline-block !important;
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+  margin-right: 10px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  align-self: flex-start !important;
+  top: 0 !important;
+  vertical-align: top !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap .signup__checkbox-pseudo:before,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 3px !important;
+  border: 2px solid #333333 !important;
+  background: #fff !important;
+  box-sizing: border-box !important;
+  transition: all 0.3s ease-out !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap .signup__checkbox-pseudo:after,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap .signup__checkbox-pseudo:after {
+  content: "✓" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+  text-align: center !important;
+  font-family: 'Gotham Book', sans-serif !important;
+  font-weight: 700 !important;
+  opacity: 0 !important;
+  color: #fff !important;
+  background: none !important;
+  transition: all 0.3s ease-out !important;
+  z-index: 1 !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
+  background: #333333 !important;
+  border-color: #333333 !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after {
+  opacity: 1 !important;
+  color: #fff !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-text,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-text {
+  margin-left: 0 !important;
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #333333;
+  line-height: 1.5;
+  flex: 1;
+  align-self: flex-start !important;
+  padding-top: 0 !important;
+}
+
+.situation-intro-text {
+  font-size: clamp(16px, 2vw, 20px) !important;
+  text-align: center !important;
+  color: #333333 !important;
+  margin-top: 0 !important;
+  margin-bottom: clamp(1rem, 2vh, 2rem) !important;
+  font-family: 'Gotham Book', sans-serif !important;
+  line-height: 1.5 !important;
+  font-weight: 400 !important;
+}
+
+/* Responsive design - konsolideret */
+@media only screen and (max-width: 980px) {
+
+  
+  .situation-option-card {
+    width: clamp(180px, 30vw, 260px);
+    min-height: clamp(200px, 25vh, 280px);
+    padding: clamp(0.5rem, 1vw, 0.75rem) clamp(0.5rem, 1vw, 0.75rem);
+  }
+  
+  .situation-option-card img {
+    width: clamp(80px, 12vw, 120px);
+    height: clamp(80px, 12vw, 120px);
+    margin-bottom: clamp(0.5rem, 1vh, 1rem);
+  }
+  
+  .signup__situation_cos_start_date,
+  .signup__situation_move_start_date {
+    padding: clamp(15px, 3vw, 25px);
+    margin: clamp(0.75rem, 1.5vh, 1.5rem) auto 0;
+  }
+  
+  .housing-type-selector {
+    flex-direction: row;
+  }
+  
+  .housing-option-card {
+    width: 220px;
+    height: 260px;
+    padding: 2rem 1.25rem;
+  }
+  
+  .housing-option-card img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .situation-type-selector {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  
+  .situation-option-card {
+    width: calc(50% - clamp(0.25rem, 1vw, 0.5rem));
+    min-height: clamp(180px, 22vh, 220px);
+    padding: clamp(0.5rem, 1vw, 0.75rem) clamp(0.5rem, 1vw, 0.75rem);
+  }
+  
+  .situation-option-card img {
+    width: clamp(70px, 10vw, 100px);
+    height: clamp(70px, 10vw, 100px);
+    margin-bottom: clamp(0.5rem, 1vh, 0.75rem);
+  }
+  
+  .situation-option-card > div:not(img) {
+    font-size: clamp(12px, 1.2vw, 14px);
+  }
+  
+  .signup__situation_cos_start_date,
+  .signup__situation_move_start_date {
+    padding: clamp(15px, 3vw, 20px);
+    margin: clamp(0.5rem, 1vh, 1rem) auto 0;
+  }
+  
+  .housing-type-selector {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .housing-option-card {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    min-height: 240px;
+    padding: 2rem 1.5rem;
+  }
+  
+  .housing-option-card img {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .situation-type-selector {
+    flex-direction: column;
+  }
+  
+  .situation-option-card {
+    width: 100%;
+    max-width: 100%;
+    min-height: clamp(160px, 20vh, 200px);
+    padding: clamp(0.5rem, 1.5vw, 0.75rem);
+  }
+  
+  .situation-option-card img {
+    width: clamp(60px, 15vw, 90px);
+    height: clamp(60px, 15vw, 90px);
+  }
+}

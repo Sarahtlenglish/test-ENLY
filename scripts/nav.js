@@ -74,7 +74,7 @@ pageFunctions.addFunction('Navigation', function() {
           openTl = gsapRef.timeline({ paused: true, overwrite: 'auto' });
           openTl
             .set(panel, { display: 'block', visibility: 'visible', pointerEvents: 'auto' }, 0)
-            .set(overlay, { display: 'block', visibility: 'visible' }, 0)
+            .set(overlay, { display: 'block', visibility: 'visible', pointerEvents: 'auto' }, 0)
             .set(document.body, { overflow: 'hidden' }, 0)
             .to(overlay, { opacity: 1, visibility: 'visible', duration: 0.3, ease: 'power1.out' }, 0)
             .to(panel, { opacity: 1, duration: 0.3, ease: 'power1.out' }, 0);
@@ -113,7 +113,7 @@ pageFunctions.addFunction('Navigation', function() {
           openTl = gsapRef.timeline({ paused: true, overwrite: 'auto' });
           openTl
             .set(panel, { display: 'block', visibility: 'visible', pointerEvents: 'auto' }, 0)
-            .set(overlay, { display: 'block', visibility: 'visible' }, 0)
+            .set(overlay, { display: 'block', visibility: 'visible', pointerEvents: 'auto' }, 0)
             .set(bg, { display: 'block', visibility: 'visible' }, 0)
             .set(document.body, { overflow: 'hidden' }, 0)
             .to(overlay, { opacity: 1, visibility: 'visible', duration: 0.3, ease: 'power1.out' }, 0)
@@ -248,7 +248,7 @@ pageFunctions.addFunction('Navigation', function() {
     let lastViewport = null;
     const navbar = document.querySelector('.navbar_component');
 
-    // Viewport breakpoints: mobile (<768), tablet (768-1200), desktop (>1200)
+    // Viewport breakpoints: mobile (≤480), tablet (481-1024), desktop (>1024)
     function getViewport() {
       const w = window.innerWidth;
       if (w <= 480) return 'mobile';
@@ -377,9 +377,27 @@ pageFunctions.addFunction('Navigation', function() {
     initNavbar();
     handleScroll();
 
-    window.addEventListener('scroll', handleScroll);
+    let scrollTicking = false;
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    });
 
-    window.addEventListener('resize', handleResize);
+    let resizeTicking = false;
+    window.addEventListener('resize', () => {
+      if (!resizeTicking) {
+        window.requestAnimationFrame(() => {
+          handleResize();
+          resizeTicking = false;
+        });
+        resizeTicking = true;
+      }
+    });
   })();
 
 
@@ -391,9 +409,8 @@ pageFunctions.addFunction('Navigation', function() {
     let lastScrollY = window.scrollY;
     let isHidden = false;
     let scrollEndTimeout = null;
-    let scrollTicking = false;
     const navbar = document.querySelector('.navbar_component');
-
+    
     if (!navbar) return;
 
     function showNavbar() {
@@ -445,21 +462,15 @@ pageFunctions.addFunction('Navigation', function() {
 
     // Detect scroll end - show navbar when user stops scrolling
     window.addEventListener('scroll', () => {
-      if (!scrollTicking) {
-        window.requestAnimationFrame(() => {
-          onScroll();
-          scrollTicking = false;
-
-          // Reset scroll end timer
-          if (scrollEndTimeout) {
-            clearTimeout(scrollEndTimeout);
-          }
-          scrollEndTimeout = setTimeout(() => {
-            showNavbar();
-          }, 300);
-        });
-        scrollTicking = true;
+      onScroll();
+      
+      // Reset scroll end timer
+      if (scrollEndTimeout) {
+        clearTimeout(scrollEndTimeout);
       }
+      scrollEndTimeout = setTimeout(() => {
+        showNavbar();
+      }, 300);
     });
   })();
 

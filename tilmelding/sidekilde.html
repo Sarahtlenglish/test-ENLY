@@ -1,0 +1,2197 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" media="all" href="/assets/frontend/application-e2507f4ecfd1149df0b8caa1e7893624dd6f8ed01d9cf0f380caa997a484d0fb.css" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400%3b700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #F9F9F9;
+  color: #333333;
+}
+
+.signup__page {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.signup__page a {
+  text-decoration: underline;
+  color: #333333;
+  word-wrap: break-word;
+}
+
+.signup__page a:hover,
+.signup__page a:focus,
+.signup__page a:active {
+  text-decoration: underline;
+  color: #333333;
+}
+
+.signup__page,
+input,
+.datepicker {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.signup__page p {
+  flex-basis: 100%;
+  padding: 0 18px;
+  margin-bottom: 15px;
+}
+
+.signup__form-field {
+  padding: 0 18px;
+  margin-top: .25em;
+  margin-bottom: 25px;
+}
+
+.signup__form-help {
+  font-size: 12px;
+  line-height: 18px;
+  color: #666;
+  margin: 0;
+}
+
+
+.signup__form-title {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 35px;
+  text-align: center;
+  margin: 50px 0 10px;
+  color: #333333;
+  padding: 0 15px;
+}
+
+.signup__section-title {
+  font-size: clamp(16px, 2vw, 20px) !important;
+  text-align: center !important;
+  color: #333333 !important;
+  margin-top: 0 !important;
+  margin-bottom: clamp(1rem, 2vh, 2rem) !important;
+  font-family: 'Gotham Book', sans-serif !important;
+  line-height: 1.5 !important;
+  font-weight: 400 !important;
+}
+
+.signup__group-title {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 30px;
+  flex-basis: 100%;
+  padding: 0 .5em;
+}
+
+.signup__form-field input[type=text],
+.signup__form-field input[type=search],
+.signup__form-field input[type=date] {
+  width: 100%;
+}
+
+.signup__page .signup__form-field input[type="text"],
+.signup__page .signup__form-field input[type="search"] {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  background: #fff;
+  border: 1px solid #ECECEC;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.06);
+  padding: 18px 20px;
+  font-size: 14px;
+  line-height: 14px;
+  color: #333333;
+  border-radius: 3px;
+  outline: 0;
+  margin: 0;
+  height: 50px;
+}
+
+.signup__page .signup__form-field .signup__has-error input[type="text"] {
+  border-color: #a00;
+}
+
+.signup__page .signup__form-field input[type="text"]::placeholder,
+.signup__page .signup__form-field input[type="search"]::placeholder,
+.signup__page .signup__form-field input[type="text"]::-webkit-placeholder,
+.signup__page .signup__form-field input[type="search"]::-webkit-placeholder {
+  color: #999999;
+}
+
+.signup__has-error .signup__error-message {
+  color: #a00;
+  font-size: 12px;
+  padding: 0;
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+}
+
+.signup__base-errors.signup__error-message {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #a00;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+}
+
+.signup__form-field--checkbox .signup__has-error .signup__error-message {
+  padding-left: 30px;
+  flex: 0 0 100%;
+  -ms-flex: 0 0 100%;
+}
+
+.signup__has-error.signup__input--changed .signup__error-message {
+  display: none;
+}
+
+.signup__customer,
+.signup__installation_address_select,
+.signup__installation_address_search,
+.signup__installation_address,
+.signup__permissions_extras,
+.signup__payment_pbs_more {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 -18px;
+}
+
+.signup__payment_pbs_more {
+  margin: 0 -18px;
+}
+
+.signup__payment_pbs_more .signup__group-title {
+  margin-left: 18px;
+  flex-basis: 100%;
+}
+
+@media only screen and (max-width: 980px) {
+  .signup__form-field {
+    flex-basis: 100% !important;
+  }
+  .signup__form-section {
+    padding: 40px 20px 15px;
+  }
+  .signup__page .hero img {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.signup__customer .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__installation_address_search .signup__form-field {
+  flex-basis: 50%;
+  max-width: none;
+}
+
+.signup__installation_address .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__payment_pbs_cpr {
+  flex-basis: 50%;
+}
+
+.signup__payment_pbs_reg {
+  flex-basis: 15%;
+}
+
+.signup__payment_pbs_account {
+  flex-basis: 35%;
+}
+
+.signup__payment_pbs_more .signup__form-group .signup__payment_ls_more{
+  flex-basis: 100%;
+  padding: 0 .5em;
+}
+
+.signup__sales_responsible, .signup__sales_responsible_two {
+  flex-basis: 25%;
+}
+
+.disabled {
+  background-color: #888;
+}
+
+.signup__page .signup__permissions-earliest-date p {
+  padding-left: 0;
+  font-size: 14px;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label {
+  position: relative;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 10px;
+  top: 1px;
+  width: 20px;
+  height: 20px; 
+  opacity: 0.8;
+  background-repeat: no-repeat;
+  background-image: url(https://digitallydev.dk/nettopower/calendar.svg);
+  background-size: cover;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label input {
+  padding-left: 38px;
+}
+
+.signup__page .signup__form-field input[type="text"],
+.signup__page .signup__form-field input[type="search"] {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  background: #fff;
+  border: 1px solid #ECECEC;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.06);
+  padding: 18px 20px;
+  font-size: 14px;
+  line-height: 14px;
+  color: #333333;
+  border-radius: 3px;
+  outline: 0;
+  margin: 0;
+  height: 50px;
+}
+
+.signup__page .signup__form-field .signup__has-error input[type="text"] {
+  border-color: #a00;
+}
+
+.signup__page .signup__form-field input[type="text"]::placeholder,
+.signup__page .signup__form-field input[type="search"]::placeholder,
+.signup__page .signup__form-field input[type="text"]::-webkit-placeholder,
+.signup__page .signup__form-field input[type="search"]::-webkit-placeholder {
+  color: #999999;
+}
+
+.signup__customer .signup__form-field label>span,
+.signup__installation_address_manual .signup__form-field label>span,
+.signup__payment_pbs_more .signup__payment_pbs_cpr label>span,
+.signup__payment_pbs_more .signup__payment_pbs_reg label>span,
+.signup__payment_pbs_more .signup__payment_pbs_account label>span {
+  display: none;
+}
+
+/* Skjul required asterisk */
+.signup__form--required label span::after,
+.signup__form--required label::after,
+.signup__form-field.signup__form--required label span::after,
+.signup__form-field.signup__form--required label::after,
+.signup__form--required label span::before,
+.signup__form--required label::before,
+.signup__form-field.signup__form--required label span::before,
+.signup__form-field.signup__form--required label::before {
+  display: none !important;
+  content: none !important;
+}
+
+.signup__form-field label>span.signup__radio-text,
+.signup__form-field label>span.signup__checkbox-text {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  margin-left: 30px;
+  color: #333333;
+}
+
+.signup__form-field.signup__form-field--radio label,
+.signup__form-field.signup__form-field--checkbox label {
+  display: flex;
+  display: -ms-flexbox;
+  align-items: center;
+  -ms-flex-align: center;
+  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+}
+
+.signup__form-field label>span.signup__radio-wrap,
+.signup__form-field label>span.signup__checkbox-wrap {
+  position: relative;
+}
+
+.signup__form-field label>span.signup__radio-wrap input,
+.signup__form-field label>span.signup__checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.signup__form-field label>span.signup__radio-wrap .signup__radio-pseudo:before {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #333333;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: -1px;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 2px solid #333333;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: -1px;
+}
+
+.signup__form-field label.signup__has-error>span.signup__radio-wrap .signup__radio-pseudo:before, 
+.signup__form-field label.signup__has-error>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  border-color: #a00;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  border-radius: 3px;
+}
+
+.signup__form-field label>span.signup__radio-wrap .signup__radio-pseudo:after {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: -1px;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:after {
+  content: "✓";
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5px;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  opacity: 0;
+  color: #FFE066;
+  background: none;
+  transition: all 0.3s ease-out;
+  margin-top: -3px;
+}
+
+.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:before,
+.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
+  background: transparent;
+  border-color: #FFE066;
+}
+
+.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:after {
+  background: #FFE066;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after {
+  opacity: 1;
+}
+
+
+.signup__page .hero {
+  max-width: 550px;
+  text-align: center;
+  margin: 0 auto 50px;
+}
+
+.signup__page .hero a {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+}
+
+.signup__page .hero p:first-child {
+  margin-bottom: 0;
+  margin-top: 0;
+  line-height: 0;
+}
+
+.signup__page .hero p:last-child {
+  line-height: 24px;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.signup__page .hero img {
+  position: absolute;
+  top: 50px;
+  left: 0;
+}
+
+
+/* Situation date sections - override with column layout */
+.signup__situation_cos_start_date,
+.signup__situation_move_start_date {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 800px;
+  margin: clamp(1rem, 2vh, 2rem) auto 0;
+  padding: clamp(20px, 4vw, 40px);
+  text-align: left;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+.signup__situation .signup__form-field--radio {
+  padding: 0;
+  margin: 0;
+}
+
+.signup__situation .signup__form-field--radio,
+.signup__situation_cos_more .signup__form-field--checkbox,
+.signup__payment .signup__form-field--radio,
+.signup__permissions .signup__form-field--checkbox,
+.signup__electrical_product .signup__form-field--radio,
+.signup__electrical_product .signup__form-field--checkbox,
+.signup__gas_product .signup__form-field--radio,
+.signup__gas_product .signup__form-field--checkbox {
+  padding: 0;
+  margin: 0;
+}
+
+.signup__product_electrical_basic_more .signup__form-field--checkbox,
+.signup__permissions .signup__form-field--checkbox {
+  margin-bottom: 0;
+}
+
+.signup__product_electrical_basic_more .signup__form-help,
+.signup__payment .signup__form-help,
+.signup__permissions .signup__form-help {
+  margin-top: 5px;
+  padding-left: 30px;
+}
+
+.signup__payment .signup__form-help {
+  margin-bottom: 0;
+}
+
+@media only screen and (max-width: 980px) {
+  .signup__form-field {
+    flex-basis: 100% !important;
+  }
+  .signup__form-section {
+    padding: 40px 20px 15px;
+  }
+  .signup__page .hero img {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.signup__customer .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__customer .signup__first_name,
+.signup__customer .signup__last_name,
+.signup__customer .signup__email {
+  flex-basis: 33.3333%;
+}
+
+.signup__customer .signup__phone,
+.signup__customer .signup__cpr {
+  flex-basis: 33.3333%;
+}
+
+.signup__installation_address_search .signup__form-field {
+  flex-basis: 66.6666%;
+  max-width: none;
+}
+
+.signup__installation_address .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__payment_pbs_cpr {
+  flex-basis: 50%;
+}
+
+.signup__payment_pbs_reg {
+  flex-basis: 20%;
+}
+
+.signup__payment_pbs_account {
+  flex-basis: 30%;
+}
+
+.signup__payment_pbs_more .signup__form-group {
+  flex-basis: 100%;
+  padding: 0 18px;
+}
+
+.signup__payment_card_more p {
+  padding: 0;
+}
+
+.signup__sales_responsible {
+  flex-basis: 25%;
+}
+
+.signup__section--permissions {
+  margin-bottom: -15px;
+  padding-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.signup__section--submit {
+  border-radius: 0;
+  text-align: center;
+  padding: 0px;
+  background: none;
+}
+
+.signup__section--submit .signup__form-group {
+  background: #f6f7fa;
+  padding-top: 45px;
+  text-align: center;
+}
+
+.signup__section--submit .signup__section-title {
+  display: none;
+}
+
+.signup__submit {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  background-color: #FFE066;
+  border: none;
+  border-radius: 30px;
+  padding: 15px 40px;
+  color: #333333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.signup__submit:hover,
+.signup__submit:focus {
+  opacity: 0.8;
+}
+
+.signup__dawa_autocomplete label > span {
+  display: none;
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions {
+  margin: 10px 18px 0;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 10px rgba(0,0,0,0.16);
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion {
+  color: #333333;
+  padding: 14px 20px;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected, 
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:hover {
+  background: #f6f7fa;
+}
+
+
+.shortcode-mbp {
+    height: 26px;
+    width: 26px;
+    background-color: transparent;
+    background-image: url(https://kunde.gronelforsyning.dk/assets/signup/icon_mobilepay-a372aa8506552352f97d481f74acd720170e8f783c2b03de5d0d6071c1cd9bcf.svg);
+}
+
+.footer {
+  margin-top: -16px;
+}
+
+.footer p:first-child, .footer p:nth-child(2) {
+  background: #f6f7fa;
+  padding-top: 15px;
+  margin: 0;
+}
+
+.footer p:first-child {
+  padding-top: 45px;
+}
+
+.footer p:last-child {
+  font-size: 14px;
+}
+
+.footer p:nth-child(2) {
+  font-size: 14px;
+  padding-bottom: 45px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+label[for="ev_charger_previously_at_monta"] .signup__checkbox-text {
+  padding-left: 24px;
+  position: relative;
+  top: 2px;
+}
+
+#progress-bar {
+  background: #FFE066;
+}
+
+/* Step indicator styling */
+#progress-container {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: clamp(1rem, 2vh, 2rem) auto clamp(1rem, 2vh, 2rem) auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+#progress-text {
+  display: block !important;
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 400;
+  font-size: clamp(14px, 1.5vw, 16px);
+  color: #333333;
+  margin-bottom: clamp(0.5rem, 1vh, 0.75rem);
+  text-align: center;
+}
+
+.progress-background {
+  display: block !important;
+  width: 100%;
+  max-width: 300px;
+  height: 4px;
+  background-color: #ECECEC;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+#progress-bar {
+  height: 100%;
+  background: #FFE066;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Hide Next button */
+.actions #next-button {
+  display: none !important;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: clamp(1rem, 2vh, 2rem);
+  padding: 0 18px;
+}
+
+/* Housing type selector styling */
+.signup__electrical_product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.housing-type-selector {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem 0;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 900px;
+}
+
+.housing-option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  flex: 0 0 auto;
+  width: 240px;
+  height: 280px;
+  padding: 2.5rem 1.5rem;
+  background-color: #fff;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.housing-option-card:hover:not(.selected):not([data-selected="true"]) {
+  border: 3px solid #FFE066;
+  box-shadow: 0 4px 16px rgba(255, 224, 102, 0.3);
+  transform: translateY(-2px);
+}
+
+.housing-option-card img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.housing-option-card:hover:not(.selected):not([data-selected="true"]) img {
+  transform: scale(1.02);
+}
+
+.housing-option-card > div:not(img) {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333333;
+  margin-top: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.housing-option-card.selected,
+.housing-option-card[data-selected="true"] {
+  border: 3px solid #FFE066;
+  box-shadow: 0 4px 16px rgba(255, 224, 102, 0.3);
+  background-color: #fff;
+}
+
+/* Ensure the container doesn't have background that conflicts */
+.signup__electrical_product .signup__form-section {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.signup__electrical_product .signup__group-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+/* Situation selector styling - samme som housing selector */
+.signup__situation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: center;
+  min-height: auto;
+  max-height: 100vh;
+  overflow-y: auto;
+  padding: clamp(0.5rem, 1vh, 1rem) clamp(1rem, 2vw, 2rem);
+}
+
+
+.situation-type-selector {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2rem);
+  margin: clamp(0.5rem, 1vh, 1rem) 0 clamp(1rem, 2vh, 2rem) 0;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 900px;
+}
+
+.situation-option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  flex: 0 0 auto;
+  width: clamp(200px, 25vw, 280px);
+  height: auto;
+  min-height: clamp(240px, 30vh, 320px);
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem);
+  background-color: #fff;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.situation-option-card:hover:not(.selected):not([data-selected="true"]) {
+  border: 3px solid #FFE066;
+  box-shadow: 0 4px 16px rgba(255, 224, 102, 0.3);
+  transform: translateY(-2px);
+}
+
+.situation-option-card img {
+  width: clamp(100px, 15vw, 160px);
+  height: clamp(100px, 15vw, 160px);
+  object-fit: contain;
+  margin-bottom: clamp(0.75rem, 1.5vh, 1.5rem);
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.situation-option-card:hover:not(.selected):not([data-selected="true"]) img {
+  transform: scale(1.02);
+}
+
+.situation-option-card > div:not(img) {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.5;
+  color: #333333;
+  margin-top: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.situation-option-card.selected,
+.situation-option-card[data-selected="true"] {
+  border: 3px solid #FFE066;
+  box-shadow: 0 4px 16px rgba(255, 224, 102, 0.3);
+  background-color: #fff;
+}
+
+.signup__situation .signup__form-section {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+
+/* Styling for dato-felter og samtykke i situation-sektionen */
+.signup__situation_cos_start_date .signup__group-title {
+  display: none !important;
+}
+
+.signup__situation_move_start_date .signup__group-title {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: clamp(16px, 2vw, 18px);
+  line-height: 1.3;
+  color: #333333;
+  margin: 0 0 clamp(0.5rem, 1vh, 1rem) 0;
+  width: 100%;
+  text-align: left;
+  display: block;
+}
+
+/* Move section - add label for date input */
+.signup__situation_move_start_date .signup__form-field:first-child label::before {
+  content: "Angiv din indflytningsdato.";
+  display: block;
+  font-family: 'Gotham Book', sans-serif;
+  font-size: clamp(13px, 1.5vw, 14px);
+  color: #333333;
+  margin-bottom: clamp(0.25rem, 0.5vh, 0.5rem);
+  font-weight: 400;
+}
+
+/* Dato input felter - begge sektioner */
+.signup__situation_cos_start_date .signup__form-field,
+.signup__situation_move_start_date .signup__form-field:not(.signup__situation_move_acknowledged) {
+  width: 100%;
+  padding: 0;
+  margin-bottom: clamp(0.5rem, 1vh, 1rem);
+}
+
+.signup__situation_cos_start_date .signup__form-field label,
+.signup__situation_move_start_date .signup__form-field label:not(.signup__situation_move_acknowledged label) {
+  font-family: 'Gotham Book', sans-serif;
+  font-size: clamp(13px, 1.5vw, 14px);
+  color: #333333;
+  margin-bottom: clamp(0.25rem, 0.5vh, 0.5rem);
+  display: block;
+  font-weight: 400;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"],
+.signup__situation_move_start_date .signup__form-field input[type="date"],
+.signup__situation_cos_start_date .signup__form-field input[type="text"],
+.signup__situation_move_start_date .signup__form-field input[type="text"] {
+  width: 100%;
+  padding: clamp(12px, 2vh, 18px) clamp(15px, 2vw, 20px);
+  padding-right: clamp(40px, 5vw, 50px);
+  font-size: clamp(13px, 1.5vw, 14px);
+  line-height: 1;
+  color: #333333;
+  background: #fff;
+  border: 1px solid #ECECEC;
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.06);
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-input-placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-input-placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-moz-placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-moz-placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]:-ms-input-placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="date"]:-ms-input-placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+/* Kalender ikon for dato felter */
+.signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label,
+.signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label,
+.signup__situation_cos_start_date .signup__form-field:has(input[type="text"]) label,
+.signup__situation_move_start_date .signup__form-field:has(input[type="text"]) label {
+  position: relative;
+}
+
+.signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label::after,
+.signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label::after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url(https://digitallydev.dk/nettopower/calendar.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Alternativ: kalender ikon direkte i input feltet */
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-calendar-picker-indicator,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.8;
+  margin-left: 10px;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::placeholder,
+.signup__situation_cos_start_date .signup__form-field input[type="text"]::placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="text"]::placeholder {
+  color: #999;
+}
+
+/* Forklarende tekst */
+.signup__situation_cos_start_date .signup__form-help,
+.signup__situation_move_start_date .signup__form-help {
+  font-family: 'Gotham Book', sans-serif;
+  font-size: clamp(12px, 1.5vw, 14px);
+  color: #666;
+  line-height: 1.5;
+  margin-top: clamp(0.25rem, 0.5vh, 0.5rem);
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+/* Situation checkboxes - konsolideret styling */
+.signup__situation_cos_more .signup__form-field--checkbox,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
+  margin-top: clamp(0.75rem, 1.5vh, 1.5rem);
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: clamp(12px, 1.5vw, 14px);
+  color: #333333;
+  line-height: 1.5;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap {
+  position: relative !important;
+  display: inline-block !important;
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+  margin-right: 10px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  align-self: flex-start !important;
+  top: 0 !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap .signup__checkbox-pseudo:before,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 3px !important;
+  border: 2px solid #333333 !important;
+  background: #fff !important;
+  box-sizing: border-box !important;
+  transition: all 0.3s ease-out !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap .signup__checkbox-pseudo:after,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap .signup__checkbox-pseudo:after {
+  content: "✓" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+  text-align: center !important;
+  font-family: 'Gotham Bold', sans-serif !important;
+  font-weight: 700 !important;
+  opacity: 0 !important;
+  color: #fff !important;
+  background: none !important;
+  transition: all 0.3s ease-out !important;
+  z-index: 1 !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
+  background: #333333 !important;
+  border-color: #333333 !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after {
+  opacity: 1 !important;
+  color: #fff !important;
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label > span.signup__checkbox-text,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label > span.signup__checkbox-text {
+  margin-left: 0 !important;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: clamp(12px, 1.5vw, 14px);
+  color: #333333;
+  line-height: 1.5;
+  flex: 1;
+  align-self: flex-start !important;
+  padding-top: 0 !important;
+}
+
+.situation-intro-text {
+  font-size: clamp(16px, 2vw, 20px) !important;
+  text-align: center !important;
+  color: #333333 !important;
+  margin-top: 0 !important;
+  margin-bottom: clamp(1rem, 2vh, 2rem) !important;
+  font-family: 'Gotham Book', sans-serif !important;
+  line-height: 1.5 !important;
+  font-weight: 400 !important;
+}
+
+/* Responsive design - konsolideret */
+@media only screen and (max-width: 980px) {
+  .situation-type-selector {
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    margin: clamp(0.25rem, 0.5vh, 0.5rem) 0 clamp(0.5rem, 1vh, 1rem) 0;
+  }
+  
+  .situation-option-card {
+    width: clamp(180px, 30vw, 260px);
+    min-height: clamp(200px, 25vh, 280px);
+    padding: clamp(1rem, 2vw, 1.5rem) clamp(0.75rem, 1.5vw, 1.25rem);
+  }
+  
+  .situation-option-card img {
+    width: clamp(80px, 12vw, 120px);
+    height: clamp(80px, 12vw, 120px);
+    margin-bottom: clamp(0.5rem, 1vh, 1rem);
+  }
+  
+  .signup__situation_cos_start_date,
+  .signup__situation_move_start_date {
+    padding: clamp(15px, 3vw, 25px);
+    margin: clamp(0.75rem, 1.5vh, 1.5rem) auto 0;
+  }
+  
+  .housing-type-selector {
+    gap: 1.5rem;
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .housing-option-card {
+    width: 220px;
+    height: 260px;
+    padding: 2rem 1.25rem;
+  }
+  
+  .housing-option-card img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .situation-type-selector {
+    flex-direction: row;
+    align-items: stretch;
+    gap: clamp(0.5rem, 2vw, 1rem);
+    margin: clamp(0.25rem, 0.5vh, 0.5rem) 0 clamp(0.5rem, 1vh, 1rem) 0;
+  }
+  
+  .situation-option-card {
+    width: calc(50% - clamp(0.25rem, 1vw, 0.5rem));
+    min-height: clamp(180px, 22vh, 220px);
+    padding: clamp(0.75rem, 1.5vw, 1.25rem) clamp(0.5rem, 1vw, 1rem);
+  }
+  
+  .situation-option-card img {
+    width: clamp(70px, 10vw, 100px);
+    height: clamp(70px, 10vw, 100px);
+    margin-bottom: clamp(0.5rem, 1vh, 0.75rem);
+  }
+  
+  .situation-option-card > div:not(img) {
+    font-size: clamp(12px, 1.2vw, 14px);
+  }
+  
+  .signup__situation_cos_start_date,
+  .signup__situation_move_start_date {
+    padding: clamp(15px, 3vw, 20px);
+    margin: clamp(0.5rem, 1vh, 1rem) auto 0;
+  }
+  
+  .housing-type-selector {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  
+  .housing-option-card {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    min-height: 240px;
+    padding: 2rem 1.5rem;
+  }
+  
+  .housing-option-card img {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .situation-type-selector {
+    flex-direction: column;
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  }
+  
+  .situation-option-card {
+    width: 100%;
+    max-width: 100%;
+    min-height: clamp(160px, 20vh, 200px);
+    padding: clamp(0.75rem, 2vw, 1rem);
+  }
+  
+  .situation-option-card img {
+    width: clamp(60px, 15vw, 90px);
+    height: clamp(60px, 15vw, 90px);
+  }
+}
+    </style>
+    <script src="/assets/frontend/application-8cc274b44428786bc97544d4814697fc7bbef7eaaf9a59a142179b4ef5b842c3.js"></script>
+    <script>
+// Hus / Lejlighed / Hus + Elbil radio
+function initHousingSelector() {
+    const options = [
+        {
+            id: 34,
+            image: 'img/house.png',
+            selectedImage: 'img/house.png',
+            label: 'Jeg bor i hus',
+            variant: 'House',
+            price: 650
+        },
+        {
+            id: 265,
+            image: 'img/flat.png',
+            selectedImage: 'img/flat.png',
+            label: 'Jeg bor i lejlighed',
+            variant: 'Apartment',
+            price: 400
+        },
+        {
+            id: 999, // Placeholder ID - skal opdateres med rigtig ID
+            image: 'img/car.png',
+            selectedImage: 'img/car.png',
+            label: 'Jeg bor i hus & har elbil',
+            variant: 'HouseElectric',
+            price: 750
+        }
+    ];
+
+    const container = document.querySelector('.signup__electrical_product');
+    if (!container) return;
+    
+    // Tjek om vi allerede har oprettet selector'en
+    if (container.querySelector('.housing-type-selector')) {
+        return; // Allerede initialiseret
+    }
+    
+    // Center the container
+    container.style.textAlign = 'center';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.alignItems = 'center';
+
+    // Hide original radios and their labels
+    const radioGroups = container.querySelectorAll('.signup__electrical_product_name');
+    radioGroups.forEach(group => group.style.display = 'none');
+
+    // Create wrapper for the image selector UI
+    const imgWrapper = document.createElement('div');
+    imgWrapper.className = 'housing-type-selector';
+    imgWrapper.style.display = 'flex';
+    imgWrapper.style.gap = '2rem';
+    imgWrapper.style.marginTop = '2rem';
+    imgWrapper.style.marginBottom = '2rem';
+    imgWrapper.style.marginLeft = 'auto';
+    imgWrapper.style.marginRight = 'auto';
+    imgWrapper.style.flexWrap = 'wrap';
+    imgWrapper.style.justifyContent = 'center';
+    imgWrapper.style.alignItems = 'stretch';
+    imgWrapper.style.width = '100%';
+    imgWrapper.style.maxWidth = '900px';
+
+    options.forEach(opt => {
+        const radio = document.querySelector(`input[type="radio"][data-product-id="${opt.id}"]`);
+        // Hvis radio ikke findes, prøv at finde den via label tekst eller opret en placeholder
+        if (!radio && opt.id === 999) {
+            // For elbil option, vi skal håndtere det dynamisk
+            // For nu, springer vi over hvis radio ikke findes
+            return;
+        }
+        if (!radio) return;
+
+        window.productMap = window.productMap || {};
+
+        const productId = radio.dataset.productId;
+        if (!window.productMap[productId]) {
+          window.productMap[productId] = opt;
+        }
+
+        const originalGroup = radio.closest('.signup__electrical_product_name');
+        const helpText = originalGroup?.querySelector('.signup__form-help');
+
+        const optionContainer = document.createElement('div');
+        optionContainer.className = 'housing-option-card';
+        optionContainer.style.display = 'flex';
+        optionContainer.style.flexDirection = 'column';
+        optionContainer.style.alignItems = 'center';
+        optionContainer.style.cursor = 'pointer';
+        optionContainer.style.textAlign = 'center';
+        optionContainer.style.width = '240px';
+        optionContainer.style.height = '280px';
+        optionContainer.style.padding = '2.5rem 1.5rem';
+        optionContainer.style.backgroundColor = '#fff';
+        optionContainer.style.borderRadius = '16px';
+        optionContainer.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        optionContainer.style.border = radio.checked ? '3px solid #FFE066' : 'none';
+        optionContainer.style.boxShadow = radio.checked ? '0 4px 16px rgba(255, 224, 102, 0.3)' : '0 2px 8px rgba(0, 0, 0, 0.08)';
+        
+        // Mark as selected if checked
+        if (radio.checked) {
+            optionContainer.classList.add('selected');
+            optionContainer.setAttribute('data-selected', 'true');
+        } else {
+            optionContainer.classList.remove('selected');
+            optionContainer.setAttribute('data-selected', 'false');
+        }
+
+        optionContainer.addEventListener('mouseenter', () => {
+            if (!radio.checked) {
+                optionContainer.style.border = '3px solid #FFE066';
+                optionContainer.style.boxShadow = '0 4px 16px rgba(255, 224, 102, 0.3)';
+                optionContainer.style.transform = 'translateY(-2px)';
+            }
+        });
+
+        optionContainer.addEventListener('mouseleave', () => {
+            if (!radio.checked) {
+                optionContainer.style.border = 'none';
+                optionContainer.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+                optionContainer.style.transform = 'translateY(0)';
+            }
+        });
+        
+        // Update on radio change
+        radio.addEventListener('change', () => {
+            if (radio.checked) {
+                optionContainer.classList.add('selected');
+                optionContainer.setAttribute('data-selected', 'true');
+            } else {
+                optionContainer.classList.remove('selected');
+                optionContainer.setAttribute('data-selected', 'false');
+            }
+        });
+
+        const img = document.createElement('img');
+        img.src = opt.image;
+        img.style.width = '140px';
+        img.style.height = '140px';
+        img.style.objectFit = 'contain';
+        img.style.marginBottom = '1.5rem';
+        img.style.transition = 'transform 0.3s ease';
+        img.style.display = 'block';
+
+        const label = document.createElement('div');
+        label.textContent = opt.label;
+        label.style.fontSize = '16px';
+        label.style.color = '#333333';
+        label.style.fontWeight = '700';
+        label.style.fontFamily = "'Gotham Bold', sans-serif";
+        label.style.lineHeight = '1.5';
+        label.style.marginTop = '0';
+        label.style.textAlign = 'center';
+        label.style.width = '100%';
+
+        const help = helpText ? helpText.cloneNode(true) : null;
+        if (help) {
+            help.style.marginTop = '0.5rem';
+            help.style.fontSize = '12px';
+            help.style.color = '#666';
+            help.style.lineHeight = '1.4';
+        }
+
+        const select = () => {
+            document.querySelectorAll('input[type="radio"][name="prospect[electrical_product_name]"]').forEach(r => r.checked = false);
+            document.querySelectorAll('input[type="hidden"][name="prospect[electrical_product_id]"]').forEach(hi => hi.disabled = true);
+            radio.checked = true;
+
+            // Enable the hidden input matching this product ID
+            const hiddenInput = container.querySelector(
+                `input[type="hidden"][name="prospect[electrical_product_id]"][value="${radio.dataset.productId}"]`
+            );
+            if (hiddenInput) hiddenInput.disabled = false;
+
+            // Update all option visuals
+            imgWrapper.querySelectorAll('.housing-option-card').forEach((card, i) => {
+                const o = options[i];
+                if (!o) return;
+                const r = document.querySelector(`input[type="radio"][data-product-id="${o.id}"]`);
+                if (r) {
+                    if (r.checked) {
+                        card.style.border = '3px solid #FFE066';
+                        card.style.boxShadow = '0 4px 16px rgba(255, 224, 102, 0.3)';
+                        card.classList.add('selected');
+                        card.setAttribute('data-selected', 'true');
+                    } else {
+                        card.style.border = 'none';
+                        card.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+                        card.style.transform = 'translateY(0)';
+                        card.classList.remove('selected');
+                        card.setAttribute('data-selected', 'false');
+                    }
+                }
+            });
+        };
+
+        optionContainer.addEventListener('click', select);
+        optionContainer.appendChild(img);
+        optionContainer.appendChild(label);
+        if (help) optionContainer.appendChild(help);
+        imgWrapper.appendChild(optionContainer);
+    });
+
+    container.appendChild(imgWrapper);
+}
+
+// Initialize immediately when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHousingSelector);
+} else {
+    initHousingSelector();
+}
+
+// Also run when groups are loaded (for dynamic content)
+document.addEventListener('group:loaded', initHousingSelector);
+
+// Situation selector - konverter radio buttons til billedkort
+function initSituationSelector() {
+    const container = document.querySelector('.signup__situation');
+    if (!container) return;
+    
+    // Tjek om vi allerede har oprettet selector'en
+    if (container.querySelector('.situation-type-selector')) {
+        return; // Allerede initialiseret
+    }
+    
+    const options = [
+        {
+            value: 'change_of_supplier',
+            image: 'img/house.png', // Brug samme billeder som på næste step
+            label: 'Jeg ønsker at skifte elleverandør'
+        },
+        {
+            value: 'move',
+            image: 'img/car.png', // Brug flytte-billedet
+            label: 'Jeg skal flytte eller er lige flyttet ind'
+        }
+    ];
+
+    // Find og skjul original radio buttons
+    const radioFields = container.querySelectorAll('.signup__form-field--radio');
+    radioFields.forEach(field => field.style.display = 'none');
+
+    // Section title håndteres nu via CSS styling
+
+    // Center container
+    container.style.textAlign = 'center';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.alignItems = 'center';
+
+    // Create wrapper for the image selector UI
+    const imgWrapper = document.createElement('div');
+    imgWrapper.className = 'situation-type-selector';
+    imgWrapper.style.display = 'flex';
+    imgWrapper.style.gap = '2rem';
+    imgWrapper.style.marginTop = '1rem';
+    imgWrapper.style.marginBottom = '2rem';
+    imgWrapper.style.marginLeft = 'auto';
+    imgWrapper.style.marginRight = 'auto';
+    imgWrapper.style.flexWrap = 'wrap';
+    imgWrapper.style.justifyContent = 'center';
+    imgWrapper.style.alignItems = 'stretch';
+    imgWrapper.style.width = '100%';
+    imgWrapper.style.maxWidth = '900px';
+
+    options.forEach(opt => {
+        // Prøv forskellige måder at finde radio button på
+        let radio = container.querySelector(`input[type="radio"][name*="situation"][value*="${opt.value}"]`);
+        
+        if (!radio) {
+            // Prøv at finde via label tekst
+            const labels = container.querySelectorAll('label');
+            for (let label of labels) {
+                const labelText = label.textContent.trim().toLowerCase();
+                const searchText = opt.label.toLowerCase();
+                
+                // Match baseret på nøgleord
+                if ((opt.value === 'change_of_supplier' && (labelText.includes('skifte') || labelText.includes('elleverandør'))) ||
+                    (opt.value === 'move' && (labelText.includes('flytte') || labelText.includes('flyttet')))) {
+                    radio = label.querySelector('input[type="radio"]');
+                    if (radio) break;
+                }
+            }
+        }
+        
+        if (!radio) {
+            // Hvis stadig ikke fundet, prøv at finde alle situation radios og match baseret på position
+            const allRadios = container.querySelectorAll('input[type="radio"][name*="situation"]');
+            if (allRadios.length >= 2) {
+                radio = opt.value === 'change_of_supplier' ? allRadios[0] : allRadios[1];
+            }
+        }
+        
+        if (!radio) return;
+
+        const optionContainer = document.createElement('div');
+        optionContainer.className = 'situation-option-card';
+        optionContainer.style.display = 'flex';
+        optionContainer.style.flexDirection = 'column';
+        optionContainer.style.alignItems = 'center';
+        optionContainer.style.cursor = 'pointer';
+        optionContainer.style.textAlign = 'center';
+        optionContainer.style.width = '280px';
+        optionContainer.style.height = '320px';
+        optionContainer.style.padding = '2.5rem 2rem';
+        optionContainer.style.backgroundColor = '#fff';
+        optionContainer.style.borderRadius = '16px';
+        optionContainer.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        optionContainer.style.border = radio.checked ? '3px solid #FFE066' : 'none';
+        optionContainer.style.boxShadow = radio.checked ? '0 4px 16px rgba(255, 224, 102, 0.3)' : '0 2px 8px rgba(0, 0, 0, 0.08)';
+        
+        // Mark as selected if checked
+        if (radio.checked) {
+            optionContainer.classList.add('selected');
+            optionContainer.setAttribute('data-selected', 'true');
+        } else {
+            optionContainer.classList.remove('selected');
+            optionContainer.setAttribute('data-selected', 'false');
+        }
+
+        optionContainer.addEventListener('mouseenter', () => {
+            if (!radio.checked) {
+                optionContainer.style.border = '3px solid #FFE066';
+                optionContainer.style.boxShadow = '0 4px 16px rgba(255, 224, 102, 0.3)';
+                optionContainer.style.transform = 'translateY(-2px)';
+            }
+        });
+
+        optionContainer.addEventListener('mouseleave', () => {
+            if (!radio.checked) {
+                optionContainer.style.border = 'none';
+                optionContainer.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+                optionContainer.style.transform = 'translateY(0)';
+            }
+        });
+        
+        // Update on radio change
+        radio.addEventListener('change', () => {
+            if (radio.checked) {
+                optionContainer.classList.add('selected');
+                optionContainer.setAttribute('data-selected', 'true');
+            } else {
+                optionContainer.classList.remove('selected');
+                optionContainer.setAttribute('data-selected', 'false');
+            }
+        });
+
+        const img = document.createElement('img');
+        img.src = opt.image;
+        img.style.width = '140px';
+        img.style.height = '140px';
+        img.style.objectFit = 'contain';
+        img.style.marginBottom = '1.5rem';
+        img.style.transition = 'transform 0.3s ease';
+        img.style.display = 'block';
+
+        const label = document.createElement('div');
+        label.textContent = opt.label;
+        label.style.fontSize = '16px';
+        label.style.color = '#333333';
+        label.style.fontWeight = '700';
+        label.style.fontFamily = "'Gotham Bold', sans-serif";
+        label.style.lineHeight = '1.5';
+        label.style.marginTop = '0';
+        label.style.textAlign = 'center';
+        label.style.width = '100%';
+
+        const select = async () => {
+            // Uncheck all situation radios
+            container.querySelectorAll('input[type="radio"][name*="situation"]').forEach(r => r.checked = false);
+            radio.checked = true;
+            
+            // Trigger change event
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+
+            // Update all option visuals
+            imgWrapper.querySelectorAll('.situation-option-card').forEach((card) => {
+                const cardRadioId = card.dataset.radioId;
+                if (!cardRadioId) return;
+                
+                const cardRadio = document.getElementById(cardRadioId) || 
+                                 document.querySelector(`input[type="radio"][name*="situation"]#${cardRadioId}`) ||
+                                 document.querySelector(`input[type="radio"]#${cardRadioId}`);
+                
+                if (cardRadio) {
+                    if (cardRadio.checked) {
+                        card.style.border = '3px solid #FFE066';
+                        card.style.boxShadow = '0 4px 16px rgba(255, 224, 102, 0.3)';
+                        card.classList.add('selected');
+                        card.setAttribute('data-selected', 'true');
+                    } else {
+                        card.style.border = 'none';
+                        card.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+                        card.style.transform = 'translateY(0)';
+                        card.classList.remove('selected');
+                        card.setAttribute('data-selected', 'false');
+                    }
+                }
+            });
+        };
+
+        // Gem radio reference
+        if (!radio.id) {
+            radio.id = `situation_radio_${opt.value}_${Date.now()}`;
+        }
+        optionContainer.dataset.radioId = radio.id;
+        optionContainer.addEventListener('click', select);
+        optionContainer.appendChild(img);
+        optionContainer.appendChild(label);
+        imgWrapper.appendChild(optionContainer);
+    });
+
+    // Find hvor vi skal indsætte wrapper'en - efter section title eller før radio fields
+    const insertPoint = container.querySelector('.signup__section-title')?.nextSibling || 
+                       container.querySelector('.signup__group-title')?.nextSibling ||
+                       container.querySelector('.signup__form-field--radio')?.parentElement ||
+                       container;
+    
+    if (insertPoint && insertPoint.parentNode) {
+        insertPoint.parentNode.insertBefore(imgWrapper, insertPoint);
+    } else {
+        container.appendChild(imgWrapper);
+    }
+}
+
+// Initialize situation selector
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSituationSelector);
+} else {
+    initSituationSelector();
+}
+
+document.addEventListener('group:loaded', initSituationSelector);
+
+// Add-on products
+function annotateAddOnCheckboxes(root) {
+  const scope = root || document;
+  scope.querySelectorAll('input[name="prospect[product_options][]"]').forEach(input => {
+    // sæt class som din change lytter bruger
+    input.classList.add('add_on_product_checkbox');
+    // sæt id fra value
+    input.dataset.productId = input.value;
+    // find visningsnavn fra label
+    const label = input.closest('label');
+    input.dataset.productName = label ? label.innerText.trim() : 'Ukendt produkt';
+    // hvis du ikke har pris, så sæt 0 eller hent fra et dataset hvis det findes
+    if (!input.dataset.productPrice) input.dataset.productPrice = '0';
+  });
+}
+
+// Kald ved domready og når grupper loader
+document.addEventListener('DOMContentLoaded', () => annotateAddOnCheckboxes());
+document.addEventListener('group:loaded', e => annotateAddOnCheckboxes(e?.detail?.containerEl));
+
+window.addOnCart = window.addOnCart || {};
+
+function getAllCartItems() {
+  const main = window.selectedProduct ? [window.selectedProduct] : [];
+  const addons = Object.values(window.addOnCart || {});
+  const all = [...main, ...addons];
+  return all.map(item => ({
+    ...item,
+    item_id: String(item.item_id)
+  }));
+}
+
+// GTM Events
+document.addEventListener('group:completed', async function(event) {
+  const container = event.detail.container;
+  const groupName = event.detail.completedGroup;
+  const stepNumber = event.detail.stepNumber + 1; // 0-indexed
+
+  // Log checkout progress
+  const payload = {
+    event: "checkout_progress",
+    ecommerce: {
+      checkout_step: stepNumber,
+      checkout_option: { step_name: groupName }
+    }
+  };
+
+  // Tilføj alle items til payload efterfølgende
+  payload.ecommerce.items = getAllCartItems();
+
+  // Berig payload med ekstra info
+  if (groupName === "situation") {
+    payload.ecommerce.checkout_option.option = container.situation;
+  }
+
+  if (groupName === "installation_address") {
+    payload.ecommerce.checkout_option.option = container.installation_address_mode || "unknown";
+  }
+
+  dataLayer.push(payload);
+
+  // Log customer info when available
+  if (groupName === "customer") {
+    const hashedEmail = "abcd1234"; // Mocked, brug sha256(container.email) i prod
+    dataLayer.push({
+      event: "user_identifier",
+      hashed_email: hashedEmail
+    });
+  }
+
+  // Log product added to cart using productMap
+  if (groupName === "electrical_product") {
+    const product = window.productMap?.[container.electrical_product_id];
+    if (!product) return;
+
+    // Gem kun de felter vi skal bruge til GA4 (renset version)
+    window.selectedProduct = {
+      item_id: String(product.id),
+      item_name: product.label,
+      item_variant: product.variant,
+      item_category: "El",
+      price: product.price,
+      currency: "DKK",
+      quantity: 1
+    };
+
+    dataLayer.push({
+      event: "add_to_cart",
+      ecommerce: {
+        checkout_step: stepNumber,
+        checkout_option: {
+          step_name: groupName,
+          option: container.situation
+        },
+        items: [window.selectedProduct]
+      },
+      hashed_email: "abcd1234"
+    });
+  }
+
+  // Log payment info + view_cart når man når payment-step
+  if (groupName === "payment") {
+    const mainItems = window.selectedProduct ? [window.selectedProduct] : [];
+    const addOnItems = Object.values(window.addOnCart || {});
+    const allItems = [...mainItems, ...addOnItems];
+
+    // Skyd view_cart på payment-step
+    dataLayer.push({
+      event: "view_cart",
+      ecommerce: { items: allItems }
+    });
+
+    // Skyd payment event
+    dataLayer.push({
+      event: "add_payment_info",
+      ecommerce: {
+        payment_type: container.payment_type,
+        items: allItems
+      }
+    });
+  }
+
+  // Purchase på permissions-step
+  if (groupName === "permissions") {
+    const mainItems = window.selectedProduct ? [window.selectedProduct] : [];
+    const addOnItems = Object.values(window.addOnCart || {});
+    const allItems = [...mainItems, ...addOnItems];
+    const totalValue = allItems.reduce((sum, it) => sum + (parseFloat(it.price) || 0), 0);
+
+    dataLayer.push({
+      event: "purchase",
+      ecommerce: {
+        transaction_id: container.signup_id || "unknown",
+        affiliation: container.affiliate || "ENLY.dk",
+        value: totalValue,
+        currency: "DKK",
+        items: allItems
+      }
+    });
+  }
+});
+
+
+document.addEventListener('change', function(e) {
+  if (!e.target.matches('.add_on_product_checkbox')) return;
+
+  const el = e.target;
+  const isChecked = el.checked;
+  const productId = String(el.dataset.productId || el.value);
+  const productName = el.dataset.productName || 'Ukendt produkt';
+  const productPrice = parseFloat(el.dataset.productPrice || '0');
+
+  const item = {
+    item_id: productId,
+    item_name: productName,
+    price: productPrice,
+    currency: 'DKK',
+    quantity: 1
+  };
+
+  // opdater lokal kurvetilstand til brug ved view_cart og purchase
+  if (isChecked) {
+    window.addOnCart[productId] = item;
+  } else {
+    delete window.addOnCart[productId];
+  }
+
+  dataLayer.push({
+    event: isChecked ? 'add_to_cart' : 'remove_from_cart',
+    ecommerce: { items: [item] }
+  });
+});
+
+// SHA256 helper
+async function sha256(str) {
+    const buffer = new TextEncoder("utf-8").encode(str.trim().toLowerCase());
+    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+</script>
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="gLqDNMdd/wexdLqEyxvtBSHGN97esJVHhaqzgQ1hj+PiNq/iUlHKXGKYfGSM4HE9Qt6Nd/KUac/p99kSziWmRQ==" />
+    <title>Tilmelding</title>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PCP5NVXZ');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCP5NVXZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+<div class="signup__page">
+
+    <h1 class="signup__form-title">
+        <span>Tilmelding</span>
+    </h1>
+
+
+      <div class="hero">
+        <p><b>Tilmeld dig på kun kun 5 minutter. Du skal bare besvare et par spørsgmål, så klarer vi resten!</b></p>
+      </div>
+
+    <form action="https://tilmeld.powerpower.dk/signup/fast-pris-flow-test" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="Ep96TSGGhJtC0hLuFVCveh/VB42wElPVwtMN/8RpWV9wE1abtIqxwJE+1A5SqzNCfM29JJw2r12ujmdsBy1w+Q==" />
+    <input type="hidden" name="prospect[identifier]" id="prospect_identifier" value="09e0c0983b4f92e763361a77dc8e1a5f" />
+
+
+        <input type="hidden" name="prospect[identifier]" id="prospect_identifier" value="09e0c0983b4f92e763361a77dc8e1a5f" />
+
+
+<div id="progress-container">
+  <div id="progress-text">
+    Trin 1 af 7
+  </div>
+  <div class="progress-background">
+    <div id="progress-bar"></div>
+  </div>
+</div>
+
+<div id="group-container">
+  
+<div class="signup__form-section signup__section--situation signup__form--required">
+  <h5 class="signup__section-title">Start med at fortælle os, hvorfor du skal have en ny el-aftale?</h5>
+
+  <div class="signup__situation" data-bind="toggle-radios">
+    
+        <div class="signup__form-group">
+  <div class="signup__situation signup__form-field signup__form-field--radio">
+  <label>
+    <span class="signup__radio-wrap">
+
+      <input type="radio" name="prospect[situation]" id="prospect_situation_cos" value="cos" data-toggle-target=".signup__situation_cos_more" data-bind="earliest-date" />
+      <span class="signup__radio-pseudo"></span>
+    </span>
+    <span class="signup__radio-text">Jeg ønsker at skifte elleverandør</span>
+  </label>
+  
+</div>
+
+</div>
+
+
+        <div class="signup__form-group">
+  <div class="signup__situation signup__form-field signup__form-field--radio">
+  <label>
+    <span class="signup__radio-wrap">
+
+      <input type="radio" name="prospect[situation]" id="prospect_situation_move" value="move" data-toggle-target=".signup__situation_move_more" data-bind="earliest-date" checked="checked" />
+      <span class="signup__radio-pseudo"></span>
+    </span>
+    <span class="signup__radio-text">Jeg skal flytte eller er lige flyttet ind</span>
+  </label>
+  
+</div>
+
+</div>
+
+
+
+      <div class="signup__situation_cos_more">
+  <div class="signup__form-field signup__form-field--checkbox">
+    <label>
+      <span class="signup__checkbox-wrap">
+        <input type="checkbox" name="prospect[manual_cos_start_date]" id="prospect_manual_cos_start_date" value="yes" data-bind="toggle-check" data-toggle-target=".signup__situation_cos_start_date" />
+        <span class="signup__checkbox-pseudo"></span>
+      </span>
+      <span class="signup__checkbox-text">
+        Vælg selv en start-dato senere end 16.12.2025? 
+      </span>
+    </label>
+  </div>
+
+  <div class="signup__situation_cos_start_date signup__form-group signup__form--required">
+    <div class="signup__form-field">
+      <label>
+        <span>
+          <input type="date" name="prospect[cos_start_date]" id="prospect_cos_start_date" autocomplete="doNotAutoComplete" data-bind="date-picker earliest-date" data-earliest-date-role="cos" min="2025-12-16" max="2026-11-13" />
+        </span>
+</label>    </div>
+
+    <p class="signup__form-help">Hvis du er i en bindingsperiode hos dit nuværende elselskab, skal du angive hvornår du er fri til at skifte til os (typisk den 1. i en måned). Nogle af vores konkurrenter har en bindingsperiode på 6 måneder. Vi klarer stadig resten for dig.</p>
+  </div>
+
+</div>
+
+  <div class="signup__situation_move_more">
+  <div class="signup__situation_move_start_date signup__form-group">
+    <div class="signup__form-field">
+      <label>
+      <input type="date" name="prospect[move_start_date]" id="prospect_move_start_date" value="2025-11-28" autocomplete="doNotAutoComplete" data-bind="date-picker earliest-date" data-earliest-date-role="move" min="2024-11-13" max="2026-11-13" />
+</label>    </div>
+
+    <p class="signup__form-help">Angiv din indflytningsdato. HUSK at melde fraflytning hos din elleverandør på din tidligere adresse, vi klarer stadig resten for dig.</p>
+
+    <div class="signup__form-field signup__form-field--checkbox signup__situation_move_acknowledged signup__form--required">
+      <label>
+        <span class="signup__checkbox-wrap">
+          <input type="hidden" name="prospect[move_acknowledged]" id="prospect_move_acknowledged" value="no" />
+          <input type="checkbox" name="prospect[move_acknowledged]" id="prospect_move_acknowledged" value="yes" />
+          <span class="signup__checkbox-pseudo"></span>
+        </span>
+        <span class="signup__checkbox-text">Jeg giver samtykke til, at leveringen kan påbegyndes, inden den normale fortrydelsesfrist på 14 dage er udløbet, hvorved jeg anerkender at skulle betale for leveret forbrug, hvis jeg gør brug af fortrydelsesretten.</span>
+</label>    </div>
+  </div>
+
+</div>
+
+
+  </div>
+
+</div>
+
+</div>
+
+<input type="hidden" name="step_submit" id="step_submit" value="true" />
+
+<div class="actions">
+  <input type="submit" name="commit" value="Back" id="back-button" />
+  <input type="submit" name="commit" value="Next" id="next-button" />
+</div>
+
+<input type="hidden" name="prospect[perform]" id="prospect_perform" value="false" />
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector("form");
+        const nextButton = document.getElementById("next-button");
+        const backButton = document.getElementById("back-button");
+        const performField = document.getElementById("prospect_perform");
+        const stepSubmitField = document.getElementById("step_submit");
+
+        const groups = ["situation","electrical_product","installation_address","customer","electrical_product_additional","payment","permissions"];
+
+        // Initialize currentIndex from the server-rendered group
+        let currentIndex = groups.indexOf("situation");
+        if (currentIndex < 0) currentIndex = 0;
+
+        // Progress bar
+        const progressBar = document.getElementById("progress-bar");
+        const progressText = document.getElementById("progress-text");
+
+        function updateProgress() {
+            const total = groups.length;
+            const step = currentIndex + 1;
+            const percent = (step / total) * 100;
+            progressBar.style.width = percent + "%";
+            progressText.textContent = `Trin ${step} af ${total}`;
+        }
+
+        // Container references
+        const container = document.getElementById("group-container");
+        document.dispatchEvent(new CustomEvent('group:loaded', { detail: { container } }));
+
+        // Init behaviours for the server-rendered group
+        initDawaAutocomplete(container);
+        initToggleRadios(container);
+        initToggleChecks(container);
+        updateProgress();
+
+        // Set initial Back visibility and Next label
+        backButton.style.display = currentIndex === 0 ? "none" : "inline-block";
+        nextButton.value = currentIndex === groups.length - 1 ? "Finish" : "Next";
+
+        async function loadGroup(index) {
+            const groupHtml = await fetch(
+                "/prospects/fast-pris-flow-test/group?group=" + groups[index],
+                {headers: {"Accept": "text/html"}}
+            ).then(res => res.text());
+
+            container.innerHTML = groupHtml;
+
+            initDawaAutocomplete(container);
+            initToggleRadios(container);
+            initToggleChecks(container);
+            updateProgress();
+
+            // Update back button visibility
+            backButton.style.display = index === 0 ? "none" : "inline-block";
+            nextButton.value = index === groups.length - 1 ? "Finish" : "Next";
+
+            document.dispatchEvent(new CustomEvent('group:loaded', { detail: { container } }));
+        }
+
+        async function submitStep() {
+            const formData = new FormData(form);
+
+            // Ensure current group is included in submission
+            formData.set("current_group", groups[currentIndex]);
+
+            // Determine flags
+            const lastStep = currentIndex === groups.length - 1;
+            performField.value = lastStep ? "true" : "false";
+            stepSubmitField.value = "true"; // always submit step when navigating
+
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: formData,
+                headers: {"Accept": "application/json"}
+            });
+
+            if (response.ok) {
+                const data = await response.json(); // get JSON from server
+                const updatedProspect = data.prospect; // this is the latest prospect
+
+                document.dispatchEvent(new CustomEvent('group:completed', { detail: { container: updatedProspect, stepNumber: currentIndex, completedGroup: groups[currentIndex] } }));
+
+                return true;
+            } else if (response.status === 422) {
+                const data = await response.json();
+                container.innerHTML = data.html;
+
+                // Re-init behaviours
+                initDawaAutocomplete(container);
+                initToggleRadios(container);
+                initToggleChecks(container);
+
+                return false;
+            } else {
+                alert("Der opstod en fejl. Prøv igen senere.");
+                return false;
+            }
+        }
+
+        nextButton.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const success = await submitStep();
+
+            if (!success) return;
+
+            if (currentIndex < groups.length - 1) {
+                currentIndex++;
+                await loadGroup(currentIndex);  // move to next group, no full form submit
+            } else {
+                // Last step: actually submit the full form
+                form.submit();
+            }
+        });
+
+        backButton.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            if (currentIndex === 0) return;
+
+            currentIndex--;
+            await loadGroup(currentIndex);
+
+            // Reset flags
+            performField.value = "false";
+            stepSubmitField.value = "true";
+            nextButton.value = "Next";
+        });
+
+    });
+</script>
+
+
+</form>
+
+</div>
+
+<script type="text/yaml" id="error-messages">--- []
+</script>
+
+
+
+
+
+</body>
+</html>

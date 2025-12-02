@@ -1,0 +1,42 @@
+/* ============================================
+   SECTION CLIP-PATH WITH SLOPED TOP AND BOTTOM
+   ============================================
+   Add this CSS to a w-embed style block in Webflow
+   
+   Usage:
+   - Add class "bg_rotated" to your section/background element
+   ============================================ */
+
+.bg_rotated {
+  clip-path: polygon(
+    0% 0%,      /* Top left */
+    100% 5%,    /* Top right - end with slope */
+    100% 100%,  /* Bottom right */
+    0% 95%      /* Bottom left - start with slope */
+  );
+}
+
+/* Tablet - reduced slope */
+@media (max-width: 991px) {
+  .bg_rotated {
+    clip-path: polygon(
+      0% 0%,
+      100% 2%,    /* Reduced slope for tablet */
+      100% 100%,
+      0% 98%      /* Reduced slope for tablet */
+    );
+  }
+}
+
+/* Mobile - minimal slope */
+@media (max-width: 767px) {
+  .bg_rotated {
+    clip-path: polygon(
+      0% 0%,
+      100% 0.8%,  /* Very minimal slope for mobile */
+      100% 100%,
+      0% 99.2%    /* Very minimal slope for mobile */
+    );
+  }
+}
+

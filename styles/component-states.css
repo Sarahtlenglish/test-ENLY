@@ -1,0 +1,93 @@
+/* ============================================
+   COMPONENT STATES CSS - For Webflow Editor Testing
+   ============================================
+   
+   Add this CSS to a w-embed style block in Webflow
+   This allows you to set data-component-state="open" on any component
+   to see all child elements without manually setting display:block
+   
+   Usage in Webflow:
+   - Add data-component-state="open" to component container to show it
+   - Remove attribute or set to "closed" to hide component
+   
+   Works with:
+   - Newsletter: [data-newsletter]
+   - Side Menu: .side-menu_component (or add data-component-state to parent)
+   - Any other component that needs open/closed states
+   ============================================ */
+
+/* ============================================
+   GENERIC COMPONENT STATE RULES
+   ============================================ */
+
+/* Note: We don't hide components with "closed" state here
+   because JavaScript handles the normal show/hide behavior.
+   CSS only helps show components in the editor when "open" is set.
+*/
+
+/* ============================================
+   NEWSLETTER COMPONENT
+   ============================================ */
+
+/* Only show when explicitly set to "open" - don't interfere with JavaScript */
+
+/* Show newsletter container when open (for editor testing) */
+[data-newsletter][data-newsletter-state="open"] {
+  display: block !important;
+}
+
+/* Only affect overlay, component, and background - nothing else */
+[data-newsletter][data-newsletter-state="open"] .newsletter-overlay,
+[data-newsletter][data-newsletter-state="open"] [data-newsletter-overlay] {
+  display: block !important;
+}
+
+[data-newsletter][data-newsletter-state="open"] .newsletter_component,
+[data-newsletter][data-newsletter-state="open"] .newsletter-panel,
+[data-newsletter][data-newsletter-state="open"] [data-newsletter-panel] {
+  display: block !important;
+}
+
+[data-newsletter][data-newsletter-state="open"] .newsletter-background,
+[data-newsletter][data-newsletter-state="open"] [data-newsletter-background] {
+  display: block !important;
+}
+
+/* ============================================
+   SIDE MENU COMPONENT
+   ============================================ */
+
+/* Only show when explicitly set to "open" - don't interfere with JavaScript */
+/* Show side menu component when open (for editor testing) */
+.side-menu_component[data-side-menu-state="open"],
+[data-side-menu-state="open"] .side-menu_component {
+  display: block !important;
+}
+
+[data-side-menu-state="open"] .side-menu-overlay,
+.side-menu-overlay[data-side-menu-state="open"] {
+  display: block !important;
+}
+
+[data-side-menu-state="open"] .side-menu-background,
+.side-menu-background[data-side-menu-state="open"] {
+  display: block !important;
+}
+
+/* Note: Only overlay, background, and component are affected - no wrapper or other elements */
+
+/* Hide side-menu-background on screens 568px and below */
+@media (max-width: 568px) {
+  [data-side-menu-state="open"] .side-menu-background,
+  .side-menu-background[data-side-menu-state="open"] {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   GENERIC CHILD ELEMENT RULES
+   ============================================
+   These rules are intentionally removed to avoid
+   affecting navigation and other components.
+   Only specific component rules above are used.
+   ============================================ */

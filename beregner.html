@@ -17,7 +17,7 @@
       --gray: #f5f5f5;
       --gray-dark: #666;
       --radius: 16px;
-      --shadow: 0 8px 32px rgba(0,0,0,0.1);
+      --shadow: 10px 10px rgba(0,0,0,1);
     }
     
     * { 
@@ -119,7 +119,6 @@
     
     .calculator-container {
       background: var(--white);
-      border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 40px;
       max-width: 800px;
@@ -148,6 +147,21 @@
       color: var(--gray-dark);
       margin-bottom: 32px;
       text-align: center;
+    }
+    
+    .info-icon {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: var(--gray-dark);
+      color: var(--white);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 8px;
+      vertical-align: middle;
     }
     
     .options-grid {
@@ -180,10 +194,9 @@
     }
     
     .option-icon {
-      width: 80px;
-      height: 80px;
+      width: 100%;
+      height: 120px;
       object-fit: contain;
-      margin-bottom: 16px;
       display: block;
     }
     
@@ -194,36 +207,46 @@
     }
     
     .people-selector {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
       margin: 32px 0;
     }
     
-    .people-icon {
-      font-size: 64px;
+    .family-image {
+      width: 200px;
+      height: auto;
+      object-fit: contain;
+    }
+    
+    .people-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 16px;
     }
     
     .counter {
       display: flex;
       align-items: center;
-      gap: 16px;
-      background: var(--black);
-      padding: 16px 24px;
-      border-radius: 12px;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
     }
     
     .counter-btn {
-      background: var(--white);
+      background: var(--black);
+      color: var(--white);
       border: none;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -231,14 +254,20 @@
     
     .counter-btn:hover {
       background: var(--yellow);
+      color: var(--black);
     }
     
     .counter-value {
-      font-size: 24px;
-      font-weight: 700;
+      background: var(--black);
       color: var(--white);
-      min-width: 40px;
-      text-align: center;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
     }
     
     .region-options {
@@ -332,12 +361,28 @@
       margin-bottom: 24px;
     }
     
+    .result-amount-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    
+    .amount-display {
+      width: 300px;
+      height: auto;
+      max-width: 100%;
+    }
+    
     .result-amount {
-      font-size: 64px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
       font-weight: 800;
       color: var(--black);
-      margin-bottom: 16px;
       text-shadow: 2px 2px 0px var(--yellow);
+      margin: 0;
     }
     
     .result-message {
@@ -424,6 +469,182 @@
       font-weight: 600;
     }
     
+    .dine-valg-section {
+      text-align: center;
+    }
+    
+    .main-headline {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--yellow);
+      text-shadow: 2px 2px 0px var(--black);
+      margin-bottom: 32px;
+    }
+    
+    .number-roller-container {
+      background: var(--black);
+      border-radius: 12px;
+      padding: 20px 40px;
+      margin: 32px auto;
+      max-width: 400px;
+      overflow: hidden;
+    }
+    
+    .number-roller {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .roller-digit {
+      background: var(--white);
+      color: var(--black);
+      font-size: 48px;
+      font-weight: 800;
+      width: 50px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .roller-separator {
+      color: var(--white);
+      font-size: 48px;
+      font-weight: 800;
+      margin: 0 4px;
+    }
+    
+    .choice-info {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--gray-dark);
+      color: var(--white);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+    
+    .choice-item {
+      position: relative;
+    }
+    
+    .savings-display {
+      margin-bottom: 40px;
+    }
+    
+    .savings-text {
+      margin-top: 24px;
+    }
+    
+    .savings-text p {
+      font-size: 16px;
+      color: var(--black);
+      margin-bottom: 16px;
+    }
+    
+    .monthly-price {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .price-amount {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--black);
+    }
+    
+    .price-label {
+      font-size: 18px;
+      color: var(--black);
+      font-weight: 600;
+    }
+    
+    .price-note {
+      font-size: 14px;
+      color: var(--gray-dark);
+    }
+    
+    .cta-button-large {
+      background: var(--black);
+      color: var(--yellow);
+      padding: 20px 40px;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .cta-button-large:hover {
+      background: var(--yellow);
+      color: var(--black);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    
+    .choices-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 24px;
+    }
+    
+    .choice-item {
+      background: var(--white);
+      border: 2px solid var(--gray);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .choice-item .choice-icon {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+    
+    .choice-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+    
+    .choice-info {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--gray-dark);
+      color: var(--white);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+    
+    
     @media (max-width: 768px) {
       .header {
         padding: 16px;
@@ -464,8 +685,21 @@
         font-size: 48px;
       }
       
+      .amount-display {
+        width: 250px;
+      }
+      
+      .family-image {
+        width: 150px;
+      }
+      
+      .family-card {
+        padding: 16px;
+      }
+      
       .choices-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
     }
   </style>
@@ -474,7 +708,7 @@
   <div class="main-container">
     <!-- Header -->
     <div class="header">
-      <div class="brand">ENLY!</div>
+      <div class="brand">ILY!</div>
       <div class="header-buttons">
         <a href="#" class="header-btn secondary">MERE OM FASTPRIS</a>
         <a href="#" class="header-btn primary">⚡ BLIV KUNDE</a>
@@ -514,20 +748,22 @@
     <!-- Trin 2: Antal personer -->
     <div id="step2" class="step">
           <h2 class="step-title">HVOR MANGE BOR I HUSTANDEN?</h2>
-          <p class="step-subtitle">Hvor mange bor der i husstanden, lorem ipsum dolor sit amet?</p>
+          <p class="step-subtitle">Hvor mange bor der i husstanden, lorem ipsum dolor sit amet? <span class="info-icon">i</span></p>
           
           <div class="people-selector">
-            <span class="people-icon">👨‍👩‍👧‍👦</span>
+            <div class="family-card">
+              <img src="img/amount.png" alt="Familie" class="family-image">
+            </div>
+            <div class="people-text" id="peopleText">4 personer</div>
             <div class="counter">
               <button class="counter-btn" onclick="changePeople(-1)">-</button>
               <span class="counter-value" id="peopleCount">4</span>
               <button class="counter-btn" onclick="changePeople(1)">+</button>
             </div>
-            <span class="people-icon">👨‍👩‍👧‍👦</span>
       </div>
           
           <div class="navigation">
-            <button class="nav-btn secondary" onclick="prevStep()">Tilbage</button>
+            <button class="nav-btn secondary" onclick="prevStep()">Gå tilbage</button>
             <button class="nav-btn primary" onclick="nextStep()">Næste</button>
       </div>
     </div>
@@ -554,45 +790,66 @@
       </div>
     </div>
 
-    <!-- Resultat -->
-    <div id="result" class="step">
-          <div class="result-section">
-            <div class="result-category" id="resultCategory">—</div>
-            <div class="result-amount" id="resultAmount">—</div>
-            <p class="result-message" id="resultMessage">—</p>
-            <button class="cta-button" id="ctaButton" onclick="handleCTA()">
-              ⚡ TILMELD DIG PÅ 2 MINUTTER
-            </button>
-          </div>
-          
-          <div class="choices-section">
-            <div class="choices-title">DINE VALG</div>
-            <div class="choices-grid">
-              <div class="choice-item">
-                <div class="choice-icon">👨‍👩‍👧‍👦</div>
-                <div class="choice-text" id="choicePeople">4 personer</div>
+        <!-- Dine Valg med talrulle -->
+        <div id="dineValg" class="step">
+          <div class="dine-valg-section">
+            <h2 class="main-headline">ENLY! EN ELAFTALE DER BETALER SIG</h2>
+            
+            <div class="savings-display">
+              <div class="number-roller-container">
+                <div class="number-roller" id="numberRoller">
+                  <div class="roller-digit">5</div>
+                  <div class="roller-digit">0</div>
+                  <div class="roller-digit">1</div>
+                  <div class="roller-digit">7</div>
+                  <div class="roller-separator">,</div>
+                  <div class="roller-digit">2</div>
+                  <div class="roller-digit">3</div>
+                </div>
               </div>
-              <div class="choice-item">
-                <img src="img/house.png" alt="Boligtype" class="choice-icon" id="choiceHousingIcon">
-                <div class="choice-text" id="choiceHousing">Hus</div>
+              
+              <div class="savings-text">
+                <p>Spar op til <span id="yearlySavings">5.017,23</span> kr. om året* med fri strøm til fast pris for kun:</p>
+                <div class="monthly-price">
+                  <span class="price-amount" id="monthlyPrice">449,-</span>
+                  <span class="price-label">Pr. måned</span>
+                  <span class="price-note">Alt inkluderet</span>
+                </div>
+                <button class="cta-button-large" onclick="handleCTA()">
+                  ⚡ TILMELD DIG PÅ 2 MINUTTER
+                </button>
               </div>
-              <div class="choice-item">
-                <img src="img/east.png" alt="Region" class="choice-icon" id="choiceRegionIcon">
-                <div class="choice-text" id="choiceRegion">Øst for Storebælt</div>
+            </div>
+            
+            <div class="choices-section">
+              <div class="choices-title">DINE VALG</div>
+              
+              <div class="choices-grid">
+                <div class="choice-item">
+                  <img src="img/amount.png" alt="Antal personer" class="choice-icon" id="choicePeopleIcon">
+                  <div class="choice-text" id="choicePeople">4 personer</div>
+                  <div class="choice-info">i</div>
+                </div>
+                <div class="choice-item">
+                  <img src="img/flat.png" alt="Lejlighed" class="choice-icon" id="choiceHousingIcon">
+                  <div class="choice-text" id="choiceHousing">Lejlighed</div>
+                  <div class="choice-info">i</div>
+                </div>
+                <div class="choice-item">
+                  <img src="img/east.png" alt="Region" class="choice-icon" id="choiceRegionIcon">
+                  <div class="choice-text" id="choiceRegion">Øst for Storebælt</div>
+                  <div class="choice-info">i</div>
+                </div>
               </div>
+              
+              <div class="disclaimer">
+                *Beregningen tager udgangspunkt i dine oplysninger og en gns. pris. 
+                <a href="#">Klik her</a> og læs mere om hvordan vi beregner din besparelse.
+              </div>
+            </div>
       </div>
     </div>
 
-          <div class="navigation">
-            <button class="nav-btn secondary" onclick="prevFromResult()">Tilbage</button>
-            <button class="nav-btn primary" onclick="resetCalc()">Prøv igen</button>
-          </div>
-          
-          <div class="disclaimer">
-            Beregningen tager udgangspunkt i dine oplysninger og en gns. pris. 
-            <a href="#">Klik her</a> og læs mere om hvordan vi beregner din besparelse.
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -609,7 +866,7 @@
 
     function showStep() {
       document.querySelectorAll('.step').forEach((s) => s.classList.remove('active'));
-      const el = document.getElementById(`step${currentStep}`) || document.getElementById('result');
+      const el = document.getElementById(`step${currentStep}`) || document.getElementById('dineValg');
       el.classList.add('active');
     }
 
@@ -626,10 +883,6 @@
       showStep(); 
     }
     
-    function prevFromResult(){ 
-      currentStep = 3; 
-      showStep(); 
-    }
 
     function validateCurrentStep() {
       if (currentStep === 1 && !data.housing) {
@@ -647,12 +900,35 @@
       data.housing = val;
       // Update visual selection
       document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
-      event.target.closest('.option-card').classList.add('selected');
+      const targetCard = event.target.closest('.option-card');
+      if (targetCard) {
+        targetCard.classList.add('selected');
+      }
+      
+      // Update sliders on DINE VALG page
+      updateHousingToggles();
+      
+      // Genberegn hvis vi er på dineValg siden
+      if (currentStep === 'dineValg') {
+        startNumberRoller();
+      }
     }
     
     function changePeople(delta) {
       data.people = Math.max(1, Math.min(10, data.people + delta));
       document.getElementById('peopleCount').textContent = data.people;
+      document.getElementById('peopleText').textContent = `${data.people} personer`;
+      
+      // Opdater også choice counter hvis vi er på dineValg siden
+      const choicePeopleCount = document.getElementById('choicePeopleCount');
+      const choicePeopleText = document.getElementById('choicePeople');
+      if (choicePeopleCount) choicePeopleCount.textContent = data.people;
+      if (choicePeopleText) choicePeopleText.textContent = `${data.people} personer`;
+      
+      // Genberegn hvis vi er på dineValg siden
+      if (currentStep === 'dineValg') {
+        startNumberRoller();
+      }
     }
     
     function selectRegion(val) { 
@@ -718,87 +994,52 @@
       return { monthlySaving: Math.abs(diff), rawSaving: diff, category, message };
     }
 
-    function showResult(result){
-      const category = document.getElementById('resultCategory');
-      const amount = document.getElementById('resultAmount');
-      const message = document.getElementById('resultMessage');
-      const ctaButton = document.getElementById('ctaButton');
-
-      const labels = {
-        lille: 'Lille besparelse',
-        stor: 'Stor besparelse',
-        ingen: 'Ingen besparelse',
-        ingen_taet_paa: 'Ingen besparelse – tæt på'
-      };
-
-      const ctaTexts = {
-        lille: '⚡ LÆS MERE OM FAST PRIS',
-        stor: '⚡ TILMELD DIG PÅ 2 MINUTTER',
-        ingen: '⚡ LÆS MERE OM FAST PRIS',
-        ingen_taet_paa: '⚡ LÆS MERE OM FAST PRIS'
-      };
-
-      category.textContent = labels[result.category] || 'Uafklaret';
-      
-      if (result.rawSaving <= 0) {
-        if (result.category === 'ingen_taet_paa') {
-          amount.textContent = 'DESVÆRRE';
-          message.innerHTML = 'Du har lige nu en lille fordel på spotprisen – men markedet er lige så usikkert som det danske sommervejr. Skift til EMLY og få ro i elregningen, uanset hvad der sker.';
-        } else {
-          amount.textContent = 'DESVÆRRE';
-          message.innerHTML = 'Det ser ud til, at din nuværende pris er lige så god som vores faste. Men husk - markedet ændrer sig hurtigere end vejret.';
-        }
-      } else {
-        amount.textContent = `${result.monthlySaving.toLocaleString('da-DK')},-`;
-        message.innerHTML = `Spar op til ${(result.monthlySaving * 12).toLocaleString('da-DK')} kr. om året<br><strong>${Math.round(result.monthlySaving * 0.8)} kr. Pr. måned</strong>`;
-      }
-      
-      ctaButton.textContent = ctaTexts[result.category] || '⚡ LÆS MERE OM FAST PRIS';
-      
-      // Update choices display
-      updateChoicesDisplay();
-
-      // Vis resultat
-      document.querySelectorAll('.step').forEach((s)=>s.classList.remove('active'));
-      document.getElementById('result').classList.add('active');
-    }
 
     function updateChoicesDisplay() {
-      const housingLabels = {
-        'lejlighed': 'Lejlighed',
-        'hus': 'Hus',
-        'hus+elbil': 'Hus + elbil'
-      };
-      
-      const housingImages = {
-        'lejlighed': 'img/flat.png',
-        'hus': 'img/house.png',
-        'hus+elbil': 'img/car.png'
-      };
-      
-      const regionLabels = {
-        'vest': 'Vest for Storebælt',
-        'øst': 'Øst for Storebælt'
-      };
-      
-      const regionImages = {
-        'vest': 'img/west.png',
-        'øst': 'img/east.png'
-      };
-
-      document.getElementById('choicePeople').textContent = `${data.people} personer`;
-      document.getElementById('choiceHousing').textContent = housingLabels[data.housing] || 'Ikke valgt';
-      document.getElementById('choiceRegion').textContent = regionLabels[data.region] || 'Ikke valgt';
-      
-      // Update images
-      const housingIcon = document.getElementById('choiceHousingIcon');
-      const regionIcon = document.getElementById('choiceRegionIcon');
-      
-      if (housingIcon && data.housing) {
-        housingIcon.src = housingImages[data.housing];
+      // Update people count
+      const choicePeople = document.getElementById('choicePeople');
+      if (choicePeople) {
+        choicePeople.textContent = `${data.people} personer`;
       }
-      if (regionIcon && data.region) {
-        regionIcon.src = regionImages[data.region];
+      
+      // Update housing choice
+      const choiceHousing = document.getElementById('choiceHousing');
+      if (choiceHousing) {
+        const housingTexts = {
+          'lejlighed': 'Lejlighed',
+          'hus': 'Hus',
+          'hus+elbil': 'Hus + elbil'
+        };
+        choiceHousing.textContent = housingTexts[data.housing] || 'Lejlighed';
+      }
+      
+      // Update region choice
+      const choiceRegion = document.getElementById('choiceRegion');
+      if (choiceRegion) {
+        choiceRegion.textContent = data.region === 'vest' ? 'Vest for Storebælt' : 'Øst for Storebælt';
+      }
+      
+      // Update housing icon
+      const choiceHousingIcon = document.getElementById('choiceHousingIcon');
+      if (choiceHousingIcon) {
+        const housingIcons = {
+          'lejlighed': 'img/flat.png',
+          'hus': 'img/house.png',
+          'hus+elbil': 'img/car.png'
+        };
+        choiceHousingIcon.src = housingIcons[data.housing] || 'img/flat.png';
+      }
+      
+      // Update region icon
+      const choiceRegionIcon = document.getElementById('choiceRegionIcon');
+      if (choiceRegionIcon) {
+        choiceRegionIcon.src = data.region === 'vest' ? 'img/west.png' : 'img/east.png';
+      }
+      
+      // People icon stays the same (amount.png)
+      const choicePeopleIcon = document.getElementById('choicePeopleIcon');
+      if (choicePeopleIcon) {
+        choicePeopleIcon.src = 'img/amount.png';
       }
     }
 
@@ -820,8 +1061,69 @@
         alert('Vælg bolig, antal personer og region før beregning.');
         return;
       }
+      
+      // Gå til Dine Valg step med talrulle animation
+      currentStep = 'dineValg';
+      showStep();
+      updateChoicesDisplay();
+      startNumberRoller();
+    }
+    
+    function startNumberRoller() {
       const result = computeSaving(data);
-      showResult(result);
+      const targetAmount = result.monthlySaving;
+      const yearlyAmount = targetAmount * 12;
+      
+      // Opdater tekst og priser
+      document.getElementById('yearlySavings').textContent = yearlyAmount.toLocaleString('da-DK');
+      document.getElementById('monthlyPrice').textContent = `${Math.round(targetAmount * 0.8)},-`;
+      
+      // Animer talrullen til det rigtige beløb
+      animateNumberRoller(yearlyAmount);
+      
+      // Opdater housing toggles
+      updateHousingToggles();
+    }
+    
+    function animateNumberRoller(targetAmount) {
+      const amountStr = targetAmount.toFixed(2).replace('.', ',');
+      const digits = amountStr.split('');
+      const rollerDigits = document.querySelectorAll('.roller-digit');
+      
+      rollerDigits.forEach((digit, index) => {
+        if (index < digits.length && !isNaN(digits[index])) {
+          // Animer hvert ciffer individuelt
+          animateDigit(digit, parseInt(digits[index]), 1000 + (index * 200));
+        }
+      });
+    }
+    
+    function updateHousingToggles() {
+      // Reset alle sliders
+      document.querySelectorAll('.slider-fill').forEach(slider => {
+        slider.classList.remove('active');
+      });
+      
+      // Aktivér den valgte housing type
+      const selectedSlider = document.getElementById(`slider-${data.housing}`);
+      if (selectedSlider) {
+        selectedSlider.classList.add('active');
+      }
+    }
+    
+    function animateDigit(element, targetDigit, delay) {
+      setTimeout(() => {
+        let currentDigit = 0;
+        const interval = setInterval(() => {
+          element.textContent = currentDigit;
+          currentDigit = (currentDigit + 1) % 10;
+          
+          if (currentDigit === targetDigit) {
+            clearInterval(interval);
+            element.textContent = targetDigit;
+          }
+        }, 50);
+      }, delay);
     }
 
     function resetCalc() {
@@ -839,6 +1141,28 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Set default values
       document.getElementById('peopleCount').textContent = data.people;
+      
+      // Add event listeners for region radio buttons
+      const regionOst = document.getElementById('region-øst');
+      const regionVest = document.getElementById('region-vest');
+      
+      if (regionOst) {
+        regionOst.addEventListener('change', function() {
+          if (this.checked) {
+            data.region = 'øst';
+            startNumberRoller();
+          }
+        });
+      }
+      
+      if (regionVest) {
+        regionVest.addEventListener('change', function() {
+          if (this.checked) {
+            data.region = 'vest';
+            startNumberRoller();
+          }
+        });
+      }
     });
   </script>
 

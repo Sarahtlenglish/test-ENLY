@@ -1,0 +1,819 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f6f7fa;
+  color: #323c46;
+}
+
+.signup__page {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signup__page a,
+.signup__page a:hover,
+.signup__page a:focus,
+.signup__page a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.signup__page,
+input,
+.datepicker {
+  font-family: 'Gotham Book', 'Montserrat', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.signup__page p,
+.signup__form-field {
+  margin-top: .25em;
+  margin-bottom: .25em;
+}
+
+.signup__page p {
+  flex-basis: 100%;
+  padding: 0 .5em;
+}
+
+.signup__form-help {
+  font-size: 12px;
+  color: #666;
+}
+
+.signup__form-section {
+  margin-bottom: 1em;
+  background-color: #A1BDC1;
+  border-radius: .5em;
+  padding: 2em;
+}
+
+.signup__form-title {
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 54px;
+  margin: 0;
+}
+
+.signup__section-title,
+.signup__group-title {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0;
+}
+
+.signup__form-field input[type=text],
+.signup__form-field input[type=search] {
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  padding: 4px;
+}
+
+.signup__form-field input[type=text],
+.signup__form-field input[type=search],
+.signup__form-field input[type=date] {
+  width: 100%;
+}
+
+.signup__has-error .signup__error-message {
+  color: red;
+}
+
+.signup__has-error.signup__input--changed .signup__error-message {
+  display: none;
+}
+
+.signup__customer,
+.signup__installation_address_search,
+.signup__installation_address,
+.signup__situation_cos_start_date,
+.signup__situation_move_start_date,
+.signup__payment_pbs_more,
+.signup__payment_ls_more,
+.signup__permissions_extras {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: left;
+  flex-wrap: wrap;
+  margin: 0 -.5em;
+}
+
+.signup__form-field {
+  padding: 0 .5em;
+}
+
+@media only screen and (max-width: 980px) {
+  .signup__form-field {
+    flex-basis: 100% !important;
+  }
+}
+
+.signup__customer .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__customer .signup__first_name,
+.signup__customer .signup__last_name,
+.signup__customer .signup__email {
+  flex-basis: 50%;
+}
+
+.signup__installation_address_search .signup__form-field {
+  flex-basis: 50%;
+  max-width: none;
+}
+
+.signup__installation_address .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__situation_cos_start_date  .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__situation_move_start_date .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
+  flex-basis: 100%;
+  border-radius: 3px;
+  padding: .5em;
+}
+
+.signup__group-title {
+  flex-basis: 100%;
+  padding: 0 .5em;
+}
+
+.signup__payment_pbs_cpr {
+  flex-basis: 50%;
+}
+
+.signup__payment_pbs_reg {
+  flex-basis: 15%;
+}
+
+.signup__payment_pbs_account {
+  flex-basis: 35%;
+}
+
+.signup__payment_pbs_more .signup__form-group .signup__payment_ls_more{
+  flex-basis: 100%;
+  padding: 0 .5em;
+}
+
+.signup__sales_responsible, .signup__sales_responsible_two {
+  flex-basis: 25%;
+}
+
+.signup__submit {
+  font-weight: bold;
+  background-color: rgb(37, 182, 21);
+  border: none;
+  border-radius: 10em;
+  padding: .75em 1.5em;
+  color: white;
+  cursor: pointer;
+}
+
+.disabled {
+  background-color: #888;
+}
+
+.signup__section--submit .signup__section-title {
+  display: none;
+}
+
+.signup__section--submit .signup__form-group {
+  text-align: center;
+}
+
+.signup__dawa_autocomplete label > span {
+  display: none;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f3f7f7;
+  color: #155b64;
+}
+
+.signup__page {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 80px;
+  position: relative;
+}
+
+.signup__page,
+.datepicker {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.signup__page .signup__permissions-earliest-date p {
+  padding-left: 0;
+  font-size: 14px;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label {
+  position: relative;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 10px;
+  top: 1px;
+  width: 20px;
+  height: 20px; 
+  opacity: 0.8;
+  background-repeat: no-repeat;
+  background-image: url(https://digitallydev.dk/nettopower/calendar.svg);
+  background-size: cover;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label input {
+  padding-left: 38px;
+}
+
+.signup__page .signup__form-field input[type="text"],
+.signup__page .signup__form-field input[type="search"] {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  background: #fff;
+  border: 1px solid #ECECEC;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.06);
+  padding: 18px 20px;
+  font-size: 14px;
+  line-height: 14px;
+  color: #155B64;
+  border-radius: 3px;
+  outline: 0;
+  margin: 0;
+  height: 50px;
+}
+
+.signup__page .signup__form-field .signup__has-error input[type="text"] {
+  border-color: #a00;
+}
+
+.signup__page .signup__form-field input[type="text"]::placeholder,
+.signup__page .signup__form-field input[type="search"]::placeholder,
+.signup__page .signup__form-field input[type="text"]::-webkit-placeholder,
+.signup__page .signup__form-field input[type="search"]::-webkit-placeholder {
+  color: #155B64;
+}
+
+.signup__customer .signup__form-field label>span,
+.signup__installation_address_manual .signup__form-field label>span,
+.signup__payment_pbs_more .signup__payment_pbs_cpr label>span,
+.signup__payment_pbs_more .signup__payment_pbs_reg label>span,
+.signup__payment_pbs_more .signup__payment_pbs_account label>span {
+  display: none;
+}
+
+.signup__form-field label>span.signup__radio-text,
+.signup__form-field label>span.signup__checkbox-text {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  margin-left: 30px;
+  color: #155B64;
+}
+
+.signup__form-field.signup__form-field--radio label,
+.signup__form-field.signup__form-field--checkbox label {
+  display: flex;
+  display: -ms-flexbox;
+  align-items: center;
+  -ms-flex-align: center;
+  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+}
+
+.signup__form-field label>span.signup__radio-wrap,
+.signup__form-field label>span.signup__checkbox-wrap {
+  position: relative;
+}
+
+.signup__form-field label>span.signup__radio-wrap input,
+.signup__form-field label>span.signup__checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.signup__form-field label>span.signup__radio-wrap .signup__radio-pseudo:before,
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #333333;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: -1px;
+}
+
+.signup__form-field label.signup__has-error>span.signup__radio-wrap .signup__radio-pseudo:before, 
+.signup__form-field label.signup__has-error>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  border-color: #a00;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  border-radius: 3px;
+}
+
+.signup__form-field label>span.signup__radio-wrap .signup__radio-pseudo:after {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: -1px;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:after {
+  content: "✓";
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5px;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  opacity: 0;
+  color: #155B64;
+  background: none;
+  transition: all 0.3s ease-out;
+  margin-top: -3px;
+}
+
+.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:before,
+.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
+  background: transparent;
+  border-color: #155B64;
+}
+
+.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:after {
+  background: #155B64;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after {
+  opacity: 1;
+}
+
+.signup__page a {
+  text-decoration: underline;
+  color: #155B64;
+  word-wrap: break-word;
+}
+
+.signup__page p {
+  margin-bottom: 15px;
+}
+
+.signup__form-field {
+ margin-bottom: 25px;
+}
+
+.signup__page p {
+  flex-basis: 100%;
+  padding: 0 18px;
+}
+
+.signup__page .hero {
+  max-width: 480px;
+  text-align: center;
+  margin: 0 auto 50px;
+}
+
+.signup__page .hero a {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+}
+
+.signup__page .hero p:first-child {
+  margin-bottom: 0;
+  margin-top: 0;
+  line-height: 0;
+}
+
+.signup__page .hero p:last-child {
+  line-height: 24px;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.signup__page .hero img {
+  position: absolute;
+  top: 50px;
+  left: 0;
+}
+
+.signup__form-title {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 35px;
+  text-align: center;
+  margin: 50px 0 10px;
+  color: #155B64;
+  padding: 0 15px;
+}
+
+.signup__page .topnav {
+  margin-top: 25px;
+}
+
+.signup__page .topnav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 40px;
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup__page .topnav ul li {
+  padding: 0;
+  margin: 0 5px;
+}
+
+.signup__page .topnav ul li a {
+  display: block;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 40px;
+  text-transform: uppercase;
+  color: #333;
+  padding: 0 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  background: #E6EBF0;
+  transition: all 0.3s ease-out;
+}
+
+.signup__page .topnav ul li a:hover,
+.signup__page .topnav ul li a:focus,
+.signup__page .topnav ul li.active a {
+  background: #fff;
+  color: #155B64;
+}
+
+.signup__page .topnav + p {
+  font-size: 12px;
+}
+
+.signup__form-help {
+  font-size: 12px;
+  line-height: 18px;
+  color: #666;
+  margin: 0;
+}
+
+.signup__form-section {
+  margin-bottom: 25px;
+  background-color: #E6EBF0;
+  border-radius: 3px;
+  padding: 40px 40px 15px;
+}
+
+.signup__section-title,
+.signup__group-title {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 38px;
+  margin: 0 0 30px;
+  color: #155B64;
+}
+
+.signup__group-title {
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.signup__form-field input[type=text],
+.signup__form-field input[type=search],
+.signup__form-field input[type=date] {
+  width: 100%;
+}
+
+.signup__has-error .signup__error-message {
+  color: #a00;
+  font-size: 12px;
+  padding: 0;
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+}
+
+.signup__base-errors.signup__error-message {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #a00;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+}
+
+.signup__form-field--checkbox .signup__has-error .signup__error-message {
+  padding-left: 30px;
+  flex: 0 0 100%;
+  -ms-flex: 0 0 100%;
+}
+
+.signup__has-error.signup__input--changed .signup__error-message {
+  display: none;
+}
+
+.signup__customer,
+.signup__installation_address_select,
+.signup__installation_address_search,
+.signup__installation_address,
+.signup__situation_cos_start_date,
+.signup__situation_move_start_date,
+.signup__permissions_extras,
+.signup__payment_pbs_more {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: left;
+  flex-wrap: wrap;
+  margin: 0 -18px;
+}
+
+.signup__payment_pbs_more {
+  margin: 0 -18px;
+}
+
+.signup__payment_pbs_more .signup__group-title {
+  margin-left: 18px;
+  flex-basis: 100%;
+}
+
+.signup__form-field {
+  padding: 0 18px;
+}
+
+.signup__situation .signup__form-field--radio,
+.signup__situation_cos_more .signup__form-field--checkbox,
+.signup__payment .signup__form-field--radio,
+.signup__permissions .signup__form-field--checkbox,
+.signup__electrical_product .signup__form-field--radio,
+.signup__electrical_product .signup__form-field--checkbox,
+.signup__gas_product .signup__form-field--radio,
+.signup__gas_product .signup__form-field--checkbox {
+  padding: 0;
+}
+
+.signup__product_electrical_basic_more .signup__form-field--checkbox,
+.signup__permissions .signup__form-field--checkbox {
+  margin-bottom: 0;
+}
+
+.signup__product_electrical_basic_more .signup__form-help,
+.signup__payment .signup__form-help,
+.signup__permissions .signup__form-help {
+  margin-top: 5px;
+  padding-left: 30px;
+}
+
+.signup__payment .signup__form-help {
+  margin-bottom: 0;
+}
+
+@media only screen and (max-width: 980px) {
+  .signup__form-field {
+    flex-basis: 100% !important;
+  }
+  .signup__form-section {
+    padding: 40px 20px 15px;
+  }
+  .signup__page .topnav ul {
+    display: inline-block;
+    height: auto;
+  }
+  .signup__page .topnav ul li {
+    margin-bottom: 10px;
+  }
+  .signup__page .hero img {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.signup__customer .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__customer .signup__first_name,
+.signup__customer .signup__last_name,
+.signup__customer .signup__email {
+  flex-basis: 33.3333%;
+}
+
+.signup__customer .signup__phone,
+.signup__customer .signup__cpr {
+  flex-basis: 33.3333%;
+}
+
+.signup__installation_address_search .signup__form-field {
+  flex-basis: 66.6666%;
+  max-width: none;
+}
+
+.signup__installation_address .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__situation_cos_start_date  .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__situation_move_start_date .signup__form-field {
+  flex-basis: 25%;
+}
+
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
+  flex-basis: 100%;
+  border-radius: 3px;
+  padding: 10px 18px;
+}
+
+.signup__payment_pbs_cpr {
+  flex-basis: 50%;
+}
+
+.signup__payment_pbs_reg {
+  flex-basis: 20%;
+}
+
+.signup__payment_pbs_account {
+  flex-basis: 30%;
+}
+
+.signup__payment_pbs_more .signup__form-group {
+  flex-basis: 100%;
+  padding: 0 18px;
+}
+
+.signup__payment_card_more p {
+  padding: 0;
+}
+
+.signup__sales_responsible {
+  flex-basis: 25%;
+}
+
+.signup__section--permissions {
+  margin-bottom: -15px;
+  padding-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.signup__section--submit {
+  border-radius: 0;
+  text-align: center;
+  padding: 0px;
+  background: none;
+}
+
+.signup__section--submit .signup__form-group {
+  background: #E6EBF0;
+  padding-top: 45px;
+}
+
+.signup__submit {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  background-color: #155B64;
+  border: none;
+  border-radius: 30px;
+  padding: 15px 40px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.signup__submit:hover,
+.signup__submit:focus {
+  opacity: 0.8
+}
+
+.disabled {
+  background-color: #888;
+}
+
+.signup__section--submit .signup__section-title {
+  display: none;
+}
+
+.signup__dawa_autocomplete label > span {
+  display: none;
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions {
+  margin: 10px 18px 0;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 10px rgba(0,0,0,0.16);
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion {
+  color: #155B64;
+  padding: 14px 20px;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected, 
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:hover {
+  background: #EDF2F7;
+}
+
+
+.shortcode-mbp {
+    height: 26px;
+    width: 26px;
+    background-color: transparent;
+    background-image: url(https://kunde.gronelforsyning.dk/assets/signup/icon_mobilepay-a372aa8506552352f97d481f74acd720170e8f783c2b03de5d0d6071c1cd9bcf.svg);
+}
+
+.footer {
+  margin-top: -16px;
+}
+
+.footer p:first-child, .footer p:nth-child(2) {
+  background: #E6EBF0;
+  padding-top: 15px;
+  margin: 0;
+}
+
+.footer p:first-child {
+  padding-top: 45px;
+}
+
+.footer p:last-child {
+  font-size: 14px;
+}
+
+.footer p:nth-child(2) {
+  font-size: 14px;
+  padding-bottom: 45px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+label[for="ev_charger_previously_at_monta"] .signup__checkbox-text {
+  padding-left: 24px;
+  position: relative;
+  top: 2px;
+}
+
+#progress-bar {
+  background: #155B64;
+}

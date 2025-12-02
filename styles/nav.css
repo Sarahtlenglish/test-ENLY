@@ -4,6 +4,14 @@
    NAVBAR SCROLL STATE
    ============================================ */
 
+/* iOS Safari scroll fixes */
+body {
+  /* Prevent iOS bounce scroll issues */
+  overscroll-behavior: none;
+  /* Ensure smooth scrolling */
+  -webkit-overflow-scrolling: touch;
+}
+
 .navbar_component {
   position: fixed;
   top: 0;
@@ -16,21 +24,62 @@
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   background-color: rgba(255, 255, 255, 0);
+  transition: transform 0.3s ease;
+  /* iOS Safari fixes for fixed position + transform */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+  touch-action: manipulation;
+  /* Force hardware acceleration */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-body.scrolled .navbar_component {
+/* Hidden state - only transform, doesn't affect other styles */
+.navbar_component.is-hidden {
+  -webkit-transform: translateY(calc(-100% - 3rem)) translateZ(0);
+  transform: translateY(calc(-100% - 3rem)) translateZ(0);
+}
+
+/* body.scrolled .navbar_component - DISABLED FOR TESTING
   top: 1.5rem;
-  max-width: 100rem;
-  width: calc(100% - clamp(3rem, 8vw, 6rem));
+  max-width: 75rem;
+  width: 75%;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: clamp(1rem, 4vw, 3rem);
-  padding-right: clamp(1rem, 4vw, 3rem);
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   border-radius: 3px;
+*/
+
+/* Tablet - wider than desktop percentage */
+@media (max-width: 1024px) {
+  body.scrolled .navbar_component {
+    width: calc(100% - 3rem);
+    max-width: calc(100% - 3rem);
+    top: 1rem;
+  }
 }
+
+/* Mobile - match container width */
+@media (max-width: 480px) {
+  body.scrolled .navbar_component {
+    width: calc(100% - 2rem);
+    max-width: calc(100% - 2rem);
+    top: 1rem;
+  }
+}
+
+/* Side menu overlay - make clickable when menu is open */
+body.is-menu-open .side-menu-overlay {
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+/* iOS Safari fixes temporarily disabled to test if navbar hide/show is the culprit */
 
 .nav-link-wrapper .logo {
   transition: height 0.5s ease;
@@ -42,11 +91,6 @@ body.scrolled .nav-link-wrapper {
 
 body.scrolled .nav-link-wrapper .logo {
   height: 2rem;
-}
-
-body.scrolled .nav-menu .btn-bounce-text {
-  color: #000;
-  font-size: 1.225rem;
 }
 
 /* Trustpilot widget text color - always dark */
@@ -126,7 +170,33 @@ body.scrolled .nav-menu .btn-bounce-text {
   font-size: 1.225rem;
 }
 
-/* Tablet - hide text on secondary button */
+/* ============================================
+   RESPONSIVE BREAKPOINTS (desktop-first)
+   ============================================ */
+
+/* 
+ * Breakpoint 1: Large desktop (≤1489px)
+ * - Secondary button becomes icon-only
+ */
+@media (max-width: 1489px) {
+  .btn-stop-motion.is-secondary {
+    flex: 0 auto !important;
+    height: 2.5rem !important;
+    padding-left: 0.3em !important;
+    padding-right: 0.3em !important;
+  }
+  
+  .btn-stop-motion__p.is-seconda {
+    display: none;
+  }
+}
+
+/* 
+ * Breakpoint 2: Medium desktop (≤1270px)
+ * - Navbar padding reduces
+ * - Font sizes reduce
+ * - Trustpilot scales down
+ */
 @media (max-width: 1270px) {
   .navbar_component,
   body.scrolled .navbar_component {
@@ -134,10 +204,6 @@ body.scrolled .nav-menu .btn-bounce-text {
     padding-right: 1rem !important;
     padding-top: 0.75rem !important;
     padding-bottom: 0.75rem !important;
-  }
-  
-  .btn-stop-motion__p.is-seconda {
-    display: none;
   }
   
   .nav-menu .btn-bounce-text {
@@ -148,24 +214,35 @@ body.scrolled .nav-menu .btn-bounce-text {
     font-size: 1rem !important;
   }
   
-  .btn-stop-motion.is-secondary {
-    flex: 0 auto !important;
-    height: 2.5rem !important;
-    padding-left: 0.3em !important;
-    padding-right: 0.3em !important;
-  }
-  
-  /* Minimal scaling of Trustpilot widget */
   .rating-container {
-    transform: scale(0.9) !important;
+    transform: scale(0.85) !important;
     transform-origin: left center !important;
     width: fit-content !important;
   }
 }
 
-@media (min-width: 796px) and (max-width: 1000px) {
-  .rating-container.is-menu {
-    display: none;
+/* 
+ * Breakpoint 3: Small desktop / large tablet (≤1100px)
+ * - Hide trustpilot in navbar (not enough space)
+ */
+@media (max-width: 1100px) {
+  .rating-container:not(.is-menu) {
+    display: none !important;
+  }
+}
+
+/* 
+ * Breakpoint 4: Awkward breakpoint (760-860px)
+ * - Hide nav-menu buttons
+ * - Show trustpilot again (now there's space)
+ */
+@media (min-width: 760px) and (max-width: 860px) {
+  .nav-menu {
+    display: none !important;
+  }
+  
+  .rating-container:not(.is-menu) {
+    display: flex !important;
   }
 }
 

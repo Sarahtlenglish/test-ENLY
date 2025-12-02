@@ -1,0 +1,852 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+/* Gamay font - fallback to system fonts if not available */
+@font-face {
+  font-family: 'Gamay';
+  font-weight: 100;
+  src: local('Gamay Thin'), local('Gamay-Light');
+}
+
+@font-face {
+  font-family: 'Gamay';
+  font-weight: 200;
+  src: local('Gamay Light'), local('Gamay-Regular');
+}
+
+@font-face {
+  font-family: 'Gamay';
+  font-weight: 700;
+  src: local('Gamay Bold'), local('Gamay-Bold');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: #000;
+  background:
+    radial-gradient(
+      circle at 95vw -10vw,
+      #FFCE1B 0 20vw,
+      transparent 20vw 100%
+    ),
+    #ffffff;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Gotham Book', 'Montserrat', sans-serif;
+}
+
+.signup__page {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 120px;
+  padding-bottom: 60px;
+  position: relative;
+}
+
+/* Hero / Logo */
+.signup__page .hero {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1001;
+  padding: 20px 0 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.signup__page .hero p:first-child {
+  margin: 0;
+  line-height: 1;
+}
+
+.signup__page .hero p:last-child {
+  display: none;
+}
+
+.signup__page .hero img {
+  height: auto;
+  max-width: 120px;
+  display: block;
+}
+
+/* Topnav buttons */
+.signup__page .hero .topnav {
+  position: relative;
+  padding: 0 50px 0 0;
+  flex-shrink: 0;
+}
+
+.topnav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.topnav ul li {
+  padding: 0;
+  margin: 0;
+}
+
+.topnav ul li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.topnav ul li:nth-child(1) a {
+  background: #FFFFFF;
+  color: #000;
+}
+
+.topnav ul li:nth-child(2) a {
+  background: #000000;
+  color: #fff;
+}
+
+.topnav ul li a:hover {
+  opacity: 0.9;
+}
+
+/* Progress indicator */
+#progress-container {
+  text-align: center;
+  margin: 60px 0 20px;
+}
+
+#progress-text {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 10px;
+  text-transform: lowercase;
+  font-weight: 400;
+}
+
+.progress-background {
+  width: 100%;
+  max-width: 400px;
+  height: 2px;
+  background: #ECECEC;
+  border-radius: 1px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+#progress-bar {
+  background: #000;
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 1px;
+}
+
+/* Titles */
+.signup__form-title {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.2;
+  text-align: center;
+  margin: 0 0 15px;
+  color: #000;
+  padding: 0 15px;
+}
+
+.signup__form-title span:empty {
+  display: none;
+}
+
+.signup__section-title,
+.signup__group-title {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.2;
+  margin: 0 0 10px;
+  color: #000;
+  text-align: center;
+}
+
+/* Form sections */
+.signup__form-section {
+  margin-bottom: 60px;
+  background-color: transparent;
+  padding: 0;
+}
+
+#group-container {
+  min-height: 400px;
+}
+
+.signup__page p {
+  padding: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.signup__form-section > p {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+/* Input fields */
+.signup__form-field {
+  margin-bottom: 25px;
+  padding: 0 18px;
+}
+
+.signup__form-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #000;
+  font-weight: 400;
+}
+
+.signup__page .signup__form-field input[type="text"],
+.signup__page .signup__form-field input[type="search"],
+.signup__page .signup__form-field input[type="date"] {
+  font-family: 'Gotham Book', sans-serif;
+  font-weight: 300;
+  background: #fff;
+  border: 1px solid #ECECEC;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.06);
+  padding: 18px 20px;
+  font-size: 14px;
+  line-height: 14px;
+  color: #000;
+  border-radius: 8px;
+  outline: 0;
+  margin: 0;
+  height: 50px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.signup__page .signup__form-field input[type="text"]:focus,
+.signup__page .signup__form-field input[type="search"]:focus {
+  border-color: #000;
+  outline: none;
+}
+
+.signup__page .signup__form-field input[type="text"]::placeholder,
+.signup__page .signup__form-field input[type="search"]::placeholder {
+  color: #999;
+}
+
+/* Radio buttons - Situation */
+.signup__situation {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+
+.signup__situation .signup__form-group {
+  flex: 0 1 auto;
+  margin: 0;
+}
+
+.signup__situation .signup__form-field--radio {
+  padding: 0;
+  margin: 0;
+}
+
+.signup__situation .signup__form-field--radio label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 40px;
+  border: 1px solid #ECECEC;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 280px;
+  margin-bottom: 0;
+}
+
+.signup__situation .signup__form-field--radio label:hover {
+  border-color: #000;
+}
+
+.signup__situation .signup__form-field--radio:has(input:checked) label {
+  border-color: #000;
+  border-width: 2px;
+}
+
+.signup__situation .signup__form-field--radio label>span.signup__radio-wrap {
+  order: -1;
+  margin-right: 12px;
+}
+
+.signup__situation .signup__form-field--radio label>span.signup__radio-text {
+  margin-left: 0;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #000;
+}
+
+.signup__situation .signup__form-field--radio input:checked ~ .signup__radio-text {
+  font-weight: 700;
+}
+
+/* Radio/Checkbox styling */
+.signup__form-field.signup__form-field--radio label,
+.signup__form-field.signup__form-field--checkbox label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.signup__form-field label>span.signup__radio-wrap,
+.signup__form-field label>span.signup__checkbox-wrap {
+  position: relative;
+}
+
+.signup__form-field label>span.signup__radio-wrap input,
+.signup__form-field label>span.signup__checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.signup__form-field label>span.signup__radio-wrap .signup__radio-pseudo:before,
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: -1px;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
+  border-radius: 3px;
+}
+
+.signup__form-field label>span.signup__radio-wrap .signup__radio-pseudo:after {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: -1px;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:after {
+  content: "✓";
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5px;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  opacity: 0;
+  color: #000;
+  background: none;
+  transition: all 0.3s ease-out;
+  margin-top: -3px;
+}
+
+.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:before,
+.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
+  background: transparent;
+  border-color: #000;
+}
+
+.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:after {
+  background: #000;
+}
+
+.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after {
+  opacity: 1;
+}
+
+.signup__form-field label>span.signup__radio-text,
+.signup__form-field label>span.signup__checkbox-text {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+  margin-left: 30px;
+  color: #000;
+}
+
+/* Electrical product - House/Apartment selector */
+.signup__section--electrical_product {
+  text-align: center;
+  padding: 0;
+}
+
+.signup__section--electrical_product .signup__section-title {
+  color: #000;
+  text-align: center;
+  font-family: 'Gamay', 'Gotham Bold', sans-serif;
+  font-size: clamp(32px, 5vw, 48px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 15px;
+}
+
+.signup__section--electrical_product > p {
+  color: #000;
+  text-align: center;
+  font-family: 'Gamay', 'Gotham Book', sans-serif;
+  font-size: clamp(14px, 2vw, 16px);
+  font-style: normal;
+  font-weight: 100;
+  line-height: 140%;
+  margin-bottom: 50px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
+}
+
+.signup__electrical_product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.signup__electrical_product .signup__form-field--radio,
+.signup__electrical_product .signup__form-field--checkbox {
+  padding: 0;
+}
+
+.housing-type-selector {
+  display: flex;
+  gap: clamp(20px, 8vw, 120px);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 20px;
+}
+
+.housing-type-selector > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: center;
+  padding: 10px 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: #fff;
+  transition: all 0.3s ease;
+  flex: 0 1 auto;
+  min-width: 200px;
+  max-width: 280px;
+  width: 100%;
+}
+
+.housing-type-selector > div:hover {
+  border-color: rgba(0, 0, 0, 0.20);
+  transform: translateY(-2px);
+}
+
+.housing-type-selector > div:has(input:checked),
+.housing-type-selector > div[data-selected="true"] {
+  border-color: rgba(0, 0, 0, 0.20);
+  border-width: 1px;
+}
+
+.housing-type-selector > div img {
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+.housing-type-selector > div div:not(:first-child) {
+  color: #000;
+  text-align: center;
+  font-family: 'Gamay', 'Gotham Book', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 200;
+  line-height: 24px;
+  margin-top: 0;
+  border: none !important;
+  padding: 0;
+}
+
+/* Form help text */
+.signup__form-help {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #666;
+  margin: 10px 0 0;
+  text-align: left;
+}
+
+.signup__situation .signup__form-help {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Customer form */
+.signup__customer,
+.signup__installation_address_search,
+.signup__installation_address,
+.signup__situation_cos_start_date,
+.signup__situation_move_start_date,
+.signup__permissions_extras,
+.signup__payment_pbs_more {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: left;
+  flex-wrap: wrap;
+  margin: 0 -18px;
+}
+
+.signup__customer {
+  max-width: 800px;
+  margin: 40px auto;
+}
+
+.signup__customer .signup__form-field {
+  flex-basis: 50%;
+}
+
+.signup__installation_address_search {
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.signup__installation_address_search .signup__form-field {
+  flex-basis: 100%;
+}
+
+.signup__customer .signup__form-field label>span,
+.signup__installation_address_manual .signup__form-field label>span {
+  display: none;
+}
+
+/* Payment & Permissions */
+.signup__payment .signup__form-field--radio label,
+.signup__permissions .signup__form-field--checkbox label {
+  padding: 20px;
+  border: 2px solid #ECECEC;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-items: flex-start;
+}
+
+.signup__payment .signup__form-field--radio label:hover,
+.signup__permissions .signup__form-field--checkbox label:hover {
+  border-color: #000;
+}
+
+.signup__payment .signup__form-field--radio input:checked ~ .signup__radio-text,
+.signup__permissions .signup__form-field--checkbox input:checked ~ .signup__checkbox-text {
+  font-weight: 700;
+}
+
+/* Navigation buttons */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 60px 0 40px;
+  gap: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.actions input[type="submit"] {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#back-button {
+  background: transparent;
+  color: #666;
+  text-decoration: underline;
+  padding: 15px 0;
+}
+
+#back-button:hover {
+  color: #000;
+}
+
+#next-button {
+  background: #000;
+  color: #fff;
+  margin-left: auto;
+}
+
+#next-button:hover {
+  opacity: 0.9;
+}
+
+#next-button:disabled {
+  background: #888;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Error messages */
+.signup__has-error .signup__error-message {
+  color: #a00;
+  font-size: 12px;
+  padding: 0;
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+}
+
+.signup__has-error input[type="text"],
+.signup__has-error input[type="search"] {
+  border-color: #a00;
+}
+
+.signup__has-error.signup__input--changed .signup__error-message {
+  display: none;
+}
+
+/* Links */
+.signup__page a {
+  text-decoration: underline;
+  color: #000;
+  word-wrap: break-word;
+}
+
+.signup__page a:hover {
+  opacity: 0.7;
+}
+
+/* Dawa autocomplete */
+.signup__dawa_autocomplete label > span {
+  display: none;
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions {
+  margin: 10px 0 0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid #ECECEC;
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion {
+  color: #000;
+  padding: 14px 20px;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected,
+.signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:hover {
+  background: #f5f5f5;
+}
+
+/* Date picker icon */
+.signup__situation_move_start_date .signup__form-field:first-child label {
+  position: relative;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 10px;
+  top: 1px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+  background-repeat: no-repeat;
+  background-image: url(https://digitallydev.dk/nettopower/calendar.svg);
+  background-size: cover;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label input {
+  padding-left: 38px;
+}
+
+/* Submit section */
+.signup__section--submit {
+  border-radius: 0;
+  text-align: center;
+  padding: 0;
+  background: none;
+  margin-bottom: 0;
+}
+
+.signup__section--submit .signup__form-group {
+  background: transparent;
+  padding: 0;
+}
+
+.signup__section--submit .signup__section-title {
+  display: none;
+}
+
+.signup__submit {
+  font-family: 'Gotham Bold', sans-serif;
+  font-weight: 700;
+  background-color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 15px 40px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.signup__submit:hover,
+.signup__submit:focus {
+  opacity: 0.9;
+}
+
+.disabled {
+  background-color: #888;
+}
+
+/* Responsive */
+@media only screen and (max-width: 980px) {
+  .signup__form-field {
+    flex-basis: 100% !important;
+  }
+  
+  .signup__page {
+    padding-top: 140px;
+  }
+  
+  .signup__page .hero {
+    padding: 20px 0 0 20px;
+  }
+  
+  .signup__page .hero img {
+    max-width: 100px;
+  }
+  
+  .signup__page .hero .topnav {
+    padding: 0 20px 0 0;
+  }
+  
+  .topnav ul {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .topnav ul li a {
+    font-size: 12px;
+    padding: 10px 16px;
+  }
+  
+  .signup__section-title,
+  .signup__group-title,
+  .signup__form-title {
+    font-size: 32px;
+  }
+  
+  .signup__situation {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .signup__situation .signup__form-field--radio label {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .signup__section--electrical_product .signup__section-title {
+    font-size: 32px;
+  }
+  
+  .signup__section--electrical_product > p {
+  font-size: 14px;
+}
+
+  .housing-type-selector {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  
+  .housing-type-selector > div {
+    min-width: auto;
+    max-width: 100%;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+  
+  .housing-type-selector > div img {
+    max-width: 120px;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  #next-button {
+    margin-left: 0;
+    width: 100%;
+  }
+}
