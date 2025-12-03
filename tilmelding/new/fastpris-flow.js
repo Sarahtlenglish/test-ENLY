@@ -96,14 +96,11 @@ document.addEventListener('group:loaded', function() {
     const container = document.querySelector(CONFIG.SELECTOR_ELECTRICAL_PRODUCT);
     if (!container) return;
 
-    // Ensure all radio buttons start unchecked (unless cached/pre-filled)
+    // Ensure all radio buttons start unchecked on step 1
+    // This ensures a clean state unless the form system has pre-filled values (caching)
     const allRadios = container.querySelectorAll('input[type="radio"][name="prospect[electrical_product_name]"]');
     allRadios.forEach(radio => {
-        // Only uncheck if we're explicitly resetting (not if it's cached/pre-filled by the system)
-        // We'll respect any pre-filled values from the form system
-        if (!radio.hasAttribute('data-prefilled')) {
-            radio.checked = false;
-        }
+        radio.checked = false;
     });
     
     // Also disable all hidden inputs initially
