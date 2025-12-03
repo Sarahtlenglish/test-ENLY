@@ -1,27 +1,116 @@
 <script>
+// Configuration constants
+const CONFIG = {
+  // URLs
+  TYPEKIT_URL: 'https://use.typekit.net',
+  TYPEKIT_P_URL: 'https://p.typekit.net',
+  GITHUB_IMAGE_BASE: 'https://sarahtlenglish.github.io/test-ENLY/img',
+  GITHUB_RAW_BASE: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img',
+  VERCEL_IMAGE_BASE: 'https://h8nip4886wtjcobp.public.blob.vercel-storage.com',
+  
+  // Product Images (step 1 - electrical product) - using GitHub Pages
+  IMAGE_HOUSE_OFF: 'https://sarahtlenglish.github.io/test-ENLY/img/house_off.webp',
+  IMAGE_HOUSE_ON: 'https://sarahtlenglish.github.io/test-ENLY/img/house_on.webp',
+  IMAGE_FLAT_OFF: 'https://sarahtlenglish.github.io/test-ENLY/img/flat_off.webp',
+  IMAGE_FLAT_ON: 'https://sarahtlenglish.github.io/test-ENLY/img/flat_on.webp',
+  
+  // Product IDs
+  PRODUCT_ID_HOUSE: 34,
+  PRODUCT_ID_APARTMENT: 265,
+  
+  // Prices
+  PRICE_HOUSE: 650,
+  PRICE_APARTMENT: 400,
+  
+  // Delays (milliseconds)
+  DELAY_BUTTON_CLICK: 100,
+  DELAY_BUTTON_STATE_UPDATE: 50,
+  DELAY_REORGANIZE: 100,
+  
+  // Selectors
+  SELECTOR_ELECTRICAL_PRODUCT: '.signup__electrical_product',
+  SELECTOR_NEXT_BUTTON: '#next-button',
+  SELECTOR_GROUP_CONTAINER: '#group-container',
+  
+  // GTM/GA4
+  CURRENCY: 'DKK',
+  PRODUCT_CATEGORY: 'El',
+  DEFAULT_AFFILIATE: 'ENLY.dk',
+  DEFAULT_UNKNOWN: 'unknown',
+  DEFAULT_UNKNOWN_PRODUCT: 'Ukendt produkt',
+  
+  // Text content
+  TOOLTIP_HELP_LABEL: 'Hjælp',
+  TOOLTIP_TEXT_CHARGING: 'Uanset hvordan du lader derhjemme, skal vi vide det, hvis din faste pris skal dække opladning af elbil.',
+  TOOLTIP_TEXT_NO_CHARGER: 'Vælg denne hvis du ikke har noget som helst der bruger ekstra strøm i din bolig.',
+  TITLE_CHARGING: 'Jeg skal kunne lade hjemme',
+  DESC_CHARGING_LINE1: 'Hvis du har ladestander er der et tillæg til din faste pris.',
+  DESC_CHARGING_LINE2: 'Tilgængeld får du også en <strong>højere forbrugsgrænse</strong> på 250 kWh ekstra om måneden*',
+  SUBHEADING_SOLUTION: 'Vælg din løsning',
+  TITLE_NO_CHARGER: 'Jeg lader ikke elbil hjemme',
+  DESC_NO_CHARGER: 'Nix. Ingen elbil hjemme hos mig. Videre til min aftale.',
+  MOVE_DATE_LABEL: 'Angiv din indflytningsdato.',
+  
+  // Product keywords for categorization
+  KEYWORD_NO_CHARGER: ['ikke ladestander', 'har ikke']
+};
+
+// Add preconnect links for Typekit fonts
+(function() {
+  const preconnect1 = document.createElement('link');
+  preconnect1.rel = 'preconnect';
+  preconnect1.href = CONFIG.TYPEKIT_URL;
+  document.head.appendChild(preconnect1);
+
+  const preconnect2 = document.createElement('link');
+  preconnect2.rel = 'preconnect';
+  preconnect2.href = CONFIG.TYPEKIT_P_URL;
+  preconnect2.crossOrigin = 'anonymous';
+  document.head.appendChild(preconnect2);
+})();
+
+
 // Hus / Lejlighed radio
 document.addEventListener('group:loaded', function() {
     const options = [
         {
-            id: 34,
-            image: 'img/house.png',
-            selectedImage: 'img/house.png',
+            id: CONFIG.PRODUCT_ID_HOUSE,
+            image: CONFIG.IMAGE_HOUSE_OFF,
+            selectedImage: CONFIG.IMAGE_HOUSE_ON,
+            hoverImage: CONFIG.IMAGE_HOUSE_ON,
             label: 'Jeg bor i hus',
             variant: 'House',
-            price: 650
+            price: CONFIG.PRICE_HOUSE
         },
         {
-            id: 265,
-            image: 'img/flat.png',
-            selectedImage: 'img/flat.png',
+            id: CONFIG.PRODUCT_ID_APARTMENT,
+            image: CONFIG.IMAGE_FLAT_OFF,
+            selectedImage: CONFIG.IMAGE_FLAT_ON,
+            hoverImage: CONFIG.IMAGE_FLAT_ON,
             label: 'Jeg bor i lejlighed',
             variant: 'Apartment',
-            price: 400
+            price: CONFIG.PRICE_APARTMENT
         }
     ];
 
-    const container = document.querySelector('.signup__electrical_product');
+    const container = document.querySelector(CONFIG.SELECTOR_ELECTRICAL_PRODUCT);
     if (!container) return;
+
+    // Ensure all radio buttons start unchecked (unless cached/pre-filled)
+    const allRadios = container.querySelectorAll('input[type="radio"][name="prospect[electrical_product_name]"]');
+    allRadios.forEach(radio => {
+        // Only uncheck if we're explicitly resetting (not if it's cached/pre-filled by the system)
+        // We'll respect any pre-filled values from the form system
+        if (!radio.hasAttribute('data-prefilled')) {
+            radio.checked = false;
+        }
+    });
+    
+    // Also disable all hidden inputs initially
+    const allHiddenInputs = container.querySelectorAll('input[type="hidden"][name="prospect[electrical_product_id]"]');
+    allHiddenInputs.forEach(input => {
+        input.disabled = true;
+    });
 
     // Hide original radios and their labels
     const radioGroups = container.querySelectorAll('.signup__electrical_product_name');
@@ -30,11 +119,6 @@ document.addEventListener('group:loaded', function() {
     // Create wrapper for the image selector UI
     const imgWrapper = document.createElement('div');
     imgWrapper.className = 'housing-type-selector';
-    imgWrapper.style.display = 'flex';
-    imgWrapper.style.gap = '2rem';
-    imgWrapper.style.marginTop = '1rem';
-    imgWrapper.style.flexWrap = 'wrap';
-    imgWrapper.style.justifyContent = 'center';
 
     options.forEach(opt => {
         const radio = document.querySelector(`input[type="radio"][data-product-id="${opt.id}"]`);
@@ -51,52 +135,29 @@ document.addEventListener('group:loaded', function() {
         const helpText = originalGroup?.querySelector('.signup__form-help');
 
         const optionContainer = document.createElement('div');
-        optionContainer.style.display = 'flex';
-        optionContainer.style.flexDirection = 'column';
-        optionContainer.style.alignItems = 'center';
-        optionContainer.style.cursor = 'pointer';
-        optionContainer.style.textAlign = 'center';
-        optionContainer.style.padding = '10px 32px';
-        optionContainer.style.border = radio.checked ? '1px solid rgba(0, 0, 0, 0.20)' : '1px solid rgba(0, 0, 0, 0.10)';
-        optionContainer.style.borderRadius = '8px';
-        optionContainer.style.background = '#fff';
-        optionContainer.style.transition = 'all 0.3s ease';
-        optionContainer.style.minWidth = '200px';
-        optionContainer.style.maxWidth = '280px';
-        optionContainer.style.flex = '1 1 200px';
-        optionContainer.style.gap = '10px';
-        optionContainer.style.justifyContent = 'center';
+        optionContainer.className = 'housing-option-card';
+        // Always start unchecked - don't check radio.checked state
+        optionContainer.classList.remove('selected');
+        optionContainer.setAttribute('data-selected', 'false');
 
         const img = document.createElement('img');
-        img.src = radio.checked ? opt.selectedImage : opt.image;
-        img.style.width = '100%';
-        img.style.maxWidth = '140px';
-        img.style.height = 'auto';
-        img.style.borderRadius = '8px';
-        img.style.transition = '0.2s ease';
-        img.style.display = 'block';
+        // Always start with "off" image
+        img.src = opt.image;
+        img.alt = opt.label;
+        img.dataset.defaultImage = opt.image;
+        img.dataset.hoverImage = opt.hoverImage;
+        img.dataset.selectedImage = opt.selectedImage;
 
         const label = document.createElement('div');
+        label.className = 'housing-option-label';
         label.textContent = opt.label;
-        label.style.fontFamily = "'Gamay', 'Gotham Book', sans-serif";
-        label.style.fontWeight = '200';
-        label.style.fontSize = '14px';
-        label.style.color = '#000';
-        label.style.textAlign = 'center';
-        label.style.lineHeight = '24px';
-        label.style.marginTop = '0';
-        label.style.border = 'none';
-        label.style.padding = '0';
 
         const help = helpText ? helpText.cloneNode(true) : null;
         if (help) {
-            help.style.marginTop = '0.25rem';
-            help.style.fontSize = '13px';
-            help.style.color = '#666';
-            help.style.lineHeight = '1.3';
+            help.className = 'housing-option-help';
         }
 
-        const select = () => {
+        const select = async () => {
             document.querySelectorAll('input[type="radio"][name="prospect[electrical_product_name]"]').forEach(r => r.checked = false);
             document.querySelectorAll('input[type="hidden"][name="prospect[electrical_product_id]"]').forEach(hi => hi.disabled = true);
             radio.checked = true;
@@ -107,24 +168,71 @@ document.addEventListener('group:loaded', function() {
             );
             if (hiddenInput) hiddenInput.disabled = false;
 
+            // Trigger change events to ensure form validation
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+            radio.dispatchEvent(new Event('input', { bubbles: true }));
+            
+            const radioField = radio.closest('.signup__form-field--radio');
+            if (radioField) {
+                radioField.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
             // Update all option visuals
-            imgWrapper.querySelectorAll('div').forEach((container, i) => {
+            imgWrapper.querySelectorAll('.housing-option-card').forEach((container, i) => {
                 const o = options[i];
                 const r = document.querySelector(`input[type="radio"][data-product-id="${o.id}"]`);
-                if (r && r.checked) {
-                    container.style.border = '1px solid rgba(0, 0, 0, 0.20)';
-                    container.setAttribute('data-selected', 'true');
-                } else {
-                    container.style.border = '1px solid rgba(0, 0, 0, 0.10)';
-                    container.setAttribute('data-selected', 'false');
-                }
                 const img = container.querySelector('img');
-                if (img) {
-                    img.src = r && r.checked ? o.selectedImage : o.image;
+                
+                if (r && r.checked) {
+                    container.classList.add('selected');
+                    container.setAttribute('data-selected', 'true');
+                    if (img) {
+                        img.src = o.selectedImage;
+                    }
+                } else {
+                    container.classList.remove('selected');
+                    container.setAttribute('data-selected', 'false');
+                    if (img) {
+                        img.src = o.image;
+                    }
                 }
             });
+            
+            // Automatically submit and go to next step after a short delay to ensure events are processed
+            setTimeout(() => {
+                const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
+                if (nextButton) {
+                    // Temporarily enable button if disabled
+                    const wasDisabled = nextButton.disabled;
+                    if (wasDisabled) {
+                        nextButton.disabled = false;
+                    }
+                    nextButton.click();
+                    // Restore disabled state if it was disabled
+                    if (wasDisabled) {
+                        setTimeout(() => {
+                            nextButton.disabled = wasDisabled;
+                        }, CONFIG.DELAY_BUTTON_CLICK);
+                    }
+                }
+            }, CONFIG.DELAY_BUTTON_CLICK);
         };
 
+        // Add hover event listeners for image switching
+        optionContainer.addEventListener('mouseenter', function() {
+            const isSelected = this.classList.contains('selected') || this.getAttribute('data-selected') === 'true';
+            if (!isSelected) {
+                img.src = opt.hoverImage;
+            }
+        });
+        
+        optionContainer.addEventListener('mouseleave', function() {
+            const isSelected = this.classList.contains('selected') || this.getAttribute('data-selected') === 'true';
+            if (!isSelected) {
+                img.src = opt.image;
+            }
+        });
+        
         optionContainer.addEventListener('click', select);
         optionContainer.appendChild(img);
         optionContainer.appendChild(label);
@@ -134,6 +242,712 @@ document.addEventListener('group:loaded', function() {
 
     container.appendChild(imgWrapper);
 });
+
+// Situation selector (step 2) - konverter radio buttons til billedkort
+document.addEventListener('group:loaded', function() {
+    const situationContainer = document.querySelector('.signup__situation');
+    if (!situationContainer) return;
+    
+    // Tjek om vi allerede har oprettet selector'en
+    if (situationContainer.querySelector('.situation-type-selector')) {
+        return; // Allerede initialiseret
+    }
+    
+    const situationOptions = [
+        {
+            value: 'change_of_supplier',
+            image: `${CONFIG.VERCEL_IMAGE_BASE}/house_with_man.png`,
+            label: 'Jeg ønsker at skifte elleverandør'
+        },
+        {
+            value: 'move',
+            image: `${CONFIG.VERCEL_IMAGE_BASE}/hus_og_bil.png`,
+            label: 'Jeg skal flytte eller er lige flyttet ind'
+        }
+    ];
+
+    // Find og skjul original radio buttons
+    const radioFields = situationContainer.querySelectorAll('.signup__form-field--radio');
+    radioFields.forEach(field => field.style.display = 'none');
+
+    // Create wrapper for the image selector UI
+    const situationWrapper = document.createElement('div');
+    situationWrapper.className = 'situation-type-selector';
+
+    situationOptions.forEach(opt => {
+        // Prøv forskellige måder at finde radio button på
+        let radio = situationContainer.querySelector(`input[type="radio"][name*="situation"][value*="${opt.value}"]`);
+        
+        if (!radio) {
+            // Prøv at finde via label tekst
+            const labels = situationContainer.querySelectorAll('label');
+            for (let label of labels) {
+                const labelText = label.textContent.trim().toLowerCase();
+                if ((opt.value === 'change_of_supplier' && (labelText.includes('skifte') || labelText.includes('elleverandør'))) ||
+                    (opt.value === 'move' && (labelText.includes('flytte') || labelText.includes('flyttet')))) {
+                    radio = label.querySelector('input[type="radio"]');
+                    if (radio) break;
+                }
+            }
+        }
+        
+        if (!radio) {
+            // Hvis stadig ikke fundet, prøv at finde alle situation radios og match baseret på position
+            const allRadios = situationContainer.querySelectorAll('input[type="radio"][name*="situation"]');
+            if (allRadios.length >= 2) {
+                radio = opt.value === 'change_of_supplier' ? allRadios[0] : allRadios[1];
+            }
+        }
+        
+        if (!radio) return;
+
+        const optionCard = document.createElement('div');
+        optionCard.className = 'situation-option-card';
+        if (radio.checked) {
+            optionCard.classList.add('selected');
+            optionCard.setAttribute('data-selected', 'true');
+        }
+
+        const img = document.createElement('img');
+        img.src = opt.image;
+        img.alt = opt.label;
+
+        const label = document.createElement('div');
+        label.className = 'situation-option-label';
+        label.textContent = opt.label;
+
+        const selectSituation = () => {
+            // Uncheck all situation radios
+            situationContainer.querySelectorAll('input[type="radio"][name*="situation"]').forEach(r => r.checked = false);
+            radio.checked = true;
+            
+            // Trigger change event on radio to ensure form validation works
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+            radio.dispatchEvent(new Event('input', { bubbles: true }));
+            
+            // Update next button state (will be called automatically by event listeners)
+            updateNextButtonState();
+
+            // Update all option visuals
+            situationWrapper.querySelectorAll('.situation-option-card').forEach((card) => {
+                const cardRadioId = card.dataset.radioId;
+                const cardRadio = cardRadioId ? document.getElementById(cardRadioId) : null;
+                
+                if (cardRadio && cardRadio.checked) {
+                    card.classList.add('selected');
+                    card.setAttribute('data-selected', 'true');
+                } else {
+                    card.classList.remove('selected');
+                    card.setAttribute('data-selected', 'false');
+                }
+            });
+        };
+
+        if (!radio.id) {
+            radio.id = `situation_radio_${opt.value}_${Date.now()}`;
+        }
+        optionCard.dataset.value = opt.value;
+        optionCard.dataset.radioId = radio.id;
+        optionCard.addEventListener('click', selectSituation);
+        optionCard.appendChild(img);
+        optionCard.appendChild(label);
+        
+        situationWrapper.appendChild(optionCard);
+    });
+
+    // Find insert point - after section title, but ensure date/checkbox sections come AFTER cards
+    const sectionTitle = situationContainer.querySelector('.signup__section-title');
+    
+    // Insert after title
+    if (sectionTitle) {
+        if (sectionTitle.nextSibling) {
+            situationContainer.insertBefore(situationWrapper, sectionTitle.nextSibling);
+        } else {
+            situationContainer.appendChild(situationWrapper);
+        }
+    } else {
+        // Insert at beginning if no title
+        situationContainer.insertBefore(situationWrapper, situationContainer.firstChild);
+    }
+});
+
+// Gas product selector - konverter radio buttons til store tekst knapper
+document.addEventListener('group:loaded', function() {
+    const gasContainer = document.querySelector('.signup__gas_product');
+    if (!gasContainer) {
+        console.log('[GAS SELECTOR] Gas container not found');
+        return;
+    }
+    
+    console.log('[GAS SELECTOR] Initializing gas selector', {
+        container: gasContainer,
+        hasExistingSelector: !!gasContainer.querySelector('.gas-type-selector')
+    });
+    
+    // Tjek om vi allerede har oprettet selector'en
+    if (gasContainer.querySelector('.gas-type-selector')) {
+        console.log('[GAS SELECTOR] Selector already exists, skipping');
+        return; // Allerede initialiseret
+    }
+
+    // Find alle gas radio buttons
+    const radioFields = gasContainer.querySelectorAll('.signup__form-field--radio');
+    console.log('[GAS SELECTOR] Found radio fields:', radioFields.length);
+    if (radioFields.length === 0) {
+        console.log('[GAS SELECTOR] No radio fields found, skipping');
+        return;
+    }
+
+    // Find og skjul original radio buttons
+    radioFields.forEach(field => field.style.display = 'none');
+
+    // Create wrapper for the button selector UI
+    const gasWrapper = document.createElement('div');
+    gasWrapper.className = 'gas-type-selector';
+
+    // Find alle radio buttons og deres labels
+    const allRadios = gasContainer.querySelectorAll('input[type="radio"][name*="gas"]');
+    console.log('[GAS SELECTOR] Found radio buttons:', allRadios.length, Array.from(allRadios).map(r => ({
+        name: r.name,
+        value: r.value,
+        id: r.id,
+        checked: r.checked
+    })));
+    
+    allRadios.forEach((radio, index) => {
+        console.log('[GAS SELECTOR] Processing radio', index, {
+            name: radio.name,
+            value: radio.value,
+            id: radio.id
+        });
+        // Find label tekst
+        const radioField = radio.closest('.signup__form-field--radio');
+        if (!radioField) return;
+        
+        const labelElement = radioField.querySelector('label');
+        if (!labelElement) return;
+        
+        // Find label tekst (fjern radio button elementer fra teksten)
+        const labelText = labelElement.cloneNode(true);
+        labelText.querySelectorAll('input, span.signup__radio-wrap, span.signup__radio-pseudo').forEach(el => el.remove());
+        const labelTextContent = labelText.textContent.trim();
+        
+        if (!labelTextContent) return;
+
+        const optionCard = document.createElement('div');
+        optionCard.className = 'gas-option-card';
+        if (radio.checked) {
+            optionCard.classList.add('selected');
+            optionCard.setAttribute('data-selected', 'true');
+        }
+
+        const label = document.createElement('div');
+        label.className = 'gas-option-label';
+        label.textContent = labelTextContent;
+
+        const selectGas = () => {
+            console.log('[GAS SELECTOR] selectGas called', {
+                radioValue: radio.value,
+                radioName: radio.name,
+                radioId: radio.id,
+                productId: radio.dataset.productId
+            });
+            
+            // Uncheck all gas radios with same name
+            const radioName = radio.name;
+            gasContainer.querySelectorAll(`input[type="radio"][name="${radioName}"]`).forEach(r => r.checked = false);
+            radio.checked = true;
+            
+            console.log('[GAS SELECTOR] Radio checked:', radio.value);
+            
+            // Log all hidden inputs for debugging (but don't modify them)
+            const allHiddenInputs = gasContainer.querySelectorAll('input[type="hidden"][name*="gas"]');
+            console.log('[GAS SELECTOR] Found hidden inputs:', allHiddenInputs.length, Array.from(allHiddenInputs).map(hi => ({
+                name: hi.name,
+                value: hi.value,
+                disabled: hi.disabled
+            })));
+            
+            // Trigger change event on radio to ensure form validation works
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+            radio.dispatchEvent(new Event('input', { bubbles: true }));
+            console.log('[GAS SELECTOR] Dispatched change and input events');
+            
+            // Also trigger on the form field container
+            const radioField = radio.closest('.signup__form-field--radio');
+            if (radioField) {
+                radioField.dispatchEvent(new Event('change', { bubbles: true }));
+                console.log('[GAS SELECTOR] Dispatched change event on form field container');
+            }
+            
+            // Update next button state after selection
+            setTimeout(() => {
+                updateNextButtonState();
+            }, CONFIG.DELAY_BUTTON_STATE_UPDATE);
+            
+            // Log final state for debugging
+            console.log('[GAS SELECTOR] Selection complete. Current form state:', {
+                checkedRadio: gasContainer.querySelector('input[type="radio"]:checked')?.value,
+                allHiddenInputs: Array.from(gasContainer.querySelectorAll('input[type="hidden"][name*="gas"]')).map(hi => ({
+                    name: hi.name,
+                    value: hi.value,
+                    disabled: hi.disabled
+                }))
+            });
+
+            // Update all option visuals
+            gasWrapper.querySelectorAll('.gas-option-card').forEach((card) => {
+                const cardRadioId = card.dataset.radioId;
+                const cardRadio = cardRadioId ? document.getElementById(cardRadioId) : null;
+                
+                if (cardRadio && cardRadio.checked) {
+                    card.classList.add('selected');
+                    card.setAttribute('data-selected', 'true');
+                } else {
+                    card.classList.remove('selected');
+                    card.setAttribute('data-selected', 'false');
+                }
+            });
+            
+            console.log('[GAS SELECTOR] Selection complete. Current form state:', {
+                checkedRadio: gasContainer.querySelector('input[type="radio"]:checked')?.value,
+                allHiddenInputs: Array.from(gasContainer.querySelectorAll('input[type="hidden"][name*="gas"]')).map(hi => ({
+                    name: hi.name,
+                    value: hi.value,
+                    disabled: hi.disabled
+                }))
+            });
+        };
+
+        if (!radio.id) {
+            radio.id = `gas_radio_${index}_${Date.now()}`;
+        }
+        optionCard.dataset.radioId = radio.id;
+        optionCard.addEventListener('click', selectGas);
+        optionCard.appendChild(label);
+        
+        gasWrapper.appendChild(optionCard);
+    });
+    
+    console.log('[GAS SELECTOR] Created', gasWrapper.children.length, 'option cards');
+
+    // Find insert point - after section title
+    const sectionTitle = gasContainer.querySelector('.signup__section-title');
+    
+    // Insert after title
+    if (sectionTitle) {
+        if (sectionTitle.nextSibling) {
+            gasContainer.insertBefore(gasWrapper, sectionTitle.nextSibling);
+        } else {
+            gasContainer.appendChild(gasWrapper);
+        }
+    } else {
+        // Insert at beginning if no title
+        gasContainer.insertBefore(gasWrapper, gasContainer.firstChild);
+    }
+    
+    console.log('[GAS SELECTOR] Initialization complete');
+});
+
+// Installation address selector - konverter radio buttons til store tekst knapper
+document.addEventListener('group:loaded', function() {
+    const installationContainer = document.querySelector('.signup__installation_address_select');
+    if (!installationContainer) return;
+    
+    // Tjek om vi allerede har oprettet selector'en
+    if (installationContainer.querySelector('.installation-type-selector')) {
+        return; // Allerede initialiseret
+    }
+
+    // Find alle radio buttons og deres labels - prøv forskellige navne
+    let allRadios = installationContainer.querySelectorAll('input[type="radio"][name*="installation"]');
+    
+    // Hvis ingen fundet, prøv at finde alle radio buttons i containeren
+    if (allRadios.length === 0) {
+        allRadios = installationContainer.querySelectorAll('input[type="radio"]');
+    }
+    
+    // Hvis stadig ingen, prøv at finde via form-group
+    if (allRadios.length === 0) {
+        const formGroup = installationContainer.querySelector('.signup__form-group');
+        if (formGroup) {
+            allRadios = formGroup.querySelectorAll('input[type="radio"]');
+        }
+    }
+    
+    if (allRadios.length === 0) {
+        console.warn('No radio buttons found in installation_address_select');
+        return;
+    }
+
+    // Find alle installation radio button fields
+    const radioFields = installationContainer.querySelectorAll('.signup__form-field--radio');
+    
+    // Find og skjul original radio buttons (kun hvis vi har fundet nogle)
+    radioFields.forEach(field => field.style.display = 'none');
+
+    // Create wrapper for the button selector UI
+    const installationWrapper = document.createElement('div');
+    installationWrapper.className = 'installation-type-selector';
+    
+    allRadios.forEach((radio, index) => {
+        // Find label tekst
+        const radioField = radio.closest('.signup__form-field--radio');
+        if (!radioField) return;
+        
+        const labelElement = radioField.querySelector('label');
+        if (!labelElement) return;
+        
+        // Find label tekst (fjern radio button elementer fra teksten)
+        const labelText = labelElement.cloneNode(true);
+        labelText.querySelectorAll('input, span.signup__radio-wrap, span.signup__radio-pseudo').forEach(el => el.remove());
+        const labelTextContent = labelText.textContent.trim();
+        
+        if (!labelTextContent) return;
+
+        const optionCard = document.createElement('div');
+        optionCard.className = 'installation-option-card';
+        if (radio.checked) {
+            optionCard.classList.add('selected');
+            optionCard.setAttribute('data-selected', 'true');
+        }
+
+        const label = document.createElement('div');
+        label.className = 'installation-option-label';
+        label.textContent = labelTextContent;
+
+        const selectInstallation = () => {
+            // Uncheck all radios with same name
+            const radioName = radio.name;
+            installationContainer.querySelectorAll(`input[type="radio"][name="${radioName}"]`).forEach(r => r.checked = false);
+            radio.checked = true;
+            
+            // Trigger change event on radio to ensure form validation works
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+            radio.dispatchEvent(new Event('input', { bubbles: true }));
+            
+            // Also trigger on the form field container
+            const radioField = radio.closest('.signup__form-field--radio');
+            if (radioField) {
+                radioField.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            
+            // Button state will be updated automatically by event listeners
+
+            // Update all option visuals
+            installationWrapper.querySelectorAll('.installation-option-card').forEach((card) => {
+                const cardRadioId = card.dataset.radioId;
+                const cardRadio = cardRadioId ? document.getElementById(cardRadioId) : null;
+                
+                if (cardRadio && cardRadio.checked) {
+                    card.classList.add('selected');
+                    card.setAttribute('data-selected', 'true');
+                } else {
+                    card.classList.remove('selected');
+                    card.setAttribute('data-selected', 'false');
+                }
+            });
+        };
+
+        if (!radio.id) {
+            radio.id = `installation_radio_${index}_${Date.now()}`;
+        }
+        optionCard.dataset.radioId = radio.id;
+        optionCard.addEventListener('click', selectInstallation);
+        optionCard.appendChild(label);
+        
+        installationWrapper.appendChild(optionCard);
+    });
+
+    // Find insert point - after section title or form group
+    const sectionTitle = installationContainer.querySelector('.signup__section-title');
+    const formGroup = installationContainer.querySelector('.signup__form-group');
+    
+    // Insert after title or form group
+    if (sectionTitle) {
+        if (sectionTitle.nextSibling) {
+            installationContainer.insertBefore(installationWrapper, sectionTitle.nextSibling);
+        } else {
+            installationContainer.appendChild(installationWrapper);
+        }
+    } else if (formGroup) {
+        if (formGroup.nextSibling) {
+            installationContainer.insertBefore(installationWrapper, formGroup.nextSibling);
+        } else {
+            installationContainer.appendChild(installationWrapper);
+        }
+    } else {
+        // Insert at beginning if no title
+        installationContainer.insertBefore(installationWrapper, installationContainer.firstChild);
+    }
+});
+
+// Make date input fields fully clickable (only label and input, not entire form-field)
+function makeDateInputsClickable() {
+    const dateInputs = document.querySelectorAll('.signup__situation_cos_start_date input[type="date"], .signup__situation_move_start_date input[type="date"]');
+    
+    dateInputs.forEach(input => {
+        const label = input.closest('label');
+        if (!label) return;
+        
+        // Remove existing click handlers if any
+        label.removeEventListener('click', handleDateLabelClick);
+        input.removeEventListener('click', handleDateInputClick);
+        
+        // Add click handler to label (which contains the input)
+        label.addEventListener('click', handleDateLabelClick);
+        
+        // Also ensure input itself triggers calendar
+        input.addEventListener('click', handleDateInputClick);
+    });
+}
+
+function handleDateLabelClick(e) {
+    // Only trigger if clicking on the label itself or input, not nested elements
+    if (e.target === e.currentTarget || e.target.type === 'date') {
+        const dateInput = e.currentTarget.querySelector('input[type="date"]');
+        if (dateInput && typeof dateInput.showPicker === 'function') {
+            e.preventDefault();
+            dateInput.focus();
+            dateInput.showPicker();
+        }
+    }
+}
+
+function handleDateInputClick(e) {
+    // Direct click on input - open calendar
+    if (this.type === 'date' && typeof this.showPicker === 'function') {
+        e.stopPropagation();
+        this.showPicker();
+    }
+}
+
+// Reorganize COS and Move section elements to correct order
+function reorganizeSituationElements() {
+    // COS section: Checkbox -> Date picker -> Legal text
+    const cosMore = document.querySelector('.signup__situation_cos_more');
+    if (cosMore) {
+        const checkboxField = cosMore.querySelector('.signup__form-field--checkbox');
+        const dateSection = cosMore.querySelector('.signup__situation_cos_start_date');
+        
+        if (checkboxField && dateSection) {
+            // Ensure checkbox is first, then date section
+            if (cosMore.firstElementChild !== checkboxField) {
+                cosMore.insertBefore(checkboxField, cosMore.firstElementChild);
+            }
+        }
+    }
+    
+    // Move section: Date picker -> Text -> Checkbox
+    const moveStartDate = document.querySelector('.signup__situation_move_start_date');
+    if (moveStartDate) {
+        const dateField = moveStartDate.querySelector('.signup__form-field:not(.signup__situation_move_acknowledged)');
+        const helpText = moveStartDate.querySelector('.signup__form-help');
+        const checkboxField = moveStartDate.querySelector('.signup__situation_move_acknowledged');
+        
+        if (dateField && helpText && checkboxField) {
+            const parent = moveStartDate;
+            
+            // Remove all elements
+            const elements = [dateField, helpText, checkboxField];
+            elements.forEach(el => {
+                if (el && el.parentNode === parent) {
+                    parent.removeChild(el);
+                }
+            });
+            
+            // Reorder: date field first, then help text, then checkbox
+            parent.appendChild(dateField);
+            parent.appendChild(helpText);
+            parent.appendChild(checkboxField);
+        }
+    }
+    
+    // Make date inputs clickable after reorganization
+    makeDateInputsClickable();
+}
+
+// Initialize reorganization
+document.addEventListener('DOMContentLoaded', () => {
+    reorganizeSituationElements();
+    makeDateInputsClickable();
+});
+document.addEventListener('group:loaded', () => {
+    reorganizeSituationElements();
+    makeDateInputsClickable();
+});
+
+// Also reorganize when situation changes
+document.addEventListener('change', function(e) {
+    if (e.target.matches('input[type="radio"][name*="situation"]')) {
+        setTimeout(reorganizeSituationElements, CONFIG.DELAY_REORGANIZE);
+    }
+});
+
+// Add-on products - organize into groups with titles and descriptions
+function organizeAddOnProducts(root) {
+  const scope = root || document;
+  const container = scope.querySelector('.signup__electrical_additional_products');
+  if (!container) return;
+
+  // Check if already organized
+  if (container.querySelector('.addon-group-section')) return;
+
+  // Find all form groups with checkboxes (valgfrie produkter)
+  const formGroups = container.querySelectorAll('.signup__form-group');
+  if (formGroups.length === 0) return;
+
+  // Separate products: valgfrie (alle checkboxes) vs "ikke ladestander" (skal være en simpel knap)
+  const optionalProducts = [];
+  const hasNoChargerProducts = [];
+  
+  formGroups.forEach(formGroup => {
+    const checkbox = formGroup.querySelector('input[type="checkbox"]');
+    if (!checkbox) return;
+    
+    const checkboxText = formGroup.querySelector('.signup__checkbox-text')?.textContent?.toLowerCase() || '';
+    const productName = checkbox.dataset.productName?.toLowerCase() || '';
+    const fullText = (checkboxText + ' ' + productName).toLowerCase();
+    
+    // Check if this is "ikke ladestander" product
+    const isNoChargerProduct = CONFIG.KEYWORD_NO_CHARGER.some(keyword => fullText.includes(keyword));
+    if (isNoChargerProduct) {
+      hasNoChargerProducts.push(formGroup);
+    } else {
+      // All other products are optional and go in first toggle
+      optionalProducts.push(formGroup);
+    }
+  });
+
+  // Clear container and rebuild with groups
+  container.innerHTML = '';
+
+  // First toggle: "Jeg har elbil..." - shows all optional products
+  if (optionalProducts.length > 0) {
+    const section1 = document.createElement('div');
+    section1.className = 'addon-group-section';
+
+    const headerCard1 = document.createElement('div');
+    headerCard1.className = 'addon-group-header';
+    headerCard1.setAttribute('role', 'button');
+    headerCard1.setAttribute('tabindex', '0');
+    
+    // Tooltip icon - positioned in top right corner
+    const tooltipIcon1 = document.createElement('div');
+    tooltipIcon1.className = 'addon-tooltip-icon';
+    tooltipIcon1.setAttribute('aria-label', CONFIG.TOOLTIP_HELP_LABEL);
+    tooltipIcon1.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.3125C5.87512 1.3125 4.7755 1.64607 3.8402 2.27102C2.90489 2.89597 2.17591 3.78423 1.74544 4.82349C1.31496 5.86274 1.20233 7.00631 1.42179 8.10958C1.64124 9.21284 2.18292 10.2263 2.97833 11.0217C3.77374 11.8171 4.78716 12.3588 5.89043 12.5782C6.99369 12.7977 8.13726 12.685 9.17651 12.2546C10.2158 11.8241 11.104 11.0951 11.729 10.1598C12.3539 9.2245 12.6875 8.12488 12.6875 7C12.6861 5.49203 12.0864 4.04623 11.0201 2.97993C9.95377 1.91363 8.50798 1.31395 7 1.3125ZM7 11.8125C6.04818 11.8125 5.11773 11.5303 4.32632 11.0014C3.53491 10.4726 2.91808 9.72103 2.55383 8.84166C2.18959 7.9623 2.09428 6.99466 2.27997 6.06113C2.46566 5.12759 2.92401 4.27009 3.59705 3.59705C4.27009 2.92401 5.1276 2.46566 6.06113 2.27997C6.99466 2.09428 7.9623 2.18958 8.84167 2.55383C9.72104 2.91808 10.4726 3.53491 11.0014 4.32632C11.5303 5.11773 11.8125 6.04818 11.8125 7C11.8111 8.27591 11.3036 9.49915 10.4014 10.4014C9.49915 11.3036 8.27591 11.8111 7 11.8125ZM7.65625 9.84375C7.65625 9.97354 7.61776 10.1004 7.54565 10.2083C7.47354 10.3163 7.37105 10.4004 7.25114 10.45C7.13122 10.4997 6.99927 10.5127 6.87197 10.4874C6.74467 10.4621 6.62774 10.3996 6.53596 10.3078C6.44419 10.216 6.38168 10.0991 6.35636 9.97178C6.33104 9.84448 6.34404 9.71253 6.39371 9.59261C6.44338 9.4727 6.52749 9.37021 6.63541 9.2981C6.74333 9.22599 6.87021 9.1875 7 9.1875C7.17405 9.1875 7.34097 9.25664 7.46404 9.37971C7.58711 9.50278 7.65625 9.6697 7.65625 9.84375ZM8.96875 5.90625C8.96875 6.35236 8.81725 6.78524 8.53905 7.13399C8.26085 7.48273 7.87246 7.72665 7.4375 7.82578V7.875C7.4375 7.99103 7.39141 8.10231 7.30936 8.18436C7.22731 8.26641 7.11603 8.3125 7 8.3125C6.88397 8.3125 6.77269 8.26641 6.69064 8.18436C6.6086 8.10231 6.5625 7.99103 6.5625 7.875V7.4375C6.5625 7.32147 6.6086 7.21019 6.69064 7.12814C6.77269 7.04609 6.88397 7 7 7C7.21633 7 7.42779 6.93585 7.60766 6.81567C7.78752 6.69549 7.92771 6.52467 8.0105 6.32481C8.09328 6.12495 8.11494 5.90504 8.07274 5.69287C8.03053 5.4807 7.92636 5.28582 7.7734 5.13285C7.62044 4.97989 7.42555 4.87572 7.21338 4.83352C7.00122 4.79131 6.7813 4.81297 6.58144 4.89576C6.38159 4.97854 6.21077 5.11873 6.09058 5.29859C5.9704 5.47846 5.90625 5.68993 5.90625 5.90625C5.90625 6.02228 5.86016 6.13356 5.77811 6.21561C5.69606 6.29766 5.58478 6.34375 5.46875 6.34375C5.35272 6.34375 5.24144 6.29766 5.15939 6.21561C5.07735 6.13356 5.03125 6.02228 5.03125 5.90625C5.03125 5.38411 5.23867 4.88335 5.60789 4.51413C5.9771 4.14492 6.47786 3.9375 7 3.9375C7.52215 3.9375 8.02291 4.14492 8.39212 4.51413C8.76133 4.88335 8.96875 5.38411 8.96875 5.90625Z" fill="black" fill-opacity="0.3"/></svg>';
+    const tooltipText1 = document.createElement('div');
+    tooltipText1.className = 'addon-tooltip-text';
+    tooltipText1.textContent = CONFIG.TOOLTIP_TEXT_CHARGING;
+    tooltipIcon1.appendChild(tooltipText1);
+    headerCard1.appendChild(tooltipIcon1);
+    
+    const title1 = document.createElement('h3');
+    title1.className = 'signup__group-title';
+    title1.textContent = CONFIG.TITLE_CHARGING;
+    headerCard1.appendChild(title1);
+
+    const desc1a = document.createElement('p');
+    desc1a.className = 'addon-group-description-line1';
+    desc1a.textContent = CONFIG.DESC_CHARGING_LINE1;
+    headerCard1.appendChild(desc1a);
+
+    const desc1b = document.createElement('p');
+    desc1b.className = 'addon-group-description-line2';
+    desc1b.innerHTML = CONFIG.DESC_CHARGING_LINE2;
+    headerCard1.appendChild(desc1b);
+
+    const contentWrapper1 = document.createElement('div');
+    contentWrapper1.className = 'addon-group-content addon-group-content--hidden';
+
+    const subHeading1 = document.createElement('h4');
+    subHeading1.className = 'addon-sub-heading';
+    subHeading1.textContent = CONFIG.SUBHEADING_SOLUTION;
+    contentWrapper1.appendChild(subHeading1);
+
+    optionalProducts.forEach(formGroup => {
+      contentWrapper1.appendChild(formGroup);
+    });
+
+    const toggleContent1 = (e) => {
+      // Don't toggle if clicking on tooltip icon
+      if (e.target.closest('.addon-tooltip-icon')) {
+        return;
+      }
+      const isOpen = !contentWrapper1.classList.contains('addon-group-content--hidden');
+      contentWrapper1.classList.toggle('addon-group-content--hidden', isOpen);
+      headerCard1.classList.toggle('open', !isOpen);
+    };
+
+    headerCard1.addEventListener('click', toggleContent1);
+    headerCard1.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleContent1();
+      }
+    });
+
+    section1.appendChild(headerCard1);
+    section1.appendChild(contentWrapper1);
+    container.appendChild(section1);
+  }
+
+  // Second toggle: "Jeg har ikke ladestander" - simple button to continue
+  const section2 = document.createElement('div');
+  section2.className = 'addon-group-section';
+
+  const headerCard2 = document.createElement('div');
+  headerCard2.className = 'addon-group-header addon-group-skip-button';
+  headerCard2.setAttribute('role', 'button');
+  headerCard2.setAttribute('tabindex', '0');
+  
+  // Tooltip icon - positioned in top right corner
+  const tooltipIcon2 = document.createElement('div');
+  tooltipIcon2.className = 'addon-tooltip-icon';
+  tooltipIcon2.setAttribute('aria-label', CONFIG.TOOLTIP_HELP_LABEL);
+  tooltipIcon2.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.3125C5.87512 1.3125 4.7755 1.64607 3.8402 2.27102C2.90489 2.89597 2.17591 3.78423 1.74544 4.82349C1.31496 5.86274 1.20233 7.00631 1.42179 8.10958C1.64124 9.21284 2.18292 10.2263 2.97833 11.0217C3.77374 11.8171 4.78716 12.3588 5.89043 12.5782C6.99369 12.7977 8.13726 12.685 9.17651 12.2546C10.2158 11.8241 11.104 11.0951 11.729 10.1598C12.3539 9.2245 12.6875 8.12488 12.6875 7C12.6861 5.49203 12.0864 4.04623 11.0201 2.97993C9.95377 1.91363 8.50798 1.31395 7 1.3125ZM7 11.8125C6.04818 11.8125 5.11773 11.5303 4.32632 11.0014C3.53491 10.4726 2.91808 9.72103 2.55383 8.84166C2.18959 7.9623 2.09428 6.99466 2.27997 6.06113C2.46566 5.12759 2.92401 4.27009 3.59705 3.59705C4.27009 2.92401 5.1276 2.46566 6.06113 2.27997C6.99466 2.09428 7.9623 2.18958 8.84167 2.55383C9.72104 2.91808 10.4726 3.53491 11.0014 4.32632C11.5303 5.11773 11.8125 6.04818 11.8125 7C11.8111 8.27591 11.3036 9.49915 10.4014 10.4014C9.49915 11.3036 8.27591 11.8111 7 11.8125ZM7.65625 9.84375C7.65625 9.97354 7.61776 10.1004 7.54565 10.2083C7.47354 10.3163 7.37105 10.4004 7.25114 10.45C7.13122 10.4997 6.99927 10.5127 6.87197 10.4874C6.74467 10.4621 6.62774 10.3996 6.53596 10.3078C6.44419 10.216 6.38168 10.0991 6.35636 9.97178C6.33104 9.84448 6.34404 9.71253 6.39371 9.59261C6.44338 9.4727 6.52749 9.37021 6.63541 9.2981C6.74333 9.22599 6.87021 9.1875 7 9.1875C7.17405 9.1875 7.34097 9.25664 7.46404 9.37971C7.58711 9.50278 7.65625 9.6697 7.65625 9.84375ZM8.96875 5.90625C8.96875 6.35236 8.81725 6.78524 8.53905 7.13399C8.26085 7.48273 7.87246 7.72665 7.4375 7.82578V7.875C7.4375 7.99103 7.39141 8.10231 7.30936 8.18436C7.22731 8.26641 7.11603 8.3125 7 8.3125C6.88397 8.3125 6.77269 8.26641 6.69064 8.18436C6.6086 8.10231 6.5625 7.99103 6.5625 7.875V7.4375C6.5625 7.32147 6.6086 7.21019 6.69064 7.12814C6.77269 7.04609 6.88397 7 7 7C7.21633 7 7.42779 6.93585 7.60766 6.81567C7.78752 6.69549 7.92771 6.52467 8.0105 6.32481C8.09328 6.12495 8.11494 5.90504 8.07274 5.69287C8.03053 5.4807 7.92636 5.28582 7.7734 5.13285C7.62044 4.97989 7.42555 4.87572 7.21338 4.83352C7.00122 4.79131 6.7813 4.81297 6.58144 4.89576C6.38159 4.97854 6.21077 5.11873 6.09058 5.29859C5.9704 5.47846 5.90625 5.68993 5.90625 5.90625C5.90625 6.02228 5.86016 6.13356 5.77811 6.21561C5.69606 6.29766 5.58478 6.34375 5.46875 6.34375C5.35272 6.34375 5.24144 6.29766 5.15939 6.21561C5.07735 6.13356 5.03125 6.02228 5.03125 5.90625C5.03125 5.38411 5.23867 4.88335 5.60789 4.51413C5.9771 4.14492 6.47786 3.9375 7 3.9375C7.52215 3.9375 8.02291 4.14492 8.39212 4.51413C8.76133 4.88335 8.96875 5.38411 8.96875 5.90625Z" fill="black" fill-opacity="0.3"/></svg>';
+  const tooltipText2 = document.createElement('div');
+  tooltipText2.className = 'addon-tooltip-text';
+  tooltipText2.textContent = CONFIG.TOOLTIP_TEXT_NO_CHARGER;
+  tooltipIcon2.appendChild(tooltipText2);
+  headerCard2.appendChild(tooltipIcon2);
+  
+  const title2 = document.createElement('h3');
+  title2.className = 'signup__group-title';
+  title2.textContent = CONFIG.TITLE_NO_CHARGER;
+  headerCard2.appendChild(title2);
+
+  const desc2 = document.createElement('p');
+  desc2.className = 'addon-group-description';
+  desc2.textContent = CONFIG.DESC_NO_CHARGER;
+  headerCard2.appendChild(desc2);
+
+  // Click handler: just continue to next step (no products to select)
+  headerCard2.addEventListener('click', (e) => {
+    // Don't trigger if clicking on tooltip icon
+    if (e.target.closest('.addon-tooltip-icon')) {
+      return;
+    }
+    const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
+    if (nextButton && !nextButton.disabled) {
+      nextButton.click();
+    }
+  });
+
+  headerCard2.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
+      if (nextButton && !nextButton.disabled) {
+        nextButton.click();
+      }
+    }
+  });
+
+  section2.appendChild(headerCard2);
+  container.appendChild(section2);
+}
 
 // Add-on products
 function annotateAddOnCheckboxes(root) {
@@ -145,15 +959,67 @@ function annotateAddOnCheckboxes(root) {
     input.dataset.productId = input.value;
     // find visningsnavn fra label
     const label = input.closest('label');
-    input.dataset.productName = label ? label.innerText.trim() : 'Ukendt produkt';
+    const labelText = label ? label.textContent.trim() : '';
+    // Remove checkbox text from label text to get clean product name
+    const checkboxText = label?.querySelector('.signup__checkbox-text');
+    const productName = checkboxText ? checkboxText.textContent.trim() : labelText;
+    input.dataset.productName = productName || CONFIG.DEFAULT_UNKNOWN_PRODUCT;
     // hvis du ikke har pris, så sæt 0 eller hent fra et dataset hvis det findes
     if (!input.dataset.productPrice) input.dataset.productPrice = '0';
   });
+  
+  // Organize products into groups AFTER setting product names
+  organizeAddOnProducts(root);
+}
+
+// Update next button state based on form validation
+// Simplified approach: Let the system handle validation, we just check basic HTML5 validation
+function updateNextButtonState() {
+  const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
+  if (!nextButton) return;
+
+  const container = document.querySelector(CONFIG.SELECTOR_GROUP_CONTAINER);
+  if (!container) return;
+
+  // Check if we're on electrical_product step (step 1) - button should be hidden but enabled for programmatic clicks
+  if (container.querySelector('.signup__section--electrical_product')) {
+    nextButton.disabled = false;
+    return;
+  }
+
+  // Find the form element
+  const form = container.closest('form') || document.querySelector('form');
+  if (!form) {
+    nextButton.disabled = false;
+    return;
+  }
+
+  // Use HTML5 validation API - check if form is valid
+  // This respects required attributes and HTML5 validation rules
+  const isValid = form.checkValidity();
+  
+  // Also check if there are any visible error messages (from server-side validation)
+  const hasErrors = container.querySelector('.signup__has-error:not(.signup__input--changed)');
+  
+  // Disable if form is invalid OR there are visible errors
+  nextButton.disabled = !isValid || !!hasErrors;
 }
 
 // Kald ved domready og når grupper loader
-document.addEventListener('DOMContentLoaded', () => annotateAddOnCheckboxes());
-document.addEventListener('group:loaded', e => annotateAddOnCheckboxes(e?.detail?.containerEl));
+document.addEventListener('DOMContentLoaded', () => {
+  annotateAddOnCheckboxes();
+  updateNextButtonState();
+});
+document.addEventListener('group:loaded', e => {
+  const container = e?.detail?.container || document;
+  annotateAddOnCheckboxes(container);
+  updateNextButtonState();
+});
+
+// Listen for input/change events to update button state
+// Use event delegation for better performance
+document.addEventListener('input', updateNextButtonState, true);
+document.addEventListener('change', updateNextButtonState, true);
 
 window.addOnCart = window.addOnCart || {};
 
@@ -215,9 +1081,9 @@ document.addEventListener('group:completed', async function(event) {
       item_id: String(product.id),
       item_name: product.label,
       item_variant: product.variant,
-      item_category: "El",
+      item_category: CONFIG.PRODUCT_CATEGORY,
       price: product.price,
-      currency: "DKK",
+      currency: CONFIG.CURRENCY,
       quantity: 1
     };
 
@@ -231,7 +1097,7 @@ document.addEventListener('group:completed', async function(event) {
         },
         items: [window.selectedProduct]
       },
-      hashed_email: "abcd1234"
+      hashed_email: "abcd1234" // Mocked, brug sha256(container.email) i prod
     });
   }
 
@@ -267,10 +1133,10 @@ document.addEventListener('group:completed', async function(event) {
     dataLayer.push({
       event: "purchase",
       ecommerce: {
-        transaction_id: container.signup_id || "unknown",
-        affiliation: container.affiliate || "ENLY.dk",
+        transaction_id: container.signup_id || CONFIG.DEFAULT_UNKNOWN,
+        affiliation: container.affiliate || CONFIG.DEFAULT_AFFILIATE,
         value: totalValue,
-        currency: "DKK",
+        currency: CONFIG.CURRENCY,
         items: allItems
       }
     });
@@ -284,14 +1150,14 @@ document.addEventListener('change', function(e) {
   const el = e.target;
   const isChecked = el.checked;
   const productId = String(el.dataset.productId || el.value);
-  const productName = el.dataset.productName || 'Ukendt produkt';
+  const productName = el.dataset.productName || CONFIG.DEFAULT_UNKNOWN_PRODUCT;
   const productPrice = parseFloat(el.dataset.productPrice || '0');
 
   const item = {
     item_id: productId,
     item_name: productName,
     price: productPrice,
-    currency: 'DKK',
+    currency: CONFIG.CURRENCY,
     quantity: 1
   };
 

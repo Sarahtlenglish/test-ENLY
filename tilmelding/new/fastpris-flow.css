@@ -1,4 +1,140 @@
+/* Preconnect links should be added to HTML <head>:
+   <link rel="preconnect" href="https://use.typekit.net">
+   <link rel="preconnect" href="https://p.typekit.net" crossorigin>
+*/
+
+@import url('https://use.typekit.net/uqv7fhq.css');
+@import url('https://use.typekit.net/tik0ert.css');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+/* CSS Variables */
+:root {
+  /* Colors */
+  --White: #FFF;
+  --Black: #000;
+  --Dark: #222;
+  --Nautral-Lightest: #F9F9F9;
+  --Primary-Text: #155b64;
+  --Yellow-Accent: #FFCE1B;
+  --Gray-Light: #ECECEC;
+  --Gray-Medium: #999;
+  --Gray-Dark: #666;
+  --Gray-Darker: #333;
+  --Gray-Darkest: #333333;
+  --Error-Red: #a00;
+  --Disabled-Gray: #888;
+  --Hover-Bg: #f5f5f5;
+  
+  /* Opacity values */
+  --Opacity-Hover: 0.9;
+  --Opacity-Disabled: 0.6;
+  --Opacity-Link-Hover: 0.7;
+  --Opacity-Border-Light: 0.10;
+  --Opacity-Border-Medium: 0.20;
+  --Opacity-Shadow-Light: 0.05;
+  --Opacity-Shadow-Medium: 0.1;
+  --Opacity-Input-Shadow: 0.06;
+  --Opacity-Icon: 0.6;
+  --Opacity-Tooltip-Hover: 0.5;
+  
+  /* Typography */
+  --Font-Family: 'Gamay', sans-serif;
+  --Font-Size-XS: 12px;
+  --Font-Size-SM: 13px;
+  --Font-Size-Base: 14px;
+  --Font-Size-MD: 16px;
+  --Font-Size-LG: 18px;
+  --Font-Size-XL: 32px;
+  --Font-Size-XXL: 48px;
+  --Font-Weight-Light: 100;
+  --Font-Weight-Normal: 300;
+  --Font-Weight-Regular: 400;
+  --Font-Weight-Medium: 500;
+  --Font-Weight-Bold: 700;
+  --Font-Weight-ExtraBold: 800;
+  --Line-Height-Tight: 1;
+  --Line-Height-Normal: 1.2;
+  --Line-Height-Relaxed: 1.3;
+  --Line-Height-Loose: 1.4;
+  --Line-Height-XLoose: 1.5;
+  --Line-Height-Button: 24px;
+  --Line-Height-Label: 32px;
+  
+  /* Spacing */
+  --Spacing-XS: 0.25rem;
+  --Spacing-SM: 0.5rem;
+  --Spacing-MD: 0.75rem;
+  --Spacing-Base: 1rem;
+  --Spacing-LG: 1.5rem;
+  --Spacing-XL: 2rem;
+  --Spacing-XXL: 3rem;
+  --Spacing-Page-Top: 120px;
+  --Spacing-Page-Bottom: 60px;
+  --Spacing-Page-Top-Mobile: 140px;
+  --Spacing-Hero-Padding: 20px;
+  --Spacing-Hero-Padding-Large: 50px;
+  --Spacing-Form-Field: 25px;
+  --Spacing-Section-Bottom: 60px;
+  --Spacing-Progress-Margin: 20px;
+  
+  /* Border Radius */
+  --Radius-XS: 1px;
+  --Radius-SM: 2px;
+  --Radius-MD: 4px;
+  --Radius-LG: 8px;
+  
+  /* Transitions */
+  --Transition-Fast: 0.2s ease;
+  --Transition-Base: 0.3s ease;
+  --Transition-Slow: 0.3s ease-out;
+  
+  /* Layout */
+  --Max-Width-Page: 1200px;
+  --Max-Width-Form: 800px;
+  --Max-Width-Form-Large: 900px;
+  --Max-Width-Form-XLarge: 1200px;
+  --Max-Width-Progress: 400px;
+  --Max-Width-Button-Container: 600px;
+  --Max-Width-Text: 700px;
+  --Max-Width-Logo: 120px;
+  --Max-Width-Logo-Mobile: 100px;
+  --Max-Width-Housing-Card: 280px;
+  --Max-Width-Housing-Image: 240px;
+  --Max-Width-Housing-Image-Mobile: 120px;
+  --Min-Height-Page: 100vh;
+  --Min-Height-Container: 400px;
+  --Min-Height-Situation-Card: 320px;
+  --Width-Date-Input: 22.5rem;
+  
+  /* Z-Index */
+  --Z-Index-Base: 1;
+  --Z-Index-Tooltip-Icon: 10;
+  --Z-Index-Hero: 1001;
+  --Z-Index-Tooltip: 10000;
+  
+  /* Breakpoints */
+  --Breakpoint-Mobile: 980px;
+  
+  /* Specific dimensions */
+  --Input-Height: 50px;
+  --Input-Padding-X: 20px;
+  --Input-Padding-Y: 18px;
+  --Button-Padding-X: 40px;
+  --Button-Padding-Y: 15px;
+  --Radio-Size: 20px;
+  --Checkbox-Size: 16px;
+  --Radio-Inner-Size: 8px;
+  --Tooltip-Icon-Size: 14px;
+  --Calendar-Icon-Size: 24px;
+  --Calendar-Icon-Size-Large: 32px;
+  --Date-Text-Color: rgba(0, 0, 0, 0.60);
+  --Date-Line-Height: 20px;
+  --Topnav-Gap: 12px;
+  --Topnav-Gap-Mobile: 8px;
+  --Card-Gap: 10px;
+  --Selector-Gap: 2rem;
+  --Selector-Gap-Mobile: 15px;
+}
 
 /* Gamay font - fallback to system fonts if not available */
 @font-face {
@@ -23,29 +159,35 @@
   box-sizing: border-box;
 }
 
+html {
+  min-height: 100vh;
+}
+
 body {
-  color: #000;
+  color: var(--Primary-Text);
   background:
     radial-gradient(
-      circle at 95vw -10vw,
-      #FFCE1B 0 20vw,
+      circle at 92% 10%,
+      var(--Yellow-Accent) 0 20vw,   /* yellow radius */
       transparent 20vw 100%
     ),
-    #ffffff;
+    var(--Nautral-Lightest); /* page background */
   background-repeat: no-repeat;
+  background-attachment: fixed;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  font-family: 'Gotham Book', 'Montserrat', sans-serif;
+  min-height: var(--Min-Height-Page);
+  font-family: var(--Font-Family);
 }
 
 .signup__page {
-  max-width: 1200px;
+  max-width: var(--Max-Width-Page);
   margin-left: auto;
   margin-right: auto;
-  padding-top: 120px;
-  padding-bottom: 60px;
+  padding-top: var(--Spacing-Page-Top);
+  padding-bottom: var(--Spacing-Page-Bottom);
   position: relative;
+  background: transparent;
 }
 
 /* Hero / Logo */
@@ -54,8 +196,8 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1001;
-  padding: 20px 0 0 50px;
+  z-index: var(--Z-Index-Hero);
+  padding: var(--Spacing-Hero-Padding) 0 0 var(--Spacing-Hero-Padding-Large);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -72,14 +214,14 @@ body {
 
 .signup__page .hero img {
   height: auto;
-  max-width: 120px;
+  max-width: var(--Max-Width-Logo);
   display: block;
 }
 
 /* Topnav buttons */
 .signup__page .hero .topnav {
   position: relative;
-  padding: 0 50px 0 0;
+  padding: 0 var(--Spacing-Hero-Padding-Large) 0 0;
   flex-shrink: 0;
 }
 
@@ -88,7 +230,7 @@ body {
   padding: 0;
   margin: 0;
   display: flex;
-  gap: 12px;
+  gap: var(--Topnav-Gap);
   align-items: center;
 }
 
@@ -100,73 +242,71 @@ body {
 .topnav ul li a {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: 'Gotham Bold', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  padding: 12px 20px;
-  border-radius: 8px;
+  gap: var(--Spacing-MD);
+  font-weight: var(--Font-Weight-Bold);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Line-Height-Tight);
+  padding: var(--Font-Size-XS) var(--Spacing-Hero-Padding);
+  border-radius: var(--Radius-LG);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all var(--Transition-Base);
   white-space: nowrap;
 }
 
 .topnav ul li:nth-child(1) a {
-  background: #FFFFFF;
-  color: #000;
+  background: var(--White);
+  color: var(--Black);
 }
 
 .topnav ul li:nth-child(2) a {
-  background: #000000;
-  color: #fff;
+  background: var(--Black);
+  color: var(--White);
 }
 
 .topnav ul li a:hover {
-  opacity: 0.9;
+  opacity: var(--Opacity-Hover);
 }
 
 /* Progress indicator */
 #progress-container {
   text-align: center;
-  margin: 60px 0 20px;
+  margin: var(--Spacing-Page-Bottom) 0 var(--Spacing-Progress-Margin);
 }
 
 #progress-text {
-  font-size: 14px;
-  color: #999;
-  margin-bottom: 10px;
+  font-size: var(--Font-Size-Base);
+  color: var(--Gray-Medium);
+  margin-bottom: var(--Spacing-SM);
   text-transform: lowercase;
-  font-weight: 400;
+  font-weight: var(--Font-Weight-Regular);
 }
 
 .progress-background {
   width: 100%;
-  max-width: 400px;
-  height: 2px;
-  background: #ECECEC;
-  border-radius: 1px;
+  max-width: var(--Max-Width-Progress);
+  height: var(--Radius-SM);
+  background: var(--Gray-Light);
+  border-radius: var(--Radius-XS);
   margin: 0 auto;
   overflow: hidden;
 }
 
 #progress-bar {
-  background: #000;
+  background: var(--Black);
   height: 100%;
-  transition: width 0.3s ease;
-  border-radius: 1px;
+  transition: width var(--Transition-Base);
+  border-radius: var(--Radius-XS);
 }
 
 /* Titles */
 .signup__form-title {
-  font-family: 'Gotham Bold', sans-serif;
-  font-weight: 700;
-  font-size: 48px;
-  line-height: 1.2;
+  font-weight: var(--Font-Weight-Bold);
+  font-size: var(--Font-Size-XXL);
+  line-height: var(--Line-Height-Normal);
   text-align: center;
-  margin: 0 0 15px;
-  color: #000;
-  padding: 0 15px;
+  margin: 0 0 var(--Spacing-LG);
+  color: var(--Black);
+  padding: 0 var(--Spacing-LG);
 }
 
 .signup__form-title span:empty {
@@ -175,94 +315,290 @@ body {
 
 .signup__section-title,
 .signup__group-title {
-  font-family: 'Gotham Bold', sans-serif;
-  font-weight: 700;
-  font-size: 48px;
-  line-height: 1.2;
-  margin: 0 0 10px;
-  color: #000;
+  font-weight: var(--Font-Weight-Bold);
+  font-size: var(--Font-Size-XXL);
+  line-height: var(--Line-Height-Normal);
+  margin: 0 0 var(--Spacing-SM);
+  color: var(--Black);
   text-align: center;
+}
+
+/* Gas product section - styled like situation but with larger text buttons */
+.signup__gas_product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  text-align: center;
+  max-width: var(--Max-Width-Form);
+  margin: 0 auto;
+}
+
+.signup__gas_product .gas-type-selector {
+  display: flex;
+  gap: var(--Selector-Gap);
+  margin: var(--Spacing-XXL) 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+}
+
+.gas-option-card {
+  display: flex;
+  padding: var(--Font-Size-MD) calc(var(--Font-Size-XL) - var(--Font-Size-MD));
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--Card-Gap);
+  border-radius: var(--Radius-MD);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--Transition-Base);
+  flex: 0 1 auto;
+}
+
+.gas-option-card:hover {
+  border-radius: var(--Radius-MD);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: var(--White);
+}
+
+.gas-option-card.selected,
+.gas-option-card[data-selected="true"] {
+  border-radius: var(--Radius-MD);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: var(--White);
+}
+
+.gas-option-label {
+  font-weight: var(--Font-Weight-Regular);
+  font-size: clamp(var(--Font-Size-MD), 2vw, var(--Font-Size-LG));
+  color: var(--Black);
+  text-align: center;
+  line-height: var(--Line-Height-Loose);
+  margin: 0;
+}
+
+.signup__gas_product .signup__form-field--radio {
+  padding: 0;
+  margin: 0;
+  display: none !important;
+}
+
+/* Installation address select - styled like gas buttons */
+.signup__installation_address_select {
+  max-width: var(--Max-Width-Form);
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.signup__installation_address_select .installation-type-selector {
+  display: flex;
+  gap: var(--Selector-Gap);
+  margin: var(--Spacing-XXL) 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+}
+
+.installation-option-card {
+  display: flex;
+  padding: var(--Font-Size-MD) calc(var(--Font-Size-XL) - var(--Font-Size-MD));
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--Card-Gap);
+  border-radius: var(--Radius-MD);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--Transition-Base);
+  flex: 0 1 auto;
+}
+
+.installation-option-card:hover {
+  border-radius: var(--Radius-MD);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: var(--White);
+}
+
+.installation-option-card.selected,
+.installation-option-card[data-selected="true"] {
+  border-radius: var(--Radius-MD);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: var(--White);
+}
+
+.installation-option-label {
+  font-weight: var(--Font-Weight-Regular);
+  font-size: clamp(var(--Font-Size-MD), 2vw, var(--Font-Size-LG));
+  color: var(--Black);
+  text-align: center;
+  line-height: var(--Line-Height-Loose);
+  margin: 0;
+}
+
+.signup__installation_address_select .signup__form-field--radio {
+  padding: 0;
+  margin: 0;
+  display: none !important;
 }
 
 /* Form sections */
 .signup__form-section {
-  margin-bottom: 60px;
+  margin-bottom: var(--Spacing-Section-Bottom);
   background-color: transparent;
   padding: 0;
 }
 
 #group-container {
-  min-height: 400px;
+  min-height: var(--Min-Height-Container);
 }
 
 .signup__page p {
   padding: 0;
-  margin-bottom: 20px;
+  margin-bottom: var(--Spacing-Hero-Padding);
   text-align: center;
-  color: #666;
-  font-size: 14px;
-  line-height: 1.5;
+  color: var(--Gray-Dark);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Line-Height-XLoose);
 }
 
 .signup__form-section > p {
   text-align: center;
-  margin-bottom: 30px;
-  color: #666;
+  margin-bottom: calc(var(--Spacing-Page-Bottom) / 2);
+  color: var(--Gray-Dark);
 }
 
 /* Input fields */
 .signup__form-field {
-  margin-bottom: 25px;
-  padding: 0 18px;
+  margin-bottom: var(--Spacing-Form-Field);
+  padding: 0 var(--Spacing-LG);
 }
 
 .signup__form-field label {
   display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #000;
-  font-weight: 400;
+  margin-bottom: var(--Spacing-MD);
+  font-size: var(--Font-Size-Base);
+  color: var(--Black);
+  font-weight: var(--Font-Weight-Regular);
 }
 
 .signup__page .signup__form-field input[type="text"],
 .signup__page .signup__form-field input[type="search"],
 .signup__page .signup__form-field input[type="date"] {
-  font-family: 'Gotham Book', sans-serif;
-  font-weight: 300;
-  background: #fff;
-  border: 1px solid #ECECEC;
-  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.06);
-  padding: 18px 20px;
-  font-size: 14px;
-  line-height: 14px;
-  color: #000;
-  border-radius: 8px;
+  font-weight: var(--Font-Weight-Normal);
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,var(--Opacity-Input-Shadow));
+  padding: var(--Input-Padding-Y) var(--Input-Padding-X);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Font-Size-Base);
+  color: var(--Black);
   outline: 0;
   margin: 0;
-  height: 50px;
+  height: var(--Input-Height);
   width: 100%;
-  transition: border-color 0.3s ease;
+  transition: border-color var(--Transition-Base);
+  border-radius: var(--Radius-MD);
+  background: var(--White);
+  border: 0.5px solid rgba(0, 0, 0, var(--Opacity-Border-Medium));
 }
 
 .signup__page .signup__form-field input[type="text"]:focus,
 .signup__page .signup__form-field input[type="search"]:focus {
-  border-color: #000;
+  border-color: var(--Black);
   outline: none;
 }
 
 .signup__page .signup__form-field input[type="text"]::placeholder,
 .signup__page .signup__form-field input[type="search"]::placeholder {
-  color: #999;
+  color: var(--Gray-Medium);
 }
 
 /* Radio buttons - Situation */
 .signup__situation {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  margin: 40px 0;
+  text-align: center;
+}
+
+/* Ensure situation cards come before date/checkbox sections */
+.signup__situation .situation-type-selector {
+  order: 1;
+}
+
+.signup__situation .signup__situation_cos_more,
+.signup__situation .signup__situation_move_more,
+.signup__situation .signup__situation_move_start_date {
+  order: 2;
+}
+
+.situation-type-selector {
+  display: flex !important;
+  gap: var(--Selector-Gap);
+  margin: var(--Spacing-XXL) 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: var(--Max-Width-Form-Large);
+}
+
+.situation-option-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: var(--Font-Size-XL);
+    border-radius: var(--Radius-LG);
+    border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+    background: transparent;
+  cursor: pointer;
+  transition: all var(--Transition-Base);
+  width: var(--Max-Width-Housing-Card);
+  min-height: var(--Min-Height-Situation-Card);
+  gap: var(--Card-Gap);
+  flex: 0 1 auto;
+}
+
+.situation-option-card:hover {
+  border-radius: var(--Radius-LG);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: var(--White);
+}
+
+.situation-option-card.selected,
+.situation-option-card[data-selected="true"] {
+  border-radius: var(--Radius-LG);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: var(--White);
+}
+
+.situation-option-card img {
+  width: 100%;
+  max-width: var(--Max-Width-Housing-Image);
+  height: auto;
+  border-radius: var(--Radius-LG);
+  margin-bottom: 0;
+  object-fit: contain;
+  flex-shrink: 0;
+  transition: var(--Transition-Fast);
+  display: block;
+}
+
+.situation-option-label {
+    font-weight: var(--Font-Weight-Medium);
+    font-size: var(--Font-Size-MD);
+    color: var(--Black);
+  text-align: center;
+    line-height: var(--Line-Height-Loose);
 }
 
 .signup__situation .signup__form-group {
@@ -273,46 +609,405 @@ body {
 .signup__situation .signup__form-field--radio {
   padding: 0;
   margin: 0;
+  display: none !important;
 }
 
 .signup__situation .signup__form-field--radio label {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 40px;
-  border: 1px solid #ECECEC;
-  border-radius: 8px;
-  background: #fff;
+  padding: var(--Spacing-Hero-Padding) var(--Button-Padding-X);
+  border: 1px solid var(--Gray-Light);
+  border-radius: var(--Radius-LG);
+  background: var(--White);
   cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 280px;
+  transition: all var(--Transition-Base);
+  min-width: var(--Max-Width-Housing-Card);
   margin-bottom: 0;
 }
 
 .signup__situation .signup__form-field--radio label:hover {
-  border-color: #000;
+  border-color: var(--Black);
 }
 
 .signup__situation .signup__form-field--radio:has(input:checked) label {
-  border-color: #000;
-  border-width: 2px;
+  border-color: var(--Black);
+  border-width: var(--Radius-SM);
 }
 
 .signup__situation .signup__form-field--radio label>span.signup__radio-wrap {
   order: -1;
-  margin-right: 12px;
+  margin-right: var(--Font-Size-XS);
 }
 
 .signup__situation .signup__form-field--radio label>span.signup__radio-text {
   margin-left: 0;
-  font-family: 'Gotham Bold', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  color: #000;
+  font-weight: var(--Font-Weight-Bold);
+  font-size: var(--Font-Size-MD);
+  color: var(--Black);
 }
 
 .signup__situation .signup__form-field--radio input:checked ~ .signup__radio-text {
   font-weight: 700;
+}
+
+/* Situation date sections - override with column layout */
+.signup__situation_cos_more {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: var(--Max-Width-Form);
+  margin: clamp(var(--Spacing-Base), 2vh, var(--Spacing-XL)) auto 0;
+  padding: clamp(var(--Spacing-Hero-Padding), 4vw, calc(var(--Button-Padding-X) * 2));
+  text-align: left;
+  background-color: var(--White);
+  border-radius: var(--Radius-LG);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  box-shadow: none;
+}
+
+/* COS section order: Checkbox (1) -> Date picker (2) -> Legal text (3) */
+.signup__situation_cos_more .signup__form-field--checkbox {
+  order: 1;
+}
+
+.signup__situation_cos_more .signup__situation_cos_start_date {
+  order: 2;
+}
+
+.signup__situation_cos_more .signup__situation_cos_start_date .signup__form-field {
+  order: 1;
+}
+
+.signup__situation_cos_more .signup__situation_cos_start_date .signup__form-help {
+  order: 2;
+}
+
+.signup__situation_move_more {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: var(--Max-Width-Form);
+  margin: clamp(var(--Spacing-Base), 2vh, var(--Spacing-XL)) auto 0;
+  padding: clamp(var(--Spacing-Hero-Padding), 4vw, calc(var(--Button-Padding-X) * 2));
+  text-align: left;
+  background-color: var(--White);
+  border-radius: var(--Radius-LG);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  box-shadow: none;
+}
+
+.signup__situation_move_start_date {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  gap: 0;
+}
+
+/* Move section order: Date picker (1) -> Text (2) -> Checkbox (3) */
+.signup__situation_move_start_date .signup__form-field:not(.signup__situation_move_acknowledged) {
+  order: 1;
+  width: 100%;
+  margin-bottom: clamp(0.5rem, 1vh, 1rem);
+}
+
+.signup__situation_move_start_date .signup__form-help {
+  order: 2;
+  width: 100%;
+  margin: 0 0 clamp(0.75rem, 1.5vh, 1.5rem) 0;
+}
+
+.signup__situation_move_start_date .signup__situation_move_acknowledged {
+  order: 3;
+  width: 100%;
+  margin-top: 0;
+}
+
+/* COS start date should be inline with checkbox, not separate card */
+.signup__situation_cos_start_date {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  margin: clamp(0.75rem, 1.5vh, 1.5rem) 0 0 0;
+  padding: 0;
+  text-align: left;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Styling for dato-felter og samtykke i situation-sektionen */
+.signup__situation_cos_start_date .signup__group-title {
+  display: none !important;
+}
+
+.signup__situation_move_start_date .signup__group-title {
+  font-weight: var(--Font-Weight-Bold);
+  font-size: var(--Font-Size-XS);
+  line-height: var(--Line-Height-Relaxed);
+  color: var(--Gray-Darkest);
+  margin: 0 0 clamp(var(--Spacing-SM), 1vh, var(--Spacing-Base)) 0;
+  width: 100%;
+  text-align: left;
+  display: block;
+}
+
+/* Move section - add label for date input */
+.signup__situation_move_start_date .signup__form-field:first-child label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.signup__situation_move_start_date .signup__form-field:first-child label::before {
+  content: "Angiv din indflytningsdato.";
+  display: block;
+  font-size: var(--Font-Size-XS);
+  color: var(--Gray-Darkest);
+  margin-bottom: clamp(var(--Spacing-XS), 0.5vh, var(--Spacing-SM));
+  font-weight: var(--Font-Weight-Regular);
+  width: 100%;
+}
+
+/* Dato input felter - begge sektioner */
+.signup__situation_cos_start_date .signup__form-field,
+.signup__situation_move_start_date .signup__form-field:not(.signup__situation_move_acknowledged) {
+  width: 100%;
+  padding: 0;
+  margin-bottom: clamp(0.5rem, 1vh, 1rem);
+  position: relative;
+}
+
+/* Make label and input clickable (not entire form-field) */
+.signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label,
+.signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label {
+  cursor: pointer;
+}
+
+.signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) input[type="date"],
+.signup__situation_move_start_date .signup__form-field:has(input[type="date"]) input[type="date"] {
+  cursor: pointer;
+  padding-right: calc(var(--Calendar-Icon-Size-Large) + var(--Spacing-LG) + var(--Spacing-MD));
+}
+
+.signup__situation_cos_start_date .signup__form-field label,
+.signup__situation_move_start_date .signup__form-field label:not(.signup__situation_move_acknowledged label) {
+  font-size: var(--Font-Size-XS);
+  color: var(--Gray-Darkest);
+  margin-bottom: clamp(var(--Spacing-XS), 0.5vh, var(--Spacing-SM));
+  display: block;
+  width: 100%;
+  font-weight: var(--Font-Weight-Regular);
+  position: relative;
+}
+
+.signup__situation_cos_start_date .signup__form-field label input[type="date"],
+.signup__situation_move_start_date .signup__form-field label input[type="date"] {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"],
+.signup__situation_move_start_date .signup__form-field input[type="date"],
+.signup__situation_cos_start_date .signup__form-field input[type="text"],
+.signup__situation_move_start_date .signup__form-field input[type="text"] {
+  width: var(--Width-Date-Input);
+  font-family: var(--Font-Family);
+  font-size: var(--Font-Size-XS);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Date-Line-Height);
+  color: var(--Date-Text-Color);
+  background: var(--White);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Medium));
+  border-radius: var(--Radius-SM);
+  box-shadow: none;
+  box-sizing: border-box;
+  position: relative;
+  margin-top: 0;
+  align-self: flex-start;
+  cursor: pointer;
+}
+
+/* Calendar icon - positioned on label, aligned with input field */
+.signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label,
+.signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label {
+  position: relative;
+}
+
+.signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label::after,
+.signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label::after {
+  content: "";
+  display: block;
+  position: absolute;
+  right: var(--Spacing-LG);
+  bottom: 0;
+  width: var(--Calendar-Icon-Size-Large);
+  height: var(--Calendar-Icon-Size-Large);
+  opacity: 1;
+  background-repeat: no-repeat;
+  background-image: url(https://digitallydev.dk/nettopower/calendar.svg);
+  background-size: contain;
+  background-position: center;
+  pointer-events: none;
+  z-index: var(--Z-Index-Tooltip-Icon);
+  filter: opacity(0.6);
+  transform: translateY(calc(-50% + var(--Input-Height) / 2));
+}
+
+
+/* Date input placeholder and value styling */
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-calendar-picker-indicator,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::placeholder,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::placeholder {
+  color: var(--Date-Text-Color);
+  font-family: var(--Font-Family);
+  font-size: var(--Font-Size-XS);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Date-Line-Height);
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit {
+  color: var(--Date-Text-Color);
+  font-family: var(--Font-Family);
+  font-size: var(--Font-Size-XS);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Date-Line-Height);
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  color: var(--Date-Text-Color);
+  font-family: var(--Font-Family);
+  font-size: var(--Font-Size-XS);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Date-Line-Height);
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-text,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-text {
+  color: var(--Date-Text-Color);
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-month-field,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-month-field,
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-day-field,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-day-field,
+.signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-year-field,
+.signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-year-field {
+  color: var(--Date-Text-Color);
+  font-family: var(--Font-Family);
+  font-size: var(--Font-Size-XS);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Date-Line-Height);
+}
+
+/* Ensure styling persists even with error states */
+.signup__situation_cos_start_date .signup__form-field.signup__has-error input[type="date"],
+.signup__situation_move_start_date .signup__form-field.signup__has-error input[type="date"],
+.signup__situation_cos_start_date .signup__form-field.signup__has-error input[type="text"],
+.signup__situation_move_start_date .signup__form-field.signup__has-error input[type="text"] {
+  width: 100%;
+  max-width: var(--Width-Date-Input);
+  padding-right: calc(var(--Calendar-Icon-Size-Large) + var(--Spacing-LG) + var(--Spacing-MD));
+  font-family: var(--Font-Family);
+  font-size: var(--Font-Size-XS);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Date-Line-Height);
+  color: var(--Date-Text-Color);
+  background: var(--White);
+  border: 1px solid var(--Error-Red);
+  border-radius: var(--Radius-SM);
+  box-shadow: none;
+  box-sizing: border-box;
+  position: relative;
+  margin-top: 0;
+  align-self: flex-start;
+  cursor: pointer;
+}
+
+
+/* Forklarende tekst */
+.signup__situation_cos_start_date .signup__form-help,
+.signup__situation_move_start_date .signup__form-help {
+  font-size: var(--Font-Size-XS);
+  color: var(--Gray-Dark);
+  line-height: var(--Line-Height-XLoose);
+  margin-top: 0;
+  margin-bottom: clamp(var(--Spacing-MD), 1.5vh, var(--Spacing-LG));
+  font-weight: var(--Font-Weight-Light);
+  width: 100%;
+  text-align: left;
+}
+
+/* Situation checkboxes - konsolideret styling */
+.signup__situation_cos_more .signup__form-field--checkbox,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--Spacing-XL);
+}
+
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Ensure date input is always visible for COS section - override toggle behavior */
+.signup__situation_cos_start_date {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin-top: clamp(var(--Spacing-MD), 1.5vh, var(--Spacing-LG));
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox label,
+.signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label {
+  font-weight: var(--Font-Weight-Bold);
+    font-size: var(--Font-Size-XS);
+    color: var(--Gray-Darkest);
+    line-height: var(--Line-Height-XLoose);
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+    gap: 0;
+    flex-wrap: nowrap;
 }
 
 /* Radio/Checkbox styling */
@@ -345,17 +1040,21 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
+  width: var(--Radio-Size);
+  height: var(--Radio-Size);
   border-radius: 50%;
-  border: 2px solid #333;
-  background: #fff;
-  transition: all 0.3s ease-out;
+  border: var(--Radius-SM) solid var(--Gray-Darker);
+  background: var(--White);
+  transition: all var(--Transition-Slow);
   margin-top: -1px;
 }
 
 .signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:before {
-  border-radius: 3px;
+  border-radius: var(--Radius-SM);
+  border: 0.5px solid rgba(0, 0, 0, var(--Opacity-Border-Medium));
+  background: var(--White);
+  width: var(--Checkbox-Size);
+  height: var(--Checkbox-Size);
 }
 
 .signup__form-field label>span.signup__radio-wrap .signup__radio-pseudo:after {
@@ -366,42 +1065,46 @@ body {
   top: 50%;
   transform: translateY(-50%);
   left: 6px;
-  width: 8px;
-  height: 8px;
+  width: var(--Radio-Inner-Size);
+  height: var(--Radio-Inner-Size);
   border-radius: 50%;
-  background: #fff;
-  transition: all 0.3s ease-out;
+  background: var(--White);
+  transition: all var(--Transition-Slow);
   margin-top: -1px;
 }
 
 .signup__form-field label>span.signup__checkbox-wrap .signup__checkbox-pseudo:after {
-  content: "✓";
+  content: '';
   box-sizing: border-box;
   display: block;
   position: absolute;
-  width: 20px;
-  height: 20px;
-  font-size: 14px;
   top: 50%;
   transform: translateY(-50%);
-  left: 5px;
-  font-family: 'Gotham Bold', sans-serif;
-  font-weight: 700;
+  left: 0;
+  width: var(--Checkbox-Size);
+  height: var(--Checkbox-Size);
   opacity: 0;
-  color: #000;
-  background: none;
-  transition: all 0.3s ease-out;
-  margin-top: -3px;
+  transition: all var(--Transition-Slow);
+  margin-top: -1px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Crect width='16' height='16' rx='2' fill='%23222222'/%3E%3Crect x='0.25' y='0.25' width='15.5' height='15.5' rx='1.75' stroke='black' stroke-opacity='0.2' stroke-width='0.5'/%3E%3Cpath d='M6.75 11L3 7.16181L3.58917 6.55879L6.75 9.79353L12.4108 4L13 4.60302L6.75 11Z' fill='white'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:before,
 .signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
   background: transparent;
-  border-color: #000;
+  border-color: var(--Black);
+}
+
+.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
+  background: var(--Dark);
+  border: 0.5px solid rgba(0, 0, 0, var(--Opacity-Border-Medium));
 }
 
 .signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:after {
-  background: #000;
+  background: var(--Black);
 }
 
 .signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after {
@@ -410,12 +1113,11 @@ body {
 
 .signup__form-field label>span.signup__radio-text,
 .signup__form-field label>span.signup__checkbox-text {
-  font-family: 'Gotham Bold', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.4;
-  margin-left: 30px;
-  color: #000;
+  font-weight: var(--Font-Weight-Regular);
+  font-size: var(--Font-Size-MD);
+  line-height: var(--Line-Height-Loose);
+  margin-left: var(--Spacing-LG);
+  color: var(--Black);
 }
 
 /* Electrical product - House/Apartment selector */
@@ -425,29 +1127,27 @@ body {
 }
 
 .signup__section--electrical_product .signup__section-title {
-  color: #000;
+  color: var(--Black);
   text-align: center;
-  font-family: 'Gamay', 'Gotham Bold', sans-serif;
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(var(--Font-Size-XL), 5vw, var(--Font-Size-XXL));
   font-style: normal;
-  font-weight: 700;
+  font-weight: var(--Font-Weight-Bold);
   line-height: normal;
-  margin-bottom: 15px;
+  margin-bottom: calc(var(--Spacing-Page-Bottom) - var(--Spacing-LG));
 }
 
 .signup__section--electrical_product > p {
-  color: #000;
+  color: var(--Black);
   text-align: center;
-  font-family: 'Gamay', 'Gotham Book', sans-serif;
-  font-size: clamp(14px, 2vw, 16px);
+  font-size: clamp(var(--Font-Size-Base), 2vw, var(--Font-Size-MD));
   font-style: normal;
-  font-weight: 100;
+  font-weight: var(--Font-Weight-Light);
   line-height: 140%;
-  margin-bottom: 50px;
-  max-width: 700px;
+  margin-bottom: calc(var(--Spacing-Page-Bottom) - var(--Spacing-SM));
+  max-width: var(--Max-Width-Text);
   margin-left: auto;
   margin-right: auto;
-  padding: 0 20px;
+  padding: 0 var(--Spacing-Hero-Padding);
 }
 
 .signup__electrical_product {
@@ -462,136 +1162,606 @@ body {
   padding: 0;
 }
 
+/* Hide date picker inputs on electrical_product step */
+.signup__section--electrical_product input[type="date"],
+.signup__electrical_product input[type="date"] {
+  display: none !important;
+}
+
 .housing-type-selector {
-  display: flex;
-  gap: clamp(20px, 8vw, 120px);
+  display: flex !important;
+  gap: var(--Selector-Gap);
   justify-content: center;
   flex-wrap: wrap;
   margin: 0 auto;
   width: 100%;
-  max-width: 900px;
-  padding: 0 20px;
+  max-width: var(--Max-Width-Form-Large);
+  padding: 0 var(--Spacing-Hero-Padding);
 }
 
-.housing-type-selector > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
+.housing-option-card {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: var(--Card-Gap);
+cursor: pointer;
   text-align: center;
-  padding: 10px 32px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  background: #fff;
-  transition: all 0.3s ease;
-  flex: 0 1 auto;
-  min-width: 200px;
-  max-width: 280px;
+padding: var(--Font-Size-XL);
+border-radius: var(--Radius-LG);
+border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+background: transparent;
+transition: all var(--Transition-Base);
+flex: 0 1 auto;
+/* min-width: 200px; */
+max-width: var(--Max-Width-Housing-Card);
+width: 100%;
+}
+
+.housing-option-card:hover {
+  border-radius: var(--Radius-LG);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: var(--White);
+}
+
+.housing-option-card.selected,
+.housing-option-card[data-selected="true"] {
+  border-radius: var(--Radius-LG);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: var(--White);
+}
+
+.housing-option-card img {
   width: 100%;
-}
-
-.housing-type-selector > div:hover {
-  border-color: rgba(0, 0, 0, 0.20);
-  transform: translateY(-2px);
-}
-
-.housing-type-selector > div:has(input:checked),
-.housing-type-selector > div[data-selected="true"] {
-  border-color: rgba(0, 0, 0, 0.20);
-  border-width: 1px;
-}
-
-.housing-type-selector > div img {
-  width: 100%;
-  max-width: 140px;
+  max-width: var(--Max-Width-Housing-Image);
   height: auto;
-  border-radius: 8px;
+  border-radius: var(--Radius-LG);
   display: block;
+  transition: opacity var(--Transition-Fast);
+  object-fit: contain;
 }
 
-.housing-type-selector > div div:not(:first-child) {
-  color: #000;
+/* Smooth image transitions */
+.housing-option-card img {
+  opacity: 1;
+}
+
+.housing-option-card:hover:not(.selected):not([data-selected="true"]) img {
+  /* Image src change handled by JavaScript hover events */
+}
+
+.housing-option-label {
+  color: var(--Black);
   text-align: center;
-  font-family: 'Gamay', 'Gotham Book', sans-serif;
-  font-size: 14px;
+  font-size: var(--Font-Size-MD);
   font-style: normal;
-  font-weight: 200;
-  line-height: 24px;
+  font-weight: var(--Font-Weight-Medium);
+  line-height: var(--Line-Height-Label);
   margin-top: 0;
+  border: none;
+  padding: 0;
+}
+
+.housing-option-help {
+  margin-top: var(--Spacing-XS);
+  font-size: var(--Font-Size-SM);
+  color: var(--Gray-Dark);
+  line-height: var(--Line-Height-Relaxed);
   border: none !important;
   padding: 0;
 }
 
 /* Form help text */
 .signup__form-help {
-  font-size: 12px;
-  line-height: 1.5;
-  color: #666;
-  margin: 10px 0 0;
+  font-size: var(--Font-Size-XS);
+  line-height: var(--Line-Height-XLoose);
+  color: var(--Gray-Dark);
+  margin: var(--Spacing-SM) 0 0;
   text-align: left;
 }
 
 .signup__situation .signup__form-help {
-  text-align: center;
-  margin-top: 20px;
+  text-align: left;
 }
 
-/* Customer form */
+/* Tilkøb / Add-on products (electrical_product_additional) */
+.signup__section--electrical_product_additional-additional {
+  max-width: var(--Max-Width-Form);
+  margin: 0 auto;
+  padding: 0 clamp(var(--Spacing-Base), 2vw, var(--Spacing-XL));
+}
+
+.signup__section--electrical_product_additional-additional .signup__section-title {
+  color: var(--Black);
+  text-align: center;
+  font-size: clamp(var(--Font-Size-XL), 5vw, var(--Font-Size-XXL));
+  font-style: normal;
+  font-weight: var(--Font-Weight-Bold);
+  line-height: normal;
+  margin-bottom: var(--Spacing-Base);
+}
+
+.signup__section--electrical_product_additional-additional > p {
+  color: var(--Black);
+  text-align: center;
+  font-size: clamp(var(--Font-Size-Base), 2vw, var(--Font-Size-MD));
+  font-style: normal;
+  font-weight: var(--Font-Weight-Light);
+  line-height: 140%;
+  margin-bottom: var(--Spacing-XL);
+}
+
+/* Light gray card container for all content */
+.signup__electrical_additional_products {
+  background: var(--Nautral-Lightest);
+  border-radius: var(--Radius-LG);
+  padding: var(--Spacing-LG);
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-Base);
+  box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Light));
+}
+
+/* Group sections created by JavaScript */
+.signup__electrical_additional_products .addon-group-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: var(--Radius-MD);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  overflow: visible;
+}
+
+.signup__electrical_additional_products .addon-group-section:not(:first-child) {
+  margin-top: var(--Spacing-Base);
+}
+
+/* Clickable header card - styled like other cards */
+.signup__electrical_additional_products .addon-group-header {
+  padding: var(--Spacing-Base) var(--Spacing-LG);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--Transition-Base);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: none;
+}
+
+.signup__electrical_additional_products .addon-group-header:hover,
+.signup__electrical_additional_products .addon-group-header.open {
+  background: var(--White);
+}
+
+/* Skip button styling - for "Jeg lader ikke elbil hjemme" */
+.signup__electrical_additional_products .addon-group-header.addon-group-skip-button {
+  cursor: pointer;
+}
+
+.signup__electrical_additional_products .addon-group-header.addon-group-skip-button:hover {
+  background: var(--White);
+}
+
+/* Title styling for skip button section */
+.signup__electrical_additional_products .addon-group-header.addon-group-skip-button .signup__group-title {
+  color: var(--Black);
+  font-size: var(--Font-Size-LG);
+  font-style: normal;
+  font-weight: var(--Font-Weight-ExtraBold);
+  line-height: var(--Line-Height-Label);
+}
+
+/* Description styling for skip button section */
+.signup__electrical_additional_products .addon-group-header.addon-group-skip-button .addon-group-description {
+  color: var(--Black);
+  text-align: left;
+  font-size: var(--Font-Size-MD);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Light);
+  line-height: var(--Line-Height-Label);
+}
+
+/* Additional text styling for skip button section (if there's a third text element) */
+.signup__electrical_additional_products .addon-group-header.addon-group-skip-button .addon-group-description + p,
+.signup__electrical_additional_products .addon-group-header.addon-group-skip-button p:not(.addon-group-description):not(.signup__group-title) {
+  color: #000;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: 32px; /* 266.667% */
+}
+
+/* Tooltip icon styling - positioned in top right corner */
+.signup__electrical_additional_products .addon-group-header .addon-tooltip-icon {
+  position: absolute;
+  top: var(--Spacing-Base);
+  right: var(--Spacing-LG);
+  width: var(--Tooltip-Icon-Size);
+  height: var(--Tooltip-Icon-Size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  z-index: var(--Z-Index-Tooltip-Icon);
+  transition: all var(--Transition-Fast);
+}
+
+.signup__electrical_additional_products .addon-tooltip-icon svg {
+  width: var(--Tooltip-Icon-Size);
+  height: var(--Tooltip-Icon-Size);
+  display: block;
+}
+
+.signup__electrical_additional_products .addon-tooltip-icon:hover svg path {
+  fill-opacity: var(--Opacity-Tooltip-Hover);
+}
+
+/* Tooltip text - hidden by default */
+.signup__electrical_additional_products .addon-tooltip-text {
+  position: absolute;
+  bottom: calc(100% + var(--Spacing-MD));
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--White);
+  color: var(--Black);
+  padding: var(--Spacing-MD) var(--Spacing-Base);
+  border-radius: var(--Radius-MD);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
+  font-size: clamp(var(--Font-Size-XS), 1.5vw, var(--Font-Size-Base));
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Line-Height-XLoose);
+  white-space: nowrap;
+  max-width: 300px;
+  white-space: normal;
+  width: max-content;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--Transition-Fast), visibility var(--Transition-Fast);
+  z-index: var(--Z-Index-Tooltip);
+}
+
+/* Show tooltip on hover */
+.signup__electrical_additional_products .addon-tooltip-icon:hover .addon-tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Tooltip arrow */
+.signup__electrical_additional_products .addon-tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: var(--Radius-MD) solid transparent;
+  border-right: var(--Radius-MD) solid transparent;
+  border-top: var(--Radius-MD) solid var(--White);
+}
+
+.signup__electrical_additional_products .addon-tooltip-text::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: calc(var(--Radius-MD) + 1px) solid transparent;
+  border-right: calc(var(--Radius-MD) + 1px) solid transparent;
+  border-top: calc(var(--Radius-MD) + 1px) solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  margin-top: -1px;
+}
+
+/* Collapsible content wrapper */
+.signup__electrical_additional_products .addon-group-content {
+  padding: var(--Spacing-Base) var(--Spacing-LG);
+  padding-top: var(--Spacing-MD);
+  background-color: var(--White);
+  border-top: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  overflow: visible;
+}
+
+.signup__electrical_additional_products .addon-group-content--hidden {
+  display: none;
+}
+
+.signup__electrical_additional_products .addon-group-content--hidden {
+  display: none;
+}
+
+
+/* Group titles for sections like "Jeg har elbil..." */
+.signup__electrical_additional_products .signup__group-title {
+  color: var(--Black);
+  font-size: clamp(var(--Font-Size-MD), 2vw, var(--Font-Size-LG));
+  font-weight: var(--Font-Weight-Bold);
+  line-height: var(--Line-Height-Loose);
+  margin-bottom: 0;
+  margin-top: 0;
+  text-align: left;
+}
+
+/* Description text under group titles - first line */
+.signup__electrical_additional_products .addon-group-description-line1 {
+  color: var(--Black);
+  font-size: clamp(var(--Font-Size-Base), 1.5vw, var(--Font-Size-MD));
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Line-Height-XLoose);
+  margin-bottom: 0;
+  text-align: left;
+}
+
+/* Description text under group titles - second line */
+.signup__electrical_additional_products .addon-group-description-line2 {
+  color: var(--Black);
+  font-size: var(--Font-Size-Base);
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Line-Height-XLoose);
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.signup__electrical_additional_products .addon-group-description-line2 strong {
+  font-weight: var(--Font-Weight-Bold);
+}
+
+/* Description text for skip button section */
+.signup__electrical_additional_products .addon-group-description {
+  color: var(--Black);
+  font-size: var(--Font-Size-MD);
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Line-Height-XLoose);
+  margin-bottom: 0;
+  text-align: left;
+}
+
+/* Sub-heading "Vælg din løsning" */
+.signup__electrical_additional_products .addon-group-section h4 {
+  color: var(--Black);
+  font-size: clamp(var(--Font-Size-Base), 1.5vw, var(--Font-Size-MD));
+  font-weight: var(--Font-Weight-Bold);
+  line-height: var(--Line-Height-Loose);
+  margin-bottom: var(--Spacing-MD);
+  margin-top: var(--Spacing-SM);
+  text-align: left;
+}
+
+/* Checkbox styling for add-on products - white card layout */
+.signup__electrical_additional.signup__form-field--checkbox {
+  padding: var(--Spacing-Base) var(--Spacing-LG);
+  transition: all var(--Transition-Base);
+  margin-bottom: 0;
+}
+
+.signup__electrical_additional.signup__form-field--checkbox:hover {
+  background: var(--White);
+}
+
+.signup__electrical_additional.signup__form-field--checkbox:has(input:checked) {
+  background: var(--White);
+}
+
+.signup__electrical_additional.signup__form-field--checkbox label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    width: 100%;
+    margin: 0;
+}
+
+/* Checkbox wrapper positioning */
+.signup__electrical_additional .signup__checkbox-wrap {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Checkbox text - title */
+.signup__electrical_additional .signup__checkbox-text {
+  font-weight: var(--Font-Weight-Bold);
+  font-size: clamp(var(--Font-Size-Base), 1.5vw, var(--Font-Size-MD));
+  line-height: var(--Line-Height-Loose);
+  color: var(--Black);
+  margin-left: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XS);
+  text-align: left;
+}
+
+/* Price text styling - helptext appears under checkbox text */
+.signup__electrical_additional .signup__form-help {
+  font-size: clamp(var(--Font-Size-XS), 1.5vw, var(--Font-Size-Base));
+  line-height: var(--Line-Height-XLoose);
+  color: var(--Gray-Dark);
+  margin: 0;
+  margin-top: var(--Spacing-XS);
+  display: block;
+  text-align: left;
+}
+
+
+.signup__electrical_additional_products .signup__form-group {
+  margin-bottom: 0;
+}
+
+/* Customer form - base flex container styling */
 .signup__customer,
 .signup__installation_address_search,
 .signup__installation_address,
-.signup__situation_cos_start_date,
-.signup__situation_move_start_date,
+.signup__installation_address_select,
 .signup__permissions_extras,
 .signup__payment_pbs_more {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  justify-content: left;
+  justify-content: center;
   flex-wrap: wrap;
   margin: 0 -18px;
 }
 
-.signup__customer {
+/* Situation date sections have their own specific styling - don't include in general rule */
+.signup__situation_cos_start_date,
+.signup__situation_move_start_date {
+  margin: 0 -18px;
+}
+
+.signup__installation_address_select {
   max-width: 800px;
-  margin: 40px auto;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.signup__installation_address_select .signup__form-group {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.signup__customer {
+  max-width: var(--Max-Width-Form);
+  margin: 0 auto;
+}
+
+/* Ensure section title is visible above all input fields */
+.signup__section--customer .signup__section-title {
+  display: block !important;
+  width: 100%;
+  flex-basis: 100%;
+  order: -1;
+  margin-bottom: clamp(var(--Spacing-Base), 2vh, var(--Spacing-XL));
 }
 
 .signup__customer .signup__form-field {
   flex-basis: 50%;
 }
 
+/* Make the last field take full width if it's alone in its row */
+.signup__customer .signup__form-field:last-child:nth-child(odd),
+.signup__customer .signup__form-field:last-child:nth-child(5),
+.signup__customer .signup__form-field:last-child:nth-child(7),
+.signup__customer .signup__form-field:last-child:nth-child(9) {
+  flex-basis: 100%;
+}
+
 .signup__installation_address_search {
-  max-width: 600px;
-  margin: 40px auto;
+  max-width: var(--Max-Width-Form);
+  margin: 0 auto;
+  justify-content: center;
 }
 
 .signup__installation_address_search .signup__form-field {
   flex-basis: 100%;
 }
 
-.signup__customer .signup__form-field label>span,
-.signup__installation_address_manual .signup__form-field label>span {
+/* Ensure section title is visible and centered */
+.signup__section--installation_address .signup__section-title {
+  display: block !important;
+  width: 100%;
+  flex-basis: 100%;
+  order: -1;
+  margin-bottom: clamp(var(--Spacing-Base), 2vh, var(--Spacing-XL));
+  text-align: center;
+}
+
+.signup__installation_address {
+  max-width: var(--Max-Width-Form);
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.signup__installation_address .signup__form-field {
+  flex-basis: 50%;
+}
+
+
+/* Make the last field take full width if it's alone in its row - permissions and payment */
+.signup__permissions_extras .signup__form-field:last-child:nth-child(odd),
+.signup__permissions_extras .signup__form-field:last-child:nth-child(5),
+.signup__permissions_extras .signup__form-field:last-child:nth-child(7),
+.signup__permissions_extras .signup__form-field:last-child:nth-child(9),
+.signup__payment_pbs_more .signup__form-field:last-child:nth-child(odd),
+.signup__payment_pbs_more .signup__form-field:last-child:nth-child(5),
+.signup__payment_pbs_more .signup__form-field:last-child:nth-child(7),
+.signup__payment_pbs_more .signup__form-field:last-child:nth-child(9) {
+  flex-basis: 100%;
+}
+
+/* Situation date sections - ensure last field takes full width */
+.signup__situation_cos_start_date .signup__form-field:last-child,
+.signup__situation_move_start_date .signup__form-field:last-child:not(.signup__situation_move_acknowledged) {
+  width: 100%;
+}
+
+/* Center permissions and payment sections */
+.signup__permissions_extras,
+.signup__payment_pbs_more {
+  max-width: 800px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+
+/* Make the last field take full width if it's alone in its row - permissions and payment */
+.signup__permissions_extras .signup__form-field:last-child:nth-child(odd),
+.signup__permissions_extras .signup__form-field:last-child:nth-child(5),
+.signup__permissions_extras .signup__form-field:last-child:nth-child(7),
+.signup__permissions_extras .signup__form-field:last-child:nth-child(9),
+.signup__payment_pbs_more .signup__form-field:last-child:nth-child(odd),
+.signup__payment_pbs_more .signup__form-field:last-child:nth-child(5),
+.signup__payment_pbs_more .signup__form-field:last-child:nth-child(7),
+.signup__payment_pbs_more .signup__form-field:last-child:nth-child(9) {
+  flex-basis: 100%;
+}
+
+/* Situation date sections - ensure last field takes full width */
+.signup__situation_cos_start_date .signup__form-field:last-child,
+.signup__situation_move_start_date .signup__form-field:last-child:not(.signup__situation_move_acknowledged) {
+  width: 100%;
+}
+
+/* Only hide specific spans, not all spans - keep labels visible */
+.signup__customer .signup__form-field label>span.signup__radio-wrap,
+.signup__customer .signup__form-field label>span.signup__checkbox-wrap,
+.signup__installation_address_manual .signup__form-field label>span.signup__radio-wrap,
+.signup__installation_address_manual .signup__form-field label>span.signup__checkbox-wrap {
   display: none;
+}
+
+/* Ensure label text spans are visible */
+.signup__customer .signup__form-field label>span:not(.signup__radio-wrap):not(.signup__checkbox-wrap):not(.signup__radio-text):not(.signup__checkbox-text) {
+  display: block;
+  margin-bottom: var(--Spacing-MD);
+  font-size: var(--Font-Size-Base);
+  color: var(--Black);
+  font-weight: var(--Font-Weight-Regular);
 }
 
 /* Payment & Permissions */
 .signup__payment .signup__form-field--radio label,
 .signup__permissions .signup__form-field--checkbox label {
-  padding: 20px;
-  border: 2px solid #ECECEC;
-  border-radius: 8px;
-  background: #fff;
+  padding: var(--Spacing-Hero-Padding);
+  border: var(--Radius-SM) solid var(--Gray-Light);
+  border-radius: var(--Radius-LG);
+  background: var(--White);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--Transition-Base);
   align-items: flex-start;
 }
 
 .signup__payment .signup__form-field--radio label:hover,
 .signup__permissions .signup__form-field--checkbox label:hover {
-  border-color: #000;
+  border-color: var(--Black);
 }
 
 .signup__payment .signup__form-field--radio input:checked ~ .signup__radio-text,
@@ -601,68 +1771,118 @@ body {
 
 /* Navigation buttons */
 .actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 60px 0 40px;
-  gap: 20px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--Spacing-Page-Bottom) 0 calc(var(--Button-Padding-X) * 2);
+    gap: var(--Spacing-Base);
+    max-width: var(--Max-Width-Button-Container);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .actions input[type="submit"] {
-  font-family: 'Gotham Bold', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  padding: 15px 40px;
+  font-weight: var(--Font-Weight-Bold);
+  font-size: var(--Font-Size-MD);
+  padding: var(--Button-Padding-Y) var(--Button-Padding-X);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--Radius-LG);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--Transition-Base);
 }
 
 #back-button {
-  background: transparent;
-  color: #666;
-  text-decoration: underline;
-  padding: 15px 0;
+    color: var(--Black);
+    text-align: center;
+    text-decoration: none;
+    background: transparent;
+    font-size: var(--Font-Size-Base);
+    font-style: normal;
+    font-weight: var(--Font-Weight-Normal);
+    line-height: var(--Line-Height-Button);
 }
 
 #back-button:hover {
-  color: #000;
+  color: var(--Black);
 }
 
 #next-button {
-  background: #000;
-  color: #fff;
-  margin-left: auto;
+  background: var(--Black);
+  color: var(--White);
 }
 
 #next-button:hover {
-  opacity: 0.9;
+  opacity: var(--Opacity-Hover);
 }
 
 #next-button:disabled {
-  background: #888;
+  background: var(--Disabled-Gray);
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--Opacity-Disabled);
+}
+
+/* Hide back button on first step (electrical_product) */
+#group-container:has(.signup__section--electrical_product) .actions #back-button {
+  display: none !important;
+}
+
+/* Hide next button on first step completely - MUST be after any general .actions #next-button rules */
+#group-container:has(.signup__section--electrical_product) .actions #next-button,
+.signup__section--electrical_product ~ .actions #next-button,
+.signup__section--electrical_product + .actions #next-button,
+body:has(.signup__section--electrical_product) .actions #next-button {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+}
+
+/* Show both buttons from step 2 onwards (situation and later) */
+.signup__section--situation ~ * .actions #next-button,
+#group-container:has(.signup__section--situation) .actions #back-button,
+#group-container:has(.signup__section--situation) .actions #next-button,
+.signup__section--situation .actions #back-button,
+.signup__section--situation .actions #next-button {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
 }
 
 /* Error messages */
 .signup__has-error .signup__error-message {
-  color: #a00;
-  font-size: 12px;
+  color: var(--Error-Red);
+  font-size: var(--Font-Size-XS);
   padding: 0;
-  margin-top: 5px;
+  margin-top: var(--Spacing-SM);
   margin-bottom: 0;
-  font-family: 'Gotham Bold', sans-serif;
-  font-weight: 700;
+  font-weight: var(--Font-Weight-Bold);
 }
 
 .signup__has-error input[type="text"],
 .signup__has-error input[type="search"] {
-  border-color: #a00;
+  border-color: var(--Error-Red);
+}
+
+/* Ensure error messages are visible for situation date fields */
+.signup__situation_cos_start_date .signup__has-error .signup__error-message,
+.signup__situation_move_start_date .signup__has-error .signup__error-message {
+  display: block;
+  color: var(--Error-Red);
+  font-size: var(--Font-Size-XS);
+  padding: 0;
+  margin-top: var(--Spacing-SM);
+  margin-bottom: 0;
+  font-weight: var(--Font-Weight-Bold);
 }
 
 .signup__has-error.signup__input--changed .signup__error-message {
@@ -672,12 +1892,12 @@ body {
 /* Links */
 .signup__page a {
   text-decoration: underline;
-  color: #000;
+  color: var(--Black);
   word-wrap: break-word;
 }
 
 .signup__page a:hover {
-  opacity: 0.7;
+  opacity: var(--Opacity-Link-Hover);
 }
 
 /* Dawa autocomplete */
@@ -686,47 +1906,31 @@ body {
 }
 
 .signup__dawa_autocomplete .dawa-autocomplete-suggestions {
-  margin: 10px 0 0;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border: 1px solid #ECECEC;
+  margin: var(--Spacing-SM) 0 0;
+  border-radius: var(--Radius-LG);
+  background: var(--White);
+  box-shadow: 0 var(--Radius-MD) var(--Font-Size-XS) rgba(0,0,0,var(--Opacity-Shadow-Medium));
+  border: 1px solid var(--Gray-Light);
 }
 
 .signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion {
-  color: #000;
-  padding: 14px 20px;
-  font-size: 14px;
-  line-height: 18px;
+  color: var(--Black);
+  padding: var(--Font-Size-Base) var(--Spacing-Hero-Padding);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Font-Size-LG);
 }
 
 .signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion.dawa-selected,
 .signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion:hover {
-  background: #f5f5f5;
+  background: var(--Hover-Bg);
 }
 
-/* Date picker icon */
-.signup__situation_move_start_date .signup__form-field:first-child label {
+/* Date picker icon - style existing icon larger */
+.signup__situation_cos_start_date .signup__form-field label,
+.signup__situation_move_start_date .signup__form-field label {
   position: relative;
 }
 
-.signup__situation_move_start_date .signup__form-field:first-child label:before {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 10px;
-  top: 1px;
-  width: 20px;
-  height: 20px;
-  opacity: 0.8;
-  background-repeat: no-repeat;
-  background-image: url(https://digitallydev.dk/nettopower/calendar.svg);
-  background-size: cover;
-}
-
-.signup__situation_move_start_date .signup__form-field:first-child label input {
-  padding-left: 38px;
-}
 
 /* Submit section */
 .signup__section--submit {
@@ -747,63 +1951,62 @@ body {
 }
 
 .signup__submit {
-  font-family: 'Gotham Bold', sans-serif;
-  font-weight: 700;
-  background-color: #000;
+  font-weight: var(--Font-Weight-Bold);
+  background-color: var(--Black);
   border: none;
-  border-radius: 8px;
-  padding: 15px 40px;
-  color: white;
-  font-size: 16px;
+  border-radius: var(--Radius-LG);
+  padding: var(--Button-Padding-Y) var(--Button-Padding-X);
+  color: var(--White);
+  font-size: var(--Font-Size-MD);
   cursor: pointer;
-  transition: all 0.3s ease-out;
+  transition: all var(--Transition-Slow);
 }
 
 .signup__submit:hover,
 .signup__submit:focus {
-  opacity: 0.9;
+  opacity: var(--Opacity-Hover);
 }
 
 .disabled {
-  background-color: #888;
+  background-color: var(--Disabled-Gray);
 }
 
 /* Responsive */
-@media only screen and (max-width: 980px) {
+@media only screen and (max-width: var(--Breakpoint-Mobile)) {
   .signup__form-field {
     flex-basis: 100% !important;
   }
   
   .signup__page {
-    padding-top: 140px;
+    padding-top: var(--Spacing-Page-Top-Mobile);
   }
   
   .signup__page .hero {
-    padding: 20px 0 0 20px;
+    padding: var(--Spacing-Hero-Padding) 0 0 var(--Spacing-Hero-Padding);
   }
   
   .signup__page .hero img {
-    max-width: 100px;
+    max-width: var(--Max-Width-Logo-Mobile);
   }
   
   .signup__page .hero .topnav {
-    padding: 0 20px 0 0;
+    padding: 0 var(--Spacing-Hero-Padding) 0 0;
   }
   
   .topnav ul {
     flex-direction: column;
-    gap: 8px;
+    gap: var(--Topnav-Gap-Mobile);
   }
   
   .topnav ul li a {
-    font-size: 12px;
-    padding: 10px 16px;
+    font-size: var(--Font-Size-XS);
+    padding: var(--Spacing-SM) var(--Font-Size-MD);
   }
   
   .signup__section-title,
   .signup__group-title,
   .signup__form-title {
-    font-size: 32px;
+    font-size: var(--Font-Size-XL);
   }
   
   .signup__situation {
@@ -817,17 +2020,17 @@ body {
   }
   
   .signup__section--electrical_product .signup__section-title {
-    font-size: 32px;
+    font-size: var(--Font-Size-XL);
   }
   
   .signup__section--electrical_product > p {
-  font-size: 14px;
+  font-size: var(--Font-Size-Base);
 }
 
   .housing-type-selector {
     flex-direction: column;
     align-items: stretch;
-    gap: 15px;
+    gap: var(--Selector-Gap-Mobile);
   }
   
   .housing-type-selector > div {
@@ -838,7 +2041,7 @@ body {
   }
   
   .housing-type-selector > div img {
-    max-width: 120px;
+    max-width: var(--Max-Width-Housing-Image-Mobile);
   }
   
   .actions {
