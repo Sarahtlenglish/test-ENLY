@@ -8,11 +8,11 @@ const CONFIG = {
   GITHUB_RAW_BASE: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img',
   VERCEL_IMAGE_BASE: 'https://h8nip4886wtjcobp.public.blob.vercel-storage.com',
   
-  // Product Images (step 1 - electrical product) - using GitHub Pages
-  IMAGE_HOUSE_OFF: 'https://sarahtlenglish.github.io/test-ENLY/img/house_off.webp',
-  IMAGE_HOUSE_ON: 'https://sarahtlenglish.github.io/test-ENLY/img/house_on.webp',
-  IMAGE_FLAT_OFF: 'https://sarahtlenglish.github.io/test-ENLY/img/flat_off.webp',
-  IMAGE_FLAT_ON: 'https://sarahtlenglish.github.io/test-ENLY/img/flat_on.webp',
+  // Product Images (step 1 - electrical product) - using raw GitHub URLs
+  IMAGE_HOUSE_OFF: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/house_off.webp',
+  IMAGE_HOUSE_ON: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/house_on.webp',
+  IMAGE_FLAT_OFF: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/flat_off.webp',
+  IMAGE_FLAT_ON: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/flat_on.webp',
   
   // Product IDs
   PRODUCT_ID_HOUSE: 34,
