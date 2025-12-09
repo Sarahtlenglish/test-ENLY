@@ -522,6 +522,17 @@ document.addEventListener('group:loaded', function() {
 
 // Gas product selector - konverter radio buttons til store tekst knapper
 document.addEventListener('group:loaded', function() {
+    const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
+    const gasSection = document.querySelector('.signup__section--gas_product');
+    if (nextButton) {
+        const gasVisible = gasSection && gasSection.offsetParent !== null;
+        if (gasVisible) {
+            nextButton.style.display = 'none';
+        } else {
+            nextButton.style.display = '';
+        }
+    }
+
     const gasContainer = document.querySelector('.signup__gas_product');
     if (!gasContainer) {
         return;

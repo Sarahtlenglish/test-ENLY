@@ -24,7 +24,7 @@
   --Error-Red: #a00;
   --Disabled-Gray: #888;
   --Hover-Bg: #f5f5f5;
-  
+
   /* Opacity values */
   --Opacity-Hover: 0.9;
   --Opacity-Disabled: 0.6;
@@ -36,7 +36,7 @@
   --Opacity-Input-Shadow: 0.06;
   --Opacity-Icon: 0.6;
   --Opacity-Tooltip-Hover: 0.5;
-  
+
   /* Typography */
   --Font-Family: 'Gamay', sans-serif;
   --Font-Size-XS: 12px;
@@ -59,7 +59,7 @@
   --Line-Height-XLoose: 1.5;
   --Line-Height-Button: 24px;
   --Line-Height-Label: 32px;
-  
+
   /* Spacing */
   --Spacing-XS: 0.25rem;
   --Spacing-SM: 0.5rem;
@@ -68,7 +68,7 @@
   --Spacing-LG: 1.5rem;
   --Spacing-XL: 2rem;
   --Spacing-XXL: 3rem;
-  --Spacing-Page-Top: 120px;
+  --Spacing-Page-Top: 80px;
   --Spacing-Page-Bottom: 60px;
   --Spacing-Page-Top-Mobile: 140px;
   --Spacing-Hero-Padding: 20px;
@@ -76,18 +76,18 @@
   --Spacing-Form-Field: 25px;
   --Spacing-Section-Bottom: 60px;
   --Spacing-Progress-Margin: 20px;
-  
+
   /* Border Radius */
   --Radius-XS: 1px;
   --Radius-SM: 2px;
   --Radius-MD: 4px;
   --Radius-LG: 8px;
-  
+
   /* Transitions */
   --Transition-Fast: 0.2s ease;
   --Transition-Base: 0.3s ease;
   --Transition-Slow: 0.3s ease-out;
-  
+
   /* Layout */
   --Max-Width-Page: 1200px;
   --Max-Width-Form: 800px;
@@ -105,16 +105,16 @@
   --Min-Height-Container: 400px;
   --Min-Height-Situation-Card: 320px;
   --Width-Date-Input: 22.5rem;
-  
+
   /* Z-Index */
   --Z-Index-Base: 1;
   --Z-Index-Tooltip-Icon: 10;
   --Z-Index-Hero: 1001;
   --Z-Index-Tooltip: 10000;
-  
+
   /* Breakpoints */
   --Breakpoint-Mobile: 980px;
-  
+
   /* Specific dimensions */
   --Input-Height: 50px;
   --Input-Padding-X: 20px;
@@ -166,18 +166,30 @@ html {
 body {
   color: var(--Primary-Text);
   background:
-    radial-gradient(
-      circle at 92% 10%,
-      var(--Yellow-Accent) 0 20vw,   /* yellow radius */
-      transparent 20vw 100%
-    ),
-    var(--Nautral-Lightest); /* page background */
+    radial-gradient(circle at 92% -20%,
+      var(--Yellow-Accent) 0 20vw,
+      /* yellow radius */
+      transparent 20vw 100%),
+    var(--Nautral-Lightest);
+  /* page background */
   background-repeat: no-repeat;
   background-attachment: fixed;
   margin: 0;
   padding: 0;
   min-height: var(--Min-Height-Page);
   font-family: var(--Font-Family);
+}
+
+/* Mobile - adjust background dot */
+@media only screen and (max-width: var(--Breakpoint-Mobile)) {
+  body {
+    background:
+      radial-gradient(circle at 92% 10%,
+        var(--Yellow-Accent) 0 15vw,
+        /* smaller yellow radius on mobile */
+        transparent 15vw 100%),
+      var(--Nautral-Lightest);
+  }
 }
 
 .signup__page {
@@ -254,12 +266,33 @@ body {
 }
 
 .topnav ul li:nth-child(1) a {
-  background: var(--White);
+  border-radius: 8px;
+  border: 0.5px solid rgba(0, 0, 0, 0.10);
+  background: var(--White, #FFF);
+  backdrop-filter: blur(5px);
   color: var(--Black);
+  position: relative;
+  padding-left: calc(var(--Spacing-Hero-Padding) + 18px + var(--Spacing-MD));
+}
+
+/* Profile icon for first button */
+.topnav ul li:nth-child(1) a::before {
+  content: '';
+  position: absolute;
+  left: var(--Spacing-Hero-Padding);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cg clip-path='url(%23clip0_4415_1854)'%3E%3Cpath d='M9 1.5C4.85775 1.5 1.5 4.85775 1.5 9C1.5 13.1422 4.85775 16.5 9 16.5C13.1422 16.5 16.5 13.1422 16.5 9C16.5 4.85775 13.1422 1.5 9 1.5Z' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M3.20312 13.7595C3.20312 13.7595 4.87488 11.625 8.99988 11.625C13.1249 11.625 14.7974 13.7595 14.7974 13.7595M8.99988 9C9.59661 9 10.1689 8.76295 10.5909 8.34099C11.0128 7.91903 11.2499 7.34674 11.2499 6.75C11.2499 6.15326 11.0128 5.58097 10.5909 5.15901C10.1689 4.73705 9.59661 4.5 8.99988 4.5C8.40314 4.5 7.83084 4.73705 7.40888 5.15901C6.98693 5.58097 6.74988 6.15326 6.74988 6.75C6.74988 7.34674 6.98693 7.91903 7.40888 8.34099C7.83084 8.76295 8.40314 9 8.99988 9Z' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_4415_1854'%3E%3Crect width='18' height='18' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .topnav ul li:nth-child(2) a {
-  background: var(--Black);
+  border-radius: 8px;
+  background: var(--Dark, #222);
   color: var(--White);
 }
 
@@ -270,7 +303,7 @@ body {
 /* Progress indicator */
 #progress-container {
   text-align: center;
-  margin: var(--Spacing-Page-Bottom) 0 var(--Spacing-Progress-Margin);
+  margin-top: 0;
 }
 
 #progress-text {
@@ -282,21 +315,13 @@ body {
 }
 
 .progress-background {
-  width: 100%;
-  max-width: var(--Max-Width-Progress);
-  height: var(--Radius-SM);
-  background: var(--Gray-Light);
-  border-radius: var(--Radius-XS);
-  margin: 0 auto;
-  overflow: hidden;
+  display: none;
 }
 
 #progress-bar {
-  background: var(--Black);
-  height: 100%;
-  transition: width var(--Transition-Base);
-  border-radius: var(--Radius-XS);
+  display: none;
 }
+
 
 /* Titles */
 .signup__form-title {
@@ -321,6 +346,15 @@ body {
   margin: 0 0 var(--Spacing-SM);
   color: var(--Black);
   text-align: center;
+}
+
+/* Remove asterisk from required section titles */
+.signup__form-section.signup__form--required .signup__section-title::after,
+.signup__form-section.signup__form--required .signup__section-title:after,
+.signup__section-title::after,
+.signup__section-title:after {
+  content: none;
+  display: none;
 }
 
 /* Gas product section - styled like situation but with larger text buttons */
@@ -385,7 +419,7 @@ body {
 .signup__gas_product .signup__form-field--radio {
   padding: 0;
   margin: 0;
-  display: none !important;
+  display: none;
 }
 
 /* Installation address select - styled like gas buttons */
@@ -445,7 +479,7 @@ body {
 .signup__installation_address_select .signup__form-field--radio {
   padding: 0;
   margin: 0;
-  display: none !important;
+  display: none;
 }
 
 /* Form sections */
@@ -461,14 +495,18 @@ body {
 
 .signup__page p {
   padding: 0;
-  margin-bottom: var(--Spacing-Hero-Padding);
-  text-align: center;
+  margin-bottom: var(--Spacing-Base);
+  text-align: left;
   color: var(--Gray-Dark);
   font-size: var(--Font-Size-Base);
   line-height: var(--Line-Height-XLoose);
 }
 
-.signup__form-section > p {
+.signup__permissions-earliest-date {
+  text-align: center;
+}
+
+.signup__form-section>p {
   text-align: center;
   margin-bottom: calc(var(--Spacing-Page-Bottom) / 2);
   color: var(--Gray-Dark);
@@ -482,17 +520,17 @@ body {
 
 .signup__form-field label {
   display: block;
-  margin-bottom: var(--Spacing-MD);
   font-size: var(--Font-Size-Base);
   color: var(--Black);
   font-weight: var(--Font-Weight-Regular);
+  position: relative;
 }
 
 .signup__page .signup__form-field input[type="text"],
 .signup__page .signup__form-field input[type="search"],
 .signup__page .signup__form-field input[type="date"] {
   font-weight: var(--Font-Weight-Normal);
-  box-shadow: inset 1px 1px 2px rgba(0,0,0,var(--Opacity-Input-Shadow));
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, var(--Opacity-Input-Shadow));
   padding: var(--Input-Padding-Y) var(--Input-Padding-X);
   font-size: var(--Font-Size-Base);
   line-height: var(--Font-Size-Base);
@@ -528,7 +566,6 @@ body {
   text-align: center;
 }
 
-/* Ensure situation cards come before date/checkbox sections */
 .signup__situation .situation-type-selector {
   order: 1;
 }
@@ -540,9 +577,9 @@ body {
 }
 
 .situation-type-selector {
-  display: flex !important;
+  display: flex;
   gap: var(--Selector-Gap);
-  margin: var(--Spacing-XXL) 0;
+  margin: var(--Spacing-XL) 0;
   flex-wrap: wrap;
   justify-content: center;
   align-items: stretch;
@@ -551,15 +588,15 @@ body {
 }
 
 .situation-option-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: center;
-    padding: var(--Font-Size-XL);
-    border-radius: var(--Radius-LG);
-    border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
-    background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  padding: var(--Font-Size-XL);
+  border-radius: var(--Radius-LG);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: transparent;
   cursor: pointer;
   transition: all var(--Transition-Base);
   width: var(--Max-Width-Housing-Card);
@@ -594,11 +631,11 @@ body {
 }
 
 .situation-option-label {
-    font-weight: var(--Font-Weight-Medium);
-    font-size: var(--Font-Size-MD);
-    color: var(--Black);
+  font-weight: var(--Font-Weight-Medium);
+  font-size: var(--Font-Size-MD);
+  color: var(--Black);
   text-align: center;
-    line-height: var(--Line-Height-Loose);
+  line-height: var(--Line-Height-Loose);
 }
 
 .signup__situation .signup__form-group {
@@ -609,7 +646,7 @@ body {
 .signup__situation .signup__form-field--radio {
   padding: 0;
   margin: 0;
-  display: none !important;
+  display: none;
 }
 
 .signup__situation .signup__form-field--radio label {
@@ -647,7 +684,7 @@ body {
   color: var(--Black);
 }
 
-.signup__situation .signup__form-field--radio input:checked ~ .signup__radio-text {
+.signup__situation .signup__form-field--radio input:checked~.signup__radio-text {
   font-weight: 700;
 }
 
@@ -658,9 +695,9 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-  max-width: var(--Max-Width-Form);
+  max-width: calc((var(--Max-Width-Housing-Card) * 2) + var(--Selector-Gap));
   margin: clamp(var(--Spacing-Base), 2vh, var(--Spacing-XL)) auto 0;
-  padding: clamp(var(--Spacing-Hero-Padding), 4vw, calc(var(--Button-Padding-X) * 2));
+  padding: var(--Spacing-Base);
   text-align: left;
   background-color: var(--White);
   border-radius: var(--Radius-LG);
@@ -668,7 +705,6 @@ body {
   box-shadow: none;
 }
 
-/* COS section order: Checkbox (1) -> Date picker (2) -> Legal text (3) */
 .signup__situation_cos_more .signup__form-field--checkbox {
   order: 1;
 }
@@ -691,9 +727,9 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-  max-width: var(--Max-Width-Form);
+  max-width: calc((var(--Max-Width-Housing-Card) * 2) + var(--Selector-Gap));
   margin: clamp(var(--Spacing-Base), 2vh, var(--Spacing-XL)) auto 0;
-  padding: clamp(var(--Spacing-Hero-Padding), 4vw, calc(var(--Button-Padding-X) * 2));
+  padding: var(--Spacing-Base);
   text-align: left;
   background-color: var(--White);
   border-radius: var(--Radius-LG);
@@ -702,7 +738,7 @@ body {
 }
 
 .signup__situation_move_start_date {
-  display: flex !important;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
@@ -717,17 +753,14 @@ body {
   gap: 0;
 }
 
-/* Move section order: Date picker (1) -> Text (2) -> Checkbox (3) */
 .signup__situation_move_start_date .signup__form-field:not(.signup__situation_move_acknowledged) {
   order: 1;
   width: 100%;
-  margin-bottom: clamp(0.5rem, 1vh, 1rem);
 }
 
 .signup__situation_move_start_date .signup__form-help {
   order: 2;
   width: 100%;
-  margin: 0 0 clamp(0.75rem, 1.5vh, 1.5rem) 0;
 }
 
 .signup__situation_move_start_date .signup__situation_move_acknowledged {
@@ -736,14 +769,12 @@ body {
   margin-top: 0;
 }
 
-/* COS start date should be inline with checkbox, not separate card */
 .signup__situation_cos_start_date {
-  display: flex !important;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-  margin: clamp(0.75rem, 1.5vh, 1.5rem) 0 0 0;
   padding: 0;
   text-align: left;
   background-color: transparent;
@@ -751,9 +782,8 @@ body {
   box-shadow: none;
 }
 
-/* Styling for dato-felter og samtykke i situation-sektionen */
 .signup__situation_cos_start_date .signup__group-title {
-  display: none !important;
+  display: none;
 }
 
 .signup__situation_move_start_date .signup__group-title {
@@ -761,13 +791,12 @@ body {
   font-size: var(--Font-Size-XS);
   line-height: var(--Line-Height-Relaxed);
   color: var(--Gray-Darkest);
-  margin: 0 0 clamp(var(--Spacing-SM), 1vh, var(--Spacing-Base)) 0;
+  margin: var(--Spacing-Base);
   width: 100%;
   text-align: left;
   display: block;
 }
 
-/* Move section - add label for date input */
 .signup__situation_move_start_date .signup__form-field:first-child label {
   display: flex;
   flex-direction: column;
@@ -775,17 +804,7 @@ body {
   align-items: flex-start;
 }
 
-.signup__situation_move_start_date .signup__form-field:first-child label::before {
-  content: "Angiv din indflytningsdato.";
-  display: block;
-  font-size: var(--Font-Size-XS);
-  color: var(--Gray-Darkest);
-  margin-bottom: clamp(var(--Spacing-XS), 0.5vh, var(--Spacing-SM));
-  font-weight: var(--Font-Weight-Regular);
-  width: 100%;
-}
 
-/* Dato input felter - begge sektioner */
 .signup__situation_cos_start_date .signup__form-field,
 .signup__situation_move_start_date .signup__form-field:not(.signup__situation_move_acknowledged) {
   width: 100%;
@@ -794,7 +813,6 @@ body {
   position: relative;
 }
 
-/* Make label and input clickable (not entire form-field) */
 .signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label,
 .signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label {
   cursor: pointer;
@@ -803,14 +821,13 @@ body {
 .signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) input[type="date"],
 .signup__situation_move_start_date .signup__form-field:has(input[type="date"]) input[type="date"] {
   cursor: pointer;
-  padding-right: calc(var(--Calendar-Icon-Size-Large) + var(--Spacing-LG) + var(--Spacing-MD));
+  padding-right: calc(16px + var(--Spacing-MD) + var(--Spacing-SM));
 }
 
 .signup__situation_cos_start_date .signup__form-field label,
 .signup__situation_move_start_date .signup__form-field label:not(.signup__situation_move_acknowledged label) {
   font-size: var(--Font-Size-XS);
   color: var(--Gray-Darkest);
-  margin-bottom: clamp(var(--Spacing-XS), 0.5vh, var(--Spacing-SM));
   display: block;
   width: 100%;
   font-weight: var(--Font-Weight-Regular);
@@ -846,7 +863,6 @@ body {
   cursor: pointer;
 }
 
-/* Calendar icon - positioned on label, aligned with input field */
 .signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label,
 .signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label {
   position: relative;
@@ -855,21 +871,21 @@ body {
 .signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label::after,
 .signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label::after {
   content: "";
-  display: block;
+  display: block !important;
   position: absolute;
-  right: var(--Spacing-LG);
-  bottom: 0;
-  width: var(--Calendar-Icon-Size-Large);
-  height: var(--Calendar-Icon-Size-Large);
-  opacity: 1;
+  right: 12px;
+  bottom: 16px;
+  width: 20px;
+  height: 20px;
+  opacity: 1 !important;
+  visibility: visible !important;
   background-repeat: no-repeat;
-  background-image: url(https://digitallydev.dk/nettopower/calendar.svg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M5.33301 1.33203V3.9987' stroke='%23636363' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M10.667 1.33203V3.9987' stroke='%23636363' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12.6667 2.66797H3.33333C2.59695 2.66797 2 3.26492 2 4.0013V13.3346C2 14.071 2.59695 14.668 3.33333 14.668H12.6667C13.403 14.668 14 14.071 14 13.3346V4.0013C14 3.26492 13.403 2.66797 12.6667 2.66797Z' stroke='%23636363' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M2 6.66797H14' stroke='%23636363' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-size: contain;
   background-position: center;
   pointer-events: none;
   z-index: var(--Z-Index-Tooltip-Icon);
   filter: opacity(0.6);
-  transform: translateY(calc(-50% + var(--Input-Height) / 2));
 }
 
 
@@ -934,7 +950,16 @@ body {
   line-height: var(--Date-Line-Height);
 }
 
-/* Ensure styling persists even with error states */
+.signup__situation_cos_start_date .signup__form-field input[type="date"][data-placeholder]:not([value])::-webkit-datetime-edit-day-field,
+.signup__situation_move_start_date .signup__form-field input[type="date"][data-placeholder]:not([value])::-webkit-datetime-edit-day-field {
+  color: var(--Gray-Medium);
+}
+
+.signup__situation_cos_start_date .signup__form-field input[type="date"][data-placeholder]:not([value])::-webkit-datetime-edit-day-field::before,
+.signup__situation_move_start_date .signup__form-field input[type="date"][data-placeholder]:not([value])::-webkit-datetime-edit-day-field::before {
+  content: attr(data-placeholder);
+}
+
 .signup__situation_cos_start_date .signup__form-field.signup__has-error input[type="date"],
 .signup__situation_move_start_date .signup__form-field.signup__has-error input[type="date"],
 .signup__situation_cos_start_date .signup__form-field.signup__has-error input[type="text"],
@@ -960,25 +985,21 @@ body {
 }
 
 
-/* Forklarende tekst */
 .signup__situation_cos_start_date .signup__form-help,
 .signup__situation_move_start_date .signup__form-help {
   font-size: var(--Font-Size-XS);
   color: var(--Gray-Dark);
   line-height: var(--Line-Height-XLoose);
   margin-top: 0;
-  margin-bottom: clamp(var(--Spacing-MD), 1.5vh, var(--Spacing-LG));
   font-weight: var(--Font-Weight-Light);
   width: 100%;
   text-align: left;
 }
 
-/* Situation checkboxes - konsolideret styling */
 .signup__situation_cos_more .signup__form-field--checkbox,
 .signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
   width: 100%;
   padding: 0;
-  margin-bottom: var(--Spacing-XL);
 }
 
 .signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged {
@@ -986,28 +1007,35 @@ body {
   margin-bottom: 0;
 }
 
-/* Ensure date input is always visible for COS section - override toggle behavior */
 .signup__situation_cos_start_date {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  display: none;
+  visibility: hidden;
+  opacity: 0;
   margin-top: clamp(var(--Spacing-MD), 1.5vh, var(--Spacing-LG));
+  transition: opacity var(--Transition-Base), visibility var(--Transition-Base);
+}
+
+.signup__situation_cos_more .signup__form-field--checkbox:has(input[type="checkbox"]:checked)~.signup__situation_cos_start_date,
+.signup__situation_cos_more .signup__form-field--checkbox input[type="checkbox"]:checked~.signup__situation_cos_start_date {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
 }
 
 .signup__situation_cos_more .signup__form-field--checkbox label,
 .signup__situation_move_start_date .signup__form-field.signup__situation_move_acknowledged label {
-  font-weight: var(--Font-Weight-Bold);
-    font-size: var(--Font-Size-XS);
-    color: var(--Gray-Darkest);
-    line-height: var(--Line-Height-XLoose);
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: baseline;
-    width: 100%;
-    gap: 0;
-    flex-wrap: nowrap;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: none;
+  align-items: flex-start;
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
 }
 
 /* Radio/Checkbox styling */
@@ -1016,6 +1044,7 @@ body {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  gap: 12px;
 }
 
 .signup__form-field label>span.signup__radio-wrap,
@@ -1092,32 +1121,35 @@ body {
   background-position: center;
 }
 
-.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:before,
-.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
+.signup__form-field label>span.signup__radio-wrap input:checked+.signup__radio-pseudo:before,
+.signup__form-field label>span.signup__checkbox-wrap input:checked+.signup__checkbox-pseudo:before {
   background: transparent;
   border-color: var(--Black);
 }
 
-.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:before {
+.signup__form-field label>span.signup__checkbox-wrap input:checked+.signup__checkbox-pseudo:before {
   background: var(--Dark);
   border: 0.5px solid rgba(0, 0, 0, var(--Opacity-Border-Medium));
 }
 
-.signup__form-field label>span.signup__radio-wrap input:checked + .signup__radio-pseudo:after {
+.signup__form-field label>span.signup__radio-wrap input:checked+.signup__radio-pseudo:after {
   background: var(--Black);
 }
 
-.signup__form-field label>span.signup__checkbox-wrap input:checked + .signup__checkbox-pseudo:after {
+.signup__form-field label>span.signup__checkbox-wrap input:checked+.signup__checkbox-pseudo:after {
   opacity: 1;
 }
 
 .signup__form-field label>span.signup__radio-text,
 .signup__form-field label>span.signup__checkbox-text {
-  font-weight: var(--Font-Weight-Regular);
-  font-size: var(--Font-Size-MD);
-  line-height: var(--Line-Height-Loose);
-  margin-left: var(--Spacing-LG);
-  color: var(--Black);
+  color: #000;
+  font-family: Gamay, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: var(--Font-Weight-Light);
+  line-height: 120%;
+  margin-left: 12px;
+  flex: 1;
 }
 
 /* Electrical product - House/Apartment selector */
@@ -1136,7 +1168,7 @@ body {
   margin-bottom: calc(var(--Spacing-Page-Bottom) - var(--Spacing-LG));
 }
 
-.signup__section--electrical_product > p {
+.signup__section--electrical_product>p {
   color: var(--Black);
   text-align: center;
   font-size: clamp(var(--Font-Size-Base), 2vw, var(--Font-Size-MD));
@@ -1165,11 +1197,11 @@ body {
 /* Hide date picker inputs on electrical_product step */
 .signup__section--electrical_product input[type="date"],
 .signup__electrical_product input[type="date"] {
-  display: none !important;
+  display: none;
 }
 
 .housing-type-selector {
-  display: flex !important;
+  display: flex;
   gap: var(--Selector-Gap);
   justify-content: center;
   flex-wrap: wrap;
@@ -1180,22 +1212,21 @@ body {
 }
 
 .housing-option-card {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: var(--Card-Gap);
-cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   text-align: center;
-padding: var(--Font-Size-XL);
-border-radius: var(--Radius-LG);
-border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
-background: transparent;
-transition: all var(--Transition-Base);
-flex: 0 1 auto;
-/* min-width: 200px; */
-max-width: var(--Max-Width-Housing-Card);
-width: 100%;
+  padding: var(--Font-Size-XL);
+  border-radius: var(--Radius-LG);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--Transition-Base);
+  width: var(--Max-Width-Housing-Card);
+  min-height: var(--Min-Height-Situation-Card);
+  gap: var(--Card-Gap);
+  flex: 0 1 auto;
 }
 
 .housing-option-card:hover {
@@ -1221,14 +1252,11 @@ width: 100%;
   object-fit: contain;
 }
 
-/* Smooth image transitions */
 .housing-option-card img {
   opacity: 1;
 }
 
-.housing-option-card:hover:not(.selected):not([data-selected="true"]) img {
-  /* Image src change handled by JavaScript hover events */
-}
+.housing-option-card:hover:not(.selected):not([data-selected="true"]) img {}
 
 .housing-option-label {
   color: var(--Black);
@@ -1247,7 +1275,7 @@ width: 100%;
   font-size: var(--Font-Size-SM);
   color: var(--Gray-Dark);
   line-height: var(--Line-Height-Relaxed);
-  border: none !important;
+  border: none;
   padding: 0;
 }
 
@@ -1258,6 +1286,12 @@ width: 100%;
   color: var(--Gray-Dark);
   margin: var(--Spacing-SM) 0 0;
   text-align: left;
+}
+
+.signup__form-field--checkbox .signup__form-help {
+  margin-top: var(--Spacing-XS);
+  margin-left: clamp(12px, calc(12px + var(--Checkbox-Size, 16px)), 28px);
+  padding-left: 0;
 }
 
 .signup__situation .signup__form-help {
@@ -1281,7 +1315,7 @@ width: 100%;
   margin-bottom: var(--Spacing-Base);
 }
 
-.signup__section--electrical_product_additional-additional > p {
+.signup__section--electrical_product_additional-additional>p {
   color: var(--Black);
   text-align: center;
   font-size: clamp(var(--Font-Size-Base), 2vw, var(--Font-Size-MD));
@@ -1302,7 +1336,6 @@ width: 100%;
   box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Light));
 }
 
-/* Group sections created by JavaScript */
 .signup__electrical_additional_products .addon-group-section {
   display: flex;
   flex-direction: column;
@@ -1333,7 +1366,6 @@ width: 100%;
   background: var(--White);
 }
 
-/* Skip button styling - for "Jeg lader ikke elbil hjemme" */
 .signup__electrical_additional_products .addon-group-header.addon-group-skip-button {
   cursor: pointer;
 }
@@ -1342,7 +1374,6 @@ width: 100%;
   background: var(--White);
 }
 
-/* Title styling for skip button section */
 .signup__electrical_additional_products .addon-group-header.addon-group-skip-button .signup__group-title {
   color: var(--Black);
   font-size: var(--Font-Size-LG);
@@ -1351,7 +1382,6 @@ width: 100%;
   line-height: var(--Line-Height-Label);
 }
 
-/* Description styling for skip button section */
 .signup__electrical_additional_products .addon-group-header.addon-group-skip-button .addon-group-description {
   color: var(--Black);
   text-align: left;
@@ -1361,18 +1391,17 @@ width: 100%;
   line-height: var(--Line-Height-Label);
 }
 
-/* Additional text styling for skip button section (if there's a third text element) */
-.signup__electrical_additional_products .addon-group-header.addon-group-skip-button .addon-group-description + p,
+.signup__electrical_additional_products .addon-group-header.addon-group-skip-button .addon-group-description+p,
 .signup__electrical_additional_products .addon-group-header.addon-group-skip-button p:not(.addon-group-description):not(.signup__group-title) {
   color: #000;
   text-align: center;
   font-size: 12px;
   font-style: normal;
   font-weight: 100;
-  line-height: 32px; /* 266.667% */
+  line-height: 32px;
+  /* 266.667% */
 }
 
-/* Tooltip icon styling - positioned in top right corner */
 .signup__electrical_additional_products .addon-group-header .addon-tooltip-icon {
   position: absolute;
   top: var(--Spacing-Base);
@@ -1397,7 +1426,6 @@ width: 100%;
   fill-opacity: var(--Opacity-Tooltip-Hover);
 }
 
-/* Tooltip text - hidden by default */
 .signup__electrical_additional_products .addon-tooltip-text {
   position: absolute;
   bottom: calc(100% + var(--Spacing-MD));
@@ -1424,13 +1452,11 @@ width: 100%;
   z-index: var(--Z-Index-Tooltip);
 }
 
-/* Show tooltip on hover */
 .signup__electrical_additional_products .addon-tooltip-icon:hover .addon-tooltip-text {
   opacity: 1;
   visibility: visible;
 }
 
-/* Tooltip arrow */
 .signup__electrical_additional_products .addon-tooltip-text::after {
   content: '';
   position: absolute;
@@ -1458,7 +1484,97 @@ width: 100%;
   margin-top: -1px;
 }
 
-/* Collapsible content wrapper */
+.signup__tooltip-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--Spacing-XS);
+  cursor: help;
+  z-index: var(--Z-Index-Tooltip-Icon);
+  transition: all var(--Transition-Fast);
+}
+
+.signup__tooltip-question {
+  color: rgba(0, 0, 0, 0.50);
+  font-family: var(--Font-Family);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-right: var(--Spacing-XS);
+  white-space: nowrap;
+}
+
+.signup__tooltip-handle svg {
+  width: var(--Tooltip-Icon-Size);
+  height: var(--Tooltip-Icon-Size);
+  display: block;
+}
+
+.signup__tooltip-handle:hover svg path {
+  fill-opacity: var(--Opacity-Tooltip-Hover);
+}
+
+.signup__tooltip-handle .tooltip-text {
+  position: absolute;
+  bottom: calc(100% + var(--Spacing-MD));
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--White);
+  color: var(--Black);
+  padding: var(--Spacing-MD) var(--Spacing-Base);
+  border-radius: var(--Radius-MD);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
+  font-size: clamp(var(--Font-Size-XS), 1.5vw, var(--Font-Size-Base));
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Line-Height-XLoose);
+  white-space: normal;
+  max-width: 300px;
+  width: max-content;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--Transition-Fast), visibility var(--Transition-Fast);
+  z-index: var(--Z-Index-Tooltip);
+}
+
+.signup__tooltip-handle:hover .tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+.signup__tooltip-handle .tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: var(--Radius-MD) solid transparent;
+  border-right: var(--Radius-MD) solid transparent;
+  border-top: var(--Radius-MD) solid var(--White);
+}
+
+.signup__tooltip-handle .tooltip-text::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: calc(var(--Radius-MD) + 1px) solid transparent;
+  border-right: calc(var(--Radius-MD) + 1px) solid transparent;
+  border-top: calc(var(--Radius-MD) + 1px) solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  margin-top: -1px;
+}
+
 .signup__electrical_additional_products .addon-group-content {
   padding: var(--Spacing-Base) var(--Spacing-LG);
   padding-top: var(--Spacing-MD);
@@ -1476,7 +1592,6 @@ width: 100%;
 }
 
 
-/* Group titles for sections like "Jeg har elbil..." */
 .signup__electrical_additional_products .signup__group-title {
   color: var(--Black);
   font-size: clamp(var(--Font-Size-MD), 2vw, var(--Font-Size-LG));
@@ -1487,17 +1602,15 @@ width: 100%;
   text-align: left;
 }
 
-/* Description text under group titles - first line */
 .signup__electrical_additional_products .addon-group-description-line1 {
   color: var(--Black);
-  font-size: clamp(var(--Font-Size-Base), 1.5vw, var(--Font-Size-MD));
-  font-weight: var(--Font-Weight-Regular);
+  font-size: var(--Font-Size-Base);
+  font-weight: var(--Font-Weight-Light);
   line-height: var(--Line-Height-XLoose);
   margin-bottom: 0;
   text-align: left;
 }
 
-/* Description text under group titles - second line */
 .signup__electrical_additional_products .addon-group-description-line2 {
   color: var(--Black);
   font-size: var(--Font-Size-Base);
@@ -1511,7 +1624,6 @@ width: 100%;
   font-weight: var(--Font-Weight-Bold);
 }
 
-/* Description text for skip button section */
 .signup__electrical_additional_products .addon-group-description {
   color: var(--Black);
   font-size: var(--Font-Size-MD);
@@ -1521,7 +1633,6 @@ width: 100%;
   text-align: left;
 }
 
-/* Sub-heading "Vælg din løsning" */
 .signup__electrical_additional_products .addon-group-section h4 {
   color: var(--Black);
   font-size: clamp(var(--Font-Size-Base), 1.5vw, var(--Font-Size-MD));
@@ -1532,43 +1643,53 @@ width: 100%;
   text-align: left;
 }
 
-/* Checkbox styling for add-on products - white card layout */
-.signup__electrical_additional.signup__form-field--checkbox {
-  padding: var(--Spacing-Base) var(--Spacing-LG);
+.signup__electrical_additional.signup__form-field--checkbox,
+.signup__electrical_additional.signup__form-field--radio {
+  padding: var(--Spacing-Base) var(--Spacing-MD);
   transition: all var(--Transition-Base);
   margin-bottom: 0;
 }
 
-.signup__electrical_additional.signup__form-field--checkbox:hover {
+.signup__electrical_additional.signup__form-field--checkbox:hover,
+.signup__electrical_additional.signup__form-field--radio:hover {
   background: var(--White);
 }
 
-.signup__electrical_additional.signup__form-field--checkbox:has(input:checked) {
+.signup__electrical_additional.signup__form-field--checkbox:has(input:checked),
+.signup__electrical_additional.signup__form-field--radio:has(input:checked) {
   background: var(--White);
 }
 
 .signup__electrical_additional.signup__form-field--checkbox label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-    cursor: pointer;
-    width: 100%;
-    margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: none;
+  align-items: center;
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
 }
 
-/* Checkbox wrapper positioning */
-.signup__electrical_additional .signup__checkbox-wrap {
+.signup__electrical_additional .signup__checkbox-wrap,
+.signup__electrical_additional .signup__radio-wrap {
   flex-shrink: 0;
   margin-top: 2px;
 }
 
-/* Checkbox text - title */
+.signup__electrical_additional input[type="radio"] {}
+
 .signup__electrical_additional .signup__checkbox-text {
-  font-weight: var(--Font-Weight-Bold);
-  font-size: clamp(var(--Font-Size-Base), 1.5vw, var(--Font-Size-MD));
-  line-height: var(--Line-Height-Loose);
-  color: var(--Black);
+  color: #000;
+  font-family: Gamay;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
   margin-left: 0;
   flex: 1;
   display: flex;
@@ -1577,15 +1698,22 @@ width: 100%;
   text-align: left;
 }
 
-/* Price text styling - helptext appears under checkbox text */
 .signup__electrical_additional .signup__form-help {
   font-size: clamp(var(--Font-Size-XS), 1.5vw, var(--Font-Size-Base));
   line-height: var(--Line-Height-XLoose);
   color: var(--Gray-Dark);
-  margin: 0;
   margin-top: var(--Spacing-XS);
+  margin-left: clamp(12px, calc(12px + var(--Checkbox-Size, 16px)), 28px);
+  padding-left: 0;
   display: block;
   text-align: left;
+}
+
+.signup__electrical_additional .signup__checkbox-text .signup__form-help,
+.signup__electrical_additional .signup__form-field--checkbox .signup__checkbox-text+.signup__form-help,
+.signup__electrical_additional .signup__form-field--checkbox label .signup__checkbox-text~.signup__form-help,
+.signup__electrical_additional label .signup__checkbox-text .signup__form-help {
+  margin-left: 0;
 }
 
 
@@ -1593,7 +1721,6 @@ width: 100%;
   margin-bottom: 0;
 }
 
-/* Customer form - base flex container styling */
 .signup__customer,
 .signup__installation_address_search,
 .signup__installation_address,
@@ -1603,12 +1730,13 @@ width: 100%;
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  margin: 0 -18px;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
-/* Situation date sections have their own specific styling - don't include in general rule */
 .signup__situation_cos_start_date,
 .signup__situation_move_start_date {
   margin: 0 -18px;
@@ -1633,9 +1761,8 @@ width: 100%;
   margin: 0 auto;
 }
 
-/* Ensure section title is visible above all input fields */
 .signup__section--customer .signup__section-title {
-  display: block !important;
+  display: block;
   width: 100%;
   flex-basis: 100%;
   order: -1;
@@ -1646,7 +1773,6 @@ width: 100%;
   flex-basis: 50%;
 }
 
-/* Make the last field take full width if it's alone in its row */
 .signup__customer .signup__form-field:last-child:nth-child(odd),
 .signup__customer .signup__form-field:last-child:nth-child(5),
 .signup__customer .signup__form-field:last-child:nth-child(7),
@@ -1664,9 +1790,8 @@ width: 100%;
   flex-basis: 100%;
 }
 
-/* Ensure section title is visible and centered */
 .signup__section--installation_address .signup__section-title {
-  display: block !important;
+  display: block;
   width: 100%;
   flex-basis: 100%;
   order: -1;
@@ -1703,12 +1828,12 @@ width: 100%;
   width: 100%;
 }
 
-/* Center permissions and payment sections */
 .signup__permissions_extras,
 .signup__payment_pbs_more {
-  max-width: 800px;
-  margin: 0 auto;
-  justify-content: center;
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  justify-content: flex-start;
 }
 
 
@@ -1730,7 +1855,6 @@ width: 100%;
   width: 100%;
 }
 
-/* Only hide specific spans, not all spans - keep labels visible */
 .signup__customer .signup__form-field label>span.signup__radio-wrap,
 .signup__customer .signup__form-field label>span.signup__checkbox-wrap,
 .signup__installation_address_manual .signup__form-field label>span.signup__radio-wrap,
@@ -1738,7 +1862,6 @@ width: 100%;
   display: none;
 }
 
-/* Ensure label text spans are visible */
 .signup__customer .signup__form-field label>span:not(.signup__radio-wrap):not(.signup__checkbox-wrap):not(.signup__radio-text):not(.signup__checkbox-text) {
   display: block;
   margin-bottom: var(--Spacing-MD);
@@ -1748,37 +1871,713 @@ width: 100%;
 }
 
 /* Payment & Permissions */
-.signup__payment .signup__form-field--radio label,
-.signup__permissions .signup__form-field--checkbox label {
-  padding: var(--Spacing-Hero-Padding);
-  border: var(--Radius-SM) solid var(--Gray-Light);
-  border-radius: var(--Radius-LG);
-  background: var(--White);
+.signup__payment {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-SM);
+}
+
+.signup__payment .signup__section-title {
+  font-size: var(--Font-Size-XXL);
+  font-weight: var(--Font-Weight-Bold);
+  margin-bottom: var(--Spacing-LG);
+}
+
+.signup__payment .signup__group-title {
+  font-size: 20px;
+  font-weight: var(--Font-Weight-Bold);
+  margin-bottom: var(--Spacing-SM);
+  text-align: left;
+}
+
+.signup__payment .signup__form-field {
+  padding: 0;
+  margin-bottom: var(--Spacing-SM);
+  max-width: 100%;
+  width: 100%;
+}
+
+.signup__payment .signup__form-field label>span:not(.signup__radio-wrap):not(.signup__checkbox-wrap):not(.signup__radio-text):not(.signup__checkbox-text) {
+  display: block;
+  margin-bottom: var(--Spacing-MD);
+  font-size: var(--Font-Size-Base);
+  color: var(--Black);
+  font-weight: var(--Font-Weight-Regular);
+}
+
+.signup__payment .signup__form-field input[type="text"],
+.signup__payment .signup__form-field input[type="number"],
+.signup__payment .signup__form-field input[type="tel"] {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.signup__payment .signup__payment_pbs_more {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.signup__payment .signup__form-field--radio {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.signup__payment .signup__payment_method_name.signup__form-field--radio {
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: transparent;
+  padding: 0;
+  margin-bottom: var(--Spacing-SM);
+  transition: all var(--Transition-Base);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: fit-content;
+  /* Ensure container has calculable height for absolute positioning */
+}
+
+.signup__payment .signup__payment_method_name.signup__form-field--radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: auto;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.signup__payment .signup__payment_method_name.signup__form-field--radio input[type="radio"][data-click-handler-added] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.signup__payment .signup__payment_method_name.signup__form-field--radio:hover,
+.signup__payment .signup__payment_method_name.signup__form-field--radio:has(input:checked) {
+  background: #FFF;
+}
+
+.signup__payment .signup__payment_method_name.signup__form-field--radio label {
+  border: none;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+  background: transparent;
   cursor: pointer;
   transition: all var(--Transition-Base);
-  align-items: flex-start;
+  width: 100%;
+  margin: 0;
+  position: static;
+  /* Changed from relative so input can be positioned relative to container */
+  z-index: 1;
 }
 
-.signup__payment .signup__form-field--radio label:hover,
+.signup__payment .signup__payment_method_name.signup__form-field--radio label .signup__radio-wrap {
+  display: none;
+}
+
+.signup__payment .signup__form-field--radio label img {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+  order: 1;
+}
+
+
+.signup__payment .signup__payment_method_name.signup__form-field--radio label .signup__radio-text {
+  order: 2;
+  font-weight: var(--Font-Weight-Bold);
+  font-size: 20px;
+  /* Match group-title font size */
+  color: var(--Black);
+  margin: 0;
+  line-height: var(--Line-Height-Loose);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.signup__payment .signup__payment_method_name.signup__form-field--radio .signup__form-help {
+  font-size: var(--Font-Size-XS);
+  color: var(--Gray-Dark);
+  line-height: var(--Line-Height-Loose);
+  margin: 0;
+  padding: 0 20px 20px 20px;
+  width: 100%;
+  pointer-events: none;
+  /* Allow clicks to pass through to input */
+}
+
+
+.signup__payment .signup__payment_pbs_frequency .signup__form-field--radio,
+.signup__payment .signup__payment_card_frequency .signup__form-field--radio,
+.signup__payment .signup__payment_ls_frequency .signup__form-field--radio,
+.signup__payment .signup__payment_fi_frequency .signup__form-field--radio {
+  margin-bottom: var(--Spacing-SM);
+  padding: 0;
+}
+
+.signup__payment .signup__payment_pbs_frequency .signup__form-field--radio label,
+.signup__payment .signup__payment_card_frequency .signup__form-field--radio label,
+.signup__payment .signup__payment_ls_frequency .signup__form-field--radio label,
+.signup__payment .signup__payment_fi_frequency .signup__form-field--radio label {
+  display: flex;
+  align-items: center;
+  gap: var(--Spacing-SM);
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.signup__payment .signup__payment_pbs_frequency .signup__form-field--radio label .signup__radio-wrap,
+.signup__payment .signup__payment_card_frequency .signup__form-field--radio label .signup__radio-wrap,
+.signup__payment .signup__payment_ls_frequency .signup__form-field--radio label .signup__radio-wrap,
+.signup__payment .signup__payment_fi_frequency .signup__form-field--radio label .signup__radio-wrap {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.signup__payment .signup__payment_pbs_frequency .signup__form-field--radio label .signup__radio-text,
+.signup__payment .signup__payment_card_frequency .signup__form-field--radio label .signup__radio-text,
+.signup__payment .signup__payment_ls_frequency .signup__form-field--radio label .signup__radio-text,
+.signup__payment .signup__payment_fi_frequency .signup__form-field--radio label .signup__radio-text {
+  color: #000;
+  font-family: Gamay, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: var(--Font-Weight-Light);
+  line-height: 120%;
+  margin-left: var(--Spacing-Base);
+  flex: 1;
+}
+
+.signup__payment .signup__payment_pbs_frequency .signup__group-title,
+.signup__payment .signup__payment_card_frequency .signup__group-title,
+.signup__payment .signup__payment_ls_frequency .signup__group-title,
+.signup__payment .signup__payment_fi_frequency .signup__group-title,
+.signup__payment .payment-frequency-heading {
+  margin-top: var(--Spacing-XS);
+  margin-left: 0;
+  font-weight: var(--Font-Weight-Bold);
+  font-size: 20px;
+  /* Match section-title font size */
+  color: var(--Black);
+  margin-bottom: var(--Spacing-XS);
+  text-align: left;
+}
+
+.signup__payment .signup__form-help {
+  margin-top: var(--Spacing-XS);
+  margin-left: calc(32px + var(--Spacing-SM));
+  font-size: var(--Font-Size-XS);
+  color: var(--Gray-Dark);
+  line-height: var(--Line-Height-XLoose);
+}
+
+.signup__permissions {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.signup__permissions .signup__form-field--checkbox {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 6px;
+}
+
+.signup__permissions .signup__form-field--checkbox label {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: none;
+  align-items: center;
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .signup__permissions .signup__form-field--checkbox label:hover {
-  border-color: var(--Black);
+  border-color: transparent;
 }
 
-.signup__payment .signup__form-field--radio input:checked ~ .signup__radio-text,
-.signup__permissions .signup__form-field--checkbox input:checked ~ .signup__checkbox-text {
-  font-weight: 700;
+.signup__permissions .signup__form-field--checkbox input:checked~.signup__checkbox-text {
+  font-weight: var(--Font-Weight-Regular);
+}
+
+.signup__permissions .signup__checkbox-text {
+  color: #000;
+  font-family: Gamay;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  margin-left: 0;
+  flex: 1;
+}
+
+.signup__permissions .signup__form-help {
+  margin-top: var(--Spacing-XS);
+  margin-left: clamp(12px, calc(12px + var(--Checkbox-Size, 16px)), 28px);
+  padding-left: 0;
+  font-size: var(--Font-Size-XS);
+  color: var(--Gray-Dark);
+  line-height: var(--Line-Height-XLoose);
+}
+
+.signup__summary {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+  background: var(--White);
+  border-radius: 4px;
+  outline: 1px solid rgba(0, 0, 0, 0.10);
+  outline-offset: -1px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-flow: row dense;
+  gap: 12px 16px;
+  /* Smaller vertical gap, standard horizontal gap */
+  align-items: start;
+}
+
+.signup__summary>br {
+  display: none;
+}
+
+.signup__summary>h4,
+.signup__summary>p {
+  font-weight: var(--Font-Weight-Light);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Line-Height-Loose);
+  color: var(--Black);
+  margin: 0 0 16px 0;
+  text-align: left;
+  font-family: var(--Font-Family);
+  grid-column: 1 / -1;
+  /* Span full width across 2 columns */
+}
+
+.signup__form-title+h4,
+.signup__form-title+p,
+h1+h4,
+h1+p {
+  font-weight: var(--Font-Weight-Light);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Line-Height-Loose);
+  color: var(--Black);
+  margin: 0 0 16px 0;
+  text-align: left;
+  font-family: var(--Font-Family);
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signup__summary>h4 *,
+.signup__summary>p *,
+.signup__form-title+h4 *,
+.signup__form-title+p *,
+h1+h4 *,
+h1+p * {
+  margin-left: 0;
+}
+
+.signup__summary>section {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: var(--Nautral-Lightest);
+  border-radius: 4px;
+  outline: 1px solid rgba(0, 0, 0, 0.10);
+  outline-offset: -1px;
+}
+
+.signup__summary>section:not(:nth-of-type(1)) {
+  background: transparent;
+  outline: none;
+  padding: 0 16px;
+}
+
+.signup__summary>section h3 {
+  font-weight: 600;
+  font-size: 14px;
+  /* Smaller, more compact */
+  line-height: 20px;
+  /* Tighter line height */
+  color: var(--Black);
+  margin: 0 0 4px 0;
+  /* More compact spacing */
+  text-align: left;
+  font-family: var(--Font-Family);
+}
+
+.signup__summary>section:nth-of-type(1) {
+  order: 5;
+  grid-column: 1 / -1;
+  grid-row: auto;
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.signup__summary>section:nth-of-type(1) h3 {
+  grid-column: 1 / -1;
+  /* Heading spans full width */
+  font-weight: 400;
+  /* Regular weight */
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.signup__summary>.signup__permissions-earliest-date {
+  font-weight: var(--Font-Weight-Light);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Line-Height-Loose);
+  color: var(--Black);
+  margin: 0 0 16px 0;
+  text-align: center;
+  /* Centered text */
+  font-family: var(--Font-Family);
+  grid-column: 1 / -1;
+  /* Span full width across 2 columns */
+}
+
+.signup__summary>section:nth-of-type(1) .row {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 0;
+}
+
+.signup__summary>section:nth-of-type(2) {
+  order: 1;
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.signup__summary>section:nth-of-type(3) {
+  order: 2;
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.signup__summary>section:nth-of-type(4) {
+  order: 3;
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.signup__summary>section:nth-of-type(5),
+.signup__summary>section.summary-price-section {
+  order: 4;
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.signup__summary .summary-price-section h3 {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0 0 8px 0;
+}
+
+.signup__summary .summary-price-section #summary-price-value {
+  font-weight: var(--Font-Weight-Light);
+  font-size: 14px;
+  /* Same as other values */
+  line-height: 20px;
+  color: var(--Black);
+}
+
+.signup__summary .summary-price-section .summary-price-currency {
+  font-size: 14px;
+  vertical-align: baseline;
+  margin-left: 0;
+  color: var(--Black);
+}
+
+.signup__summary>section .row {
+  display: flex;
+  gap: 0;
+  margin-bottom: 8px;
+  align-items: flex-start;
+  width: 100%;
+  flex-direction: column;
+}
+
+.signup__summary>section .row:last-child {
+  margin-bottom: 0;
+}
+
+.signup__summary>section .row:not(:has(.col-md-3):has(.col-md-7))>* {
+  display: block;
+  width: 100%;
+  flex: none;
+}
+
+
+.signup__summary>section:nth-of-type(1) .row:has(.col-md-3):has(.col-md-7) {
+  gap: 32px;
+}
+
+.signup__summary .row:not(:has(.col-md-3):has(.col-md-7)) .col-md-3,
+.signup__summary .row:not(:has(.col-md-3):has(.col-md-7)) .col-md-7,
+.signup__summary .row:not(:has(.col-md-3):has(.col-md-7)) .col-md-10 {
+  width: 100%;
+  display: block;
+}
+
+.signup__summary .col-md-3,
+.signup__summary .col-md-7,
+.signup__summary .col-md-10 {
+  padding: 0;
+  color: var(--Black);
+  font-size: 14px;
+  /* Smaller, more compact */
+  font-family: var(--Font-Family);
+  line-height: 20px;
+  /* Tighter line height */
+  font-weight: var(--Font-Weight-Light);
+  display: block;
+}
+
+.signup__summary>section .row:not(:has(.col-md-3):has(.col-md-7)) .col-md-3,
+.signup__summary>section .row:not(:has(.col-md-3):has(.col-md-7)) .col-md-7,
+.signup__summary>section .row:not(:has(.col-md-3):has(.col-md-7)) .col-md-10 {
+  width: 100%;
+  display: block;
+  flex: none;
+}
+
+.signup__summary .col-md-3 {
+  font-weight: 600;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.signup__summary .col-md-7 {
+  min-width: 0;
+}
+
+.signup__summary .row:has(.col-md-10:only-child) .col-md-10 {
+  width: 100%;
+}
+
+.signup__summary>section:nth-of-type(1) .row {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 0;
+  /* No margin, handled by grid gap */
+}
+
+.signup__summary>section:nth-of-type(1) .row:has(.col-md-3):has(.col-md-7) {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px;
+  /* Horizontal gap between label and value */
+}
+
+.signup__summary>section:nth-of-type(1) .row:not(:has(.col-md-3):has(.col-md-7)) {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup__summary+p,
+.signup__summary+div,
+.signup__form-group:has(.signup__summary)+p,
+.signup__form-group:has(.signup__summary)+div {
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--Black);
+  margin-top: 16px;
+  text-align: left;
+  font-family: var(--Font-Family);
+  font-weight: var(--Font-Weight-Light);
+}
+
+#earliest-date,
+p:has(#earliest-date),
+.signup__permissions-earliest-date,
+.signup__summary+p:has(#earliest-date),
+.signup__form-group:has(.signup__summary)+p:has(#earliest-date) {
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Price card - bottom-right fixed position */
+#price-card {
+  position: fixed;
+  right: var(--Spacing-XL);
+  bottom: var(--Spacing-XL);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+#price-card .price-card__inner {
+  pointer-events: auto;
+  background: var(--White, #FFF);
+  border: 1px solid rgba(0, 0, 0, 0.20);
+  border-radius: 2px;
+  padding: var(--Spacing-LG) var(--Spacing-Base) var(--Spacing-MD);
+  min-width: 170px;
+  box-shadow: 8px 8px 1px 0 #000;
+  text-align: left;
+  font-family: var(--Font-Family);
+}
+
+#price-card .price-card__label {
+  font-weight: var(--Font-Weight-Bold);
+  font-size: var(--Font-Size-Base);
+  margin-bottom: var(--Spacing-SM);
+  color: var(--Black);
+}
+
+#price-card .price-card__amount {
+  font-weight: var(--Font-Weight-ExtraBold);
+  font-size: 56px;
+  line-height: var(--Line-Height-Tight);
+  letter-spacing: -1px;
+  color: var(--Black);
+}
+
+#price-card .price-card__currency {
+  font-size: 32px;
+  vertical-align: super;
+  margin-left: var(--Radius-XS);
+  color: var(--Black);
+}
+
+#price-card .price-card__sub {
+  margin-top: var(--Spacing-SM);
+  font-size: var(--Font-Size-XS);
+  font-weight: var(--Font-Weight-Bold);
+  color: var(--Black);
+}
+
+/* Responsive tweaks for price card */
+@media (max-width: 768px) {
+  #price-card {
+    right: var(--Spacing-Base);
+    bottom: var(--Spacing-Base);
+    transform: scale(0.6);
+    transform-origin: bottom right;
+  }
+
+  #price-card .price-card__inner {
+    padding: var(--Spacing-Base) var(--Spacing-SM) var(--Spacing-XS);
+    min-width: 120px;
+  }
+
+  #price-card .price-card__label {
+    font-size: var(--Font-Size-XS);
+    margin-bottom: var(--Spacing-XS);
+  }
+
+  #price-card .price-card__amount {
+    font-size: 32px;
+  }
+
+  #price-card .price-card__currency {
+    font-size: 18px;
+  }
+
+  #price-card .price-card__sub {
+    font-size: 10px;
+    margin-top: var(--Spacing-XS);
+  }
+}
+
+@media (max-width: 480px) {
+  #price-card {
+    transform: scale(0.5);
+  }
+}
+
+/* Backlink button */
+.backlink-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-left: 6px;
+  border: 1px solid #c9c9c9;
+  border-radius: var(--Radius-MD);
+  background: var(--White);
+  color: #222;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: var(--Font-Size-XS);
+  line-height: 1;
+}
+
+.backlink-btn:hover {
+  background: #f5f5f5;
+  border-color: #aaa;
+}
+
+.backlink-btn:focus-visible {
+  outline: 2px solid #2b7cff;
+  outline-offset: 2px;
+}
+
+.backlink-btn__icon {
+  transform: translateY(-0.5px);
+  /* centering */
 }
 
 /* Navigation buttons */
 .actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: var(--Spacing-Page-Bottom) 0 calc(var(--Button-Padding-X) * 2);
-    gap: var(--Spacing-Base);
-    max-width: var(--Max-Width-Button-Container);
-    margin-left: auto;
-    margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: var(--Spacing-Page-Bottom) 0 calc(var(--Button-Padding-X) * 2);
+  gap: var(--Spacing-Base);
+  max-width: var(--Max-Width-Button-Container);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .actions input[type="submit"] {
@@ -1792,14 +2591,14 @@ width: 100%;
 }
 
 #back-button {
-    color: var(--Black);
-    text-align: center;
-    text-decoration: none;
-    background: transparent;
-    font-size: var(--Font-Size-Base);
-    font-style: normal;
-    font-weight: var(--Font-Weight-Normal);
-    line-height: var(--Line-Height-Button);
+  color: var(--Black);
+  text-align: center;
+  text-decoration: none;
+  background: transparent;
+  font-size: var(--Font-Size-Base);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Normal);
+  line-height: var(--Line-Height-Button);
 }
 
 #back-button:hover {
@@ -1821,41 +2620,38 @@ width: 100%;
   opacity: var(--Opacity-Disabled);
 }
 
-/* Hide back button on first step (electrical_product) */
 #group-container:has(.signup__section--electrical_product) .actions #back-button {
-  display: none !important;
+  display: none;
 }
 
-/* Hide next button on first step completely - MUST be after any general .actions #next-button rules */
 #group-container:has(.signup__section--electrical_product) .actions #next-button,
-.signup__section--electrical_product ~ .actions #next-button,
-.signup__section--electrical_product + .actions #next-button,
+.signup__section--electrical_product~.actions #next-button,
+.signup__section--electrical_product+.actions #next-button,
 body:has(.signup__section--electrical_product) .actions #next-button {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  position: absolute !important;
-  width: 0 !important;
-  height: 0 !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
 }
 
-/* Show both buttons from step 2 onwards (situation and later) */
-.signup__section--situation ~ * .actions #next-button,
+.signup__section--situation~* .actions #next-button,
 #group-container:has(.signup__section--situation) .actions #back-button,
 #group-container:has(.signup__section--situation) .actions #next-button,
 .signup__section--situation .actions #back-button,
 .signup__section--situation .actions #next-button {
-  display: inline-block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  overflow: visible !important;
+  display: inline-block;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
 }
 
 /* Error messages */
@@ -1866,6 +2662,9 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   margin-top: var(--Spacing-SM);
   margin-bottom: 0;
   font-weight: var(--Font-Weight-Bold);
+  display: block;
+  width: 100%;
+  flex-basis: 100%;
 }
 
 .signup__has-error input[type="text"],
@@ -1873,7 +2672,6 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   border-color: var(--Error-Red);
 }
 
-/* Ensure error messages are visible for situation date fields */
 .signup__situation_cos_start_date .signup__has-error .signup__error-message,
 .signup__situation_move_start_date .signup__has-error .signup__error-message {
   display: block;
@@ -1901,7 +2699,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 }
 
 /* Dawa autocomplete */
-.signup__dawa_autocomplete label > span {
+.signup__dawa_autocomplete label>span {
   display: none;
 }
 
@@ -1909,7 +2707,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   margin: var(--Spacing-SM) 0 0;
   border-radius: var(--Radius-LG);
   background: var(--White);
-  box-shadow: 0 var(--Radius-MD) var(--Font-Size-XS) rgba(0,0,0,var(--Opacity-Shadow-Medium));
+  box-shadow: 0 var(--Radius-MD) var(--Font-Size-XS) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
   border: 1px solid var(--Gray-Light);
 }
 
@@ -1925,7 +2723,6 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   background: var(--Hover-Bg);
 }
 
-/* Date picker icon - style existing icon larger */
 .signup__situation_cos_start_date .signup__form-field label,
 .signup__situation_move_start_date .signup__form-field label {
   position: relative;
@@ -1972,84 +2769,478 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 }
 
 /* Responsive */
-@media only screen and (max-width: var(--Breakpoint-Mobile)) {
-  .signup__form-field {
-    flex-basis: 100% !important;
-  }
-  
+/* Mobile breakpoint: 980px */
+@media only screen and (max-width: 980px) {
+  /* ============================================
+     BASE LAYOUT & SPACING
+     ============================================ */
+
   .signup__page {
     padding-top: var(--Spacing-Page-Top-Mobile);
+    padding-bottom: 0;
   }
-  
+
+  .signup__form-field {
+    flex-basis: 100%;
+    padding: 0 var(--Spacing-Base);
+  }
+
+  .signup__form-group {
+    padding: 0 var(--Spacing-Base);
+  }
+
+  /* ============================================
+     HERO & NAVIGATION
+     ============================================ */
+
   .signup__page .hero {
-    padding: var(--Spacing-Hero-Padding) 0 0 var(--Spacing-Hero-Padding);
+    padding: var(--Spacing-Hero-Padding) var(--Spacing-Base) 0 var(--Spacing-Base);
+    flex-wrap: wrap;
+    gap: var(--Spacing-SM);
+    align-items: flex-start;
   }
-  
+
   .signup__page .hero img {
     max-width: var(--Max-Width-Logo-Mobile);
+    height: auto;
   }
-  
+
   .signup__page .hero .topnav {
-    padding: 0 var(--Spacing-Hero-Padding) 0 0;
+    position: absolute;
+    top: var(--Spacing-Hero-Padding);
+    right: var(--Spacing-Base);
+    padding: 0;
+    width: auto;
+    order: 1;
+    margin-top: 0;
+    align-self: flex-start;
+    z-index: calc(var(--Z-Index-Hero) + 1);
   }
-  
+
   .topnav ul {
-    flex-direction: column;
-    gap: var(--Topnav-Gap-Mobile);
+    flex-direction: row;
+    gap: var(--Spacing-SM);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 0;
+    padding-top: 0;
+    align-items: flex-start;
   }
-  
+
+  .topnav ul li {
+    flex: 0 1 auto;
+  }
+
   .topnav ul li a {
-    font-size: var(--Font-Size-XS);
-    padding: var(--Spacing-SM) var(--Font-Size-MD);
+    font-size: var(--Font-Size-Base);
+    padding: var(--Spacing-MD) var(--Spacing-MD);
+    white-space: nowrap;
   }
-  
+
+  .topnav ul li:nth-child(1) a {
+    padding-left: calc(var(--Spacing-Base) + 18px + var(--Spacing-XS));
+  }
+
+  /* ============================================
+     TYPOGRAPHY - TITLES
+     ============================================ */
+
+  .signup__page form #group-container .signup__form-section h1.signup__section-title,
+  .signup__page form #group-container .signup__form-section h5.signup__section-title,
+  .signup__page form #group-container .signup__form-section h1.signup__group-title,
+  .signup__page form #group-container h1.signup__section-title,
+  .signup__page form #group-container h5.signup__section-title,
+  .signup__page form #group-container h1.signup__group-title,
+  .signup__page form h1.signup__section-title,
+  .signup__page form h5.signup__section-title,
+  .signup__page form h1.signup__group-title,
+  .signup__page form h1.signup__form-title,
+  .signup__page #group-container h1.signup__section-title,
+  .signup__page #group-container h5.signup__section-title,
+  .signup__page #group-container h1.signup__group-title,
+  .signup__page h1.signup__section-title,
+  .signup__page h5.signup__section-title,
+  .signup__page h1.signup__group-title,
+  .signup__page h1.signup__form-title,
+  form #group-container h1.signup__section-title,
+  form #group-container h5.signup__section-title,
+  form #group-container h1.signup__group-title,
+  form h1.signup__section-title,
+  form h5.signup__section-title,
+  form h1.signup__group-title,
+  form h1.signup__form-title,
+  #group-container .signup__form-section h1.signup__section-title,
+  #group-container .signup__form-section h5.signup__section-title,
+  #group-container .signup__form-section h1.signup__group-title,
+  #group-container h1.signup__section-title,
+  #group-container h5.signup__section-title,
+  #group-container h1.signup__group-title,
+  .signup__form-section h1.signup__section-title,
+  .signup__form-section h5.signup__section-title,
+  .signup__form-section h1.signup__group-title,
+  .signup__section h1.signup__section-title,
+  .signup__section h5.signup__section-title,
+  .signup__section h1.signup__group-title,
+  h1.signup__section-title,
+  h5.signup__section-title,
+  h1.signup__group-title,
+  h1.signup__form-title,
+  h1,
   .signup__section-title,
-  .signup__group-title,
-  .signup__form-title {
-    font-size: var(--Font-Size-XL);
+  .signup__group-title {
+    font-size: 1.5rem;
+    padding: 0 var(--Spacing-Base);
+    margin-left: var(--Spacing-Base);
+    margin-right: var(--Spacing-Base);
   }
-  
+
+  .signup__section--electrical_product h1.signup__section-title,
+  .signup__section--electrical_product h5.signup__section-title,
+  .signup__section--electrical_product .signup__section-title,
+  .signup__section--electrical_product_additional-additional h1.signup__section-title,
+  .signup__section--electrical_product_additional-additional h5.signup__section-title,
+  .signup__section--electrical_product_additional-additional .signup__section-title,
+  .signup__page form #group-container .signup__form-section.signup__section--electrical_product h1.signup__section-title,
+  .signup__page form #group-container .signup__form-section.signup__section--electrical_product h5.signup__section-title,
+  .signup__page form #group-container .signup__form-section.signup__section--electrical_product_additional-additional h1.signup__section-title,
+  .signup__page form #group-container .signup__form-section.signup__section--electrical_product_additional-additional h5.signup__section-title,
+  #group-container .signup__form-section.signup__section--electrical_product h1.signup__section-title,
+  #group-container .signup__form-section.signup__section--electrical_product h5.signup__section-title,
+  #group-container .signup__form-section.signup__section--electrical_product_additional-additional h1.signup__section-title,
+  #group-container .signup__form-section.signup__section--electrical_product_additional-additional h5.signup__section-title,
+  .signup__form-section[class*="electrical"] h1.signup__section-title,
+  .signup__form-section[class*="electrical"] h5.signup__section-title,
+  .signup__form-section[class*="electrical"] .signup__section-title,
+  .signup__section--electrical_product .signup__section-title,
+  .signup__section--electrical_product_additional-additional .signup__section-title,
+  .signup__payment .signup__section-title,
+  .signup__payment h5.signup__section-title {
+    font-size: 1.5rem !important;
+    padding: 0 var(--Spacing-Base);
+    margin-left: var(--Spacing-Base);
+    margin-right: var(--Spacing-Base);
+  }
+
+  .signup__payment .signup__group-title,
+  .signup__electrical_additional_products .signup__group-title,
+  .signup__electrical_additional_products .addon-group-header.addon-group-skip-button .signup__group-title,
+  .signup__payment .signup__payment_pbs_frequency .signup__group-title,
+  .signup__payment .signup__payment_card_frequency .signup__group-title,
+  .signup__payment .signup__payment_ls_frequency .signup__group-title,
+  .signup__payment .signup__payment_fi_frequency .signup__group-title,
+  .signup__payment .payment-frequency-heading {
+    font-size: 1.125rem;
+    /* 18px */
+  }
+
+  .signup__summary>section h3,
+  .signup__summary .summary-price-section h3 {
+    font-size: 1rem;
+    /* 16px */
+  }
+
+  .signup__electrical_additional_products .addon-group-section h4 {
+    font-size: 0.9375rem;
+    /* 15px */
+  }
+
+  .signup__section--electrical_product>p {
+    font-size: var(--Font-Size-Base);
+    /* 14px */
+  }
+
+  .signup__electrical_additional_products .addon-group-description,
+  .signup__electrical_additional_products .addon-group-header.addon-group-skip-button .addon-group-description {
+    font-size: var(--Font-Size-Base);
+    /* 14px */
+  }
+
+  .signup__electrical_additional .signup__checkbox-text,
+  .signup__permissions .signup__checkbox-text,
+  .signup__form-field label>span.signup__checkbox-text {
+    font-size: var(--Font-Size-Base);
+    /* 14px */
+  }
+
+  .signup__summary>h4,
+  .signup__summary>p,
+  .signup__form-title+h4,
+  .signup__form-title+p,
+  h1+h4,
+  h1+p {
+    font-size: var(--Font-Size-Base);
+    /* 14px */
+  }
+
+  .signup__payment .signup__payment_method_name.signup__form-field--radio label .signup__radio-text {
+    font-size: 1.125rem;
+    /* 18px - matches group-title on mobile */
+  }
+
+  /* ============================================
+     FORM SECTIONS - PADDING
+     ============================================ */
+
+  .signup__section--electrical_product,
+  .signup__section--situation,
+  .signup__section--gas_product,
+  .signup__section--installation_address_select,
+  .signup__section--installation_address_manual,
+  .signup__section--electrical_product_additional-additional,
+  .signup__section--customer,
+  .signup__section--installation_address_search,
+  .signup__section--payment,
+  .signup__section--permissions {
+    padding: 0 var(--Spacing-Base);
+  }
+
+  /* ============================================
+     FORM ELEMENTS
+     ============================================ */
+
   .signup__situation {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .signup__situation .signup__form-field--radio label {
     min-width: auto;
     width: 100%;
   }
-  
-  .signup__section--electrical_product .signup__section-title {
-    font-size: var(--Font-Size-XL);
+
+  .signup__form-field--checkbox label {
+    gap: 12px;
   }
-  
-  .signup__section--electrical_product > p {
-  font-size: var(--Font-Size-Base);
-}
+
+  .signup__form-field label>span.signup__radio-text,
+  .signup__form-field label>span.signup__checkbox-text {
+    margin-left: 12px;
+  }
+
+  .signup__form-field--checkbox .signup__form-help {
+    margin-left: clamp(12px, calc(12px + var(--Checkbox-Size, 16px)), 28px);
+  }
+
+  /* ============================================
+     CARDS & SELECTORS
+     ============================================ */
 
   .housing-type-selector {
     flex-direction: column;
     align-items: stretch;
     gap: var(--Selector-Gap-Mobile);
   }
-  
-  .housing-type-selector > div {
+
+  .housing-type-selector>div,
+  .situation-option-card,
+  .housing-option-card {
     min-width: auto;
     max-width: 100%;
     width: 100%;
     flex: 1 1 100%;
   }
-  
-  .housing-type-selector > div img {
+
+  .situation-option-card,
+  .housing-option-card {
+    min-height: auto;
+  }
+
+  .situation-option-card img,
+  .housing-option-card img {
     max-width: var(--Max-Width-Housing-Image-Mobile);
+    width: 100%;
   }
-  
-  .actions {
+
+  /* ============================================
+     SUMMARY SECTION
+     ============================================ */
+
+  .signup__summary {
+    display: flex;
     flex-direction: column;
+    grid-template-columns: none;
+    grid-auto-flow: unset;
+    padding: 12px;
+    margin: 0 var(--Spacing-Base);
+    max-width: calc(100% - (var(--Spacing-Base) * 2));
+    gap: var(--Spacing-Base);
   }
-  
+
+  .signup__summary>section {
+    width: 100%;
+  }
+
+  .signup__summary>section:nth-of-type(1) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Spacing-SM);
+    margin-top: 0;
+  }
+
+  .signup__summary>section:nth-of-type(1) .row:has(.col-md-3):has(.col-md-7) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Spacing-SM);
+    width: 100%;
+  }
+
+  .signup__summary>section:nth-of-type(1) .row:has(.col-md-3):has(.col-md-7) .col-md-3 {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  .signup__summary>section:nth-of-type(1) .row:has(.col-md-3):has(.col-md-7) .col-md-7 {
+    width: 100%;
+  }
+
+  .signup__summary>h4,
+  .signup__summary>p {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* ============================================
+     CONTAINERS - FULL WIDTH
+     ============================================ */
+
+  .signup__form-section,
+  .signup__form-group,
+  .signup__section,
+  .signup__installation_address_select,
+  .signup__payment_pbs_more,
+  .signup__permissions {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* ============================================
+     INPUTS & FORM ELEMENTS - RESPONSIVE
+     ============================================ */
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  select,
+  textarea,
+  .signup__form-field--date input {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* ============================================
+     ACTIONS & BUTTONS
+     ============================================ */
+
+  .actions {
+    flex-direction: row;
+    gap: var(--Spacing-SM);
+    padding: 0 var(--Spacing-Base);
+    width: 100%;
+    max-width: 100%;
+  }
+
   #next-button {
     margin-left: 0;
-    width: 100%;
+    flex: 1;
+  }
+
+  #back-button {
+    flex: 1;
+  }
+
+  .actions input[type="submit"],
+  #back-button,
+  #next-button {
+    width: auto;
+    flex: 1;
+  }
+
+  /* ============================================
+     TEXT ELEMENTS & SPACING
+     ============================================ */
+
+  .signup__form-title+h4,
+  .signup__form-title+p,
+  h1+h4,
+  h1+p,
+  .signup__summary+p,
+  .signup__summary+div {
+    margin-left: var(--Spacing-Base);
+    margin-right: var(--Spacing-Base);
+    max-width: calc(100% - (var(--Spacing-Base) * 2));
+  }
+
+  #earliest-date,
+  p:has(#earliest-date),
+  .signup__permissions-earliest-date {
+    margin-right: var(--Spacing-Base);
+    max-width: calc(100% - (var(--Spacing-Base) * 2));
+  }
+
+  /* ============================================
+     ADDITIONAL PRODUCTS
+     ============================================ */
+
+  .signup__electrical_additional_products {
+    padding: var(--Spacing-Base);
+    margin: 0 var(--Spacing-Base);
+    max-width: calc(100% - (var(--Spacing-Base) * 2));
+  }
+
+  .signup__electrical_additional.signup__form-field--checkbox {
+    padding: var(--Spacing-SM) var(--Spacing-Base);
+  }
+
+  /* ============================================
+     PROGRESS BAR
+     ============================================ */
+
+  #progress-container {
+    padding: 0 var(--Spacing-Base);
+    margin-top: var(--Spacing-SM);
+  }
+
+  #progress-text {
+    font-size: var(--Font-Size-XS);
+  }
+
+  /* ============================================
+     TOOLTIPS
+     ============================================ */
+
+  .signup__tooltip,
+  [data-tooltip]::after,
+  .signup__form-field--tooltip .signup__tooltip,
+  .addon-tooltip-text,
+  .signup__electrical_additional_products .addon-tooltip-icon:hover .addon-tooltip-text,
+  .signup__electrical_additional_products .addon-tooltip-icon:focus .addon-tooltip-text {
+    max-width: calc(100vw - (var(--Spacing-Base) * 2));
+    min-width: calc(100vw - (var(--Spacing-Base) * 2));
+    width: calc(100vw - (var(--Spacing-Base) * 2));
+  }
+
+  /* ============================================
+     PRICE CARD
+     ============================================ */
+
+  #price-card {
+    width: auto;
+    min-width: auto;
+  }
+
+  #price-card .price-card__inner {
+    min-width: auto;
+    width: auto;
+    max-width: calc(100vw - (var(--Spacing-Base) * 2));
+  }
+
+  /* ============================================
+     TRUSTPILOT WIDGET
+     ============================================ */
+
+  .wrapper-top .tp-widget-reviews {
+    font-size: var(--Font-Size-Base);
+    min-width: 200px;
   }
 }
