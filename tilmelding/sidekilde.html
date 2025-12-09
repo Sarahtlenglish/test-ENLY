@@ -2140,6 +2140,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 initDawaAutocomplete(container);
                 initToggleRadios(container);
                 initToggleChecks(container);
+                document.dispatchEvent(new CustomEvent('group:loaded', { detail: { container } }));
 
                 return false;
             } else {

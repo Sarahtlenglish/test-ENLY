@@ -79,7 +79,6 @@ function getElementPath(element) {
   return path.join(' > ');
 }
 
-// PRICE MAP AS IN COLLEAGUE'S SNIPPET
 window.ENLY_DEBUG_PRICE = false;
 function storeSelectedProductFromId(id) {
   if (!id) return;
@@ -123,49 +122,6 @@ function computeMonthlyPrice() {
   document.head.appendChild(preconnect2);
 })();
 
-
-// Debug: Log h1 elements on group:loaded event
-document.addEventListener('group:loaded', function() {
-  // Log h1 elements when group loads (for all steps)
-  if (window.innerWidth <= 980) { // Mobile breakpoint
-    setTimeout(() => {
-      const allH1s = document.querySelectorAll('h1');
-      console.log('=== MOBILE DEBUG: H1 Elements on group:loaded ===');
-      console.log(`Viewport width: ${window.innerWidth}px`);
-      console.log(`Media query should match: ${window.innerWidth <= 980}`);
-      console.log(`Total h1 elements found: ${allH1s.length}`);
-      allH1s.forEach((h1, index) => {
-        const computedStyle = window.getComputedStyle(h1);
-        console.log(`\nH1 #${index + 1}:`);
-        console.log('  Text:', h1.textContent?.trim().substring(0, 50));
-        console.log('  Classes:', h1.className);
-        console.log('  Computed font-size:', computedStyle.fontSize);
-        console.log('  Computed font-size (px):', parseFloat(computedStyle.fontSize));
-        console.log('  Expected: 24px (1.5rem)');
-        console.log('  Full path:', getElementPath(h1));
-        
-        // Test if our selectors match
-        const testSelectors = [
-          'h1.signup__section-title',
-          'h1.signup__form-title',
-          '.signup__page h1.signup__section-title',
-          '.signup__page h1.signup__form-title',
-          'form h1.signup__section-title',
-          '#group-container h1.signup__section-title'
-        ];
-        console.log('  Selector matches:');
-        testSelectors.forEach(sel => {
-          try {
-            const matches = h1.matches(sel);
-            console.log(`    ${sel}: ${matches}`);
-          } catch(e) {
-            console.log(`    ${sel}: ERROR - ${e.message}`);
-          }
-        });
-      });
-    }, 100);
-  }
-});
 
 // Hus / Lejlighed radio
 document.addEventListener('group:loaded', function() {
@@ -384,9 +340,9 @@ document.addEventListener('group:loaded', function() {
     }
 });
 
-// Situation selector (step 2) - konverter radio buttons til billedkort
-document.addEventListener('group:loaded', function() {
-    const situationContainer = document.querySelector('.signup__situation');
+function initSituationSelector(root) {
+    const scope = root || document;
+    const situationContainer = scope.querySelector('.signup__situation');
     if (!situationContainer) return;
     
     // Tjek om vi allerede har oprettet selector'en
@@ -518,6 +474,33 @@ document.addEventListener('group:loaded', function() {
         // Insert at beginning if no title
         situationContainer.insertBefore(situationWrapper, situationContainer.firstChild);
     }
+}
+
+// Init situation selector on both initial DOM load (for validation error reloads) and group loads
+document.addEventListener('DOMContentLoaded', () => initSituationSelector(document));
+document.addEventListener('group:loaded', (e) => {
+    initSituationSelector(e?.detail?.container || document);
+});
+
+// Fallback: observe DOM changes in group container to (re)init situation cards after partial updates/validation reloads
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector(CONFIG.SELECTOR_GROUP_CONTAINER);
+    if (!container) return;
+
+    const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            const added = Array.from(mutation.addedNodes || []);
+            if (added.some(node =>
+                node.nodeType === 1 &&
+                (node.matches?.('.signup__situation') || node.querySelector?.('.signup__situation'))
+            )) {
+                initSituationSelector(container);
+                break;
+            }
+        }
+    });
+
+    observer.observe(container, { childList: true, subtree: true });
 });
 
 // Gas product selector - konverter radio buttons til store tekst knapper
@@ -696,7 +679,6 @@ document.addEventListener('group:loaded', function() {
     }
     
     if (allRadios.length === 0) {
-        console.warn('No radio buttons found in installation_address_select');
         return;
     }
 
@@ -1007,8 +989,8 @@ function organizeAddOnProducts(root) {
   const hasNoChargerProducts = [];
   
   formGroups.forEach(formGroup => {
-    // Check for both checkbox and radio (since we convert checkboxes to radio)
-    const checkbox = formGroup.querySelector('input[type="checkbox"], input[type="radio"][name="prospect[product_options_radio]"]');
+    // Check for both checkbox and radio (since we convert checkboxes to radio) and allow original name
+    const checkbox = formGroup.querySelector('input[type="checkbox"], input[type="radio"][name="prospect[product_options_radio]"], input[type="radio"][name="prospect[product_options][]"]');
     if (!checkbox) return;
     
     const checkboxText = formGroup.querySelector('.signup__checkbox-text')?.textContent?.toLowerCase() || '';
@@ -1071,6 +1053,30 @@ function organizeAddOnProducts(root) {
     subHeading1.className = 'addon-sub-heading';
     subHeading1.textContent = CONFIG.SUBHEADING_SOLUTION;
     contentWrapper1.appendChild(subHeading1);
+
+    // Helper: select/unselect ladestander product
+    const setChargerSelection = (checked) => {
+      const chargerInput = optionalProducts
+        .map(pg => pg.querySelector('input[type="radio"], input[type="checkbox"]'))
+        .find(inp => {
+          const fullText = (inp?.dataset.productName || '').toLowerCase();
+          return CONFIG.KEYWORD_NO_CHARGER.some(k => fullText.includes(k)) === false;
+        });
+      if (chargerInput) {
+        chargerInput.checked = checked;
+        chargerInput.dispatchEvent(new Event('change', { bubbles: true }));
+        chargerInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      // Uncheck all other add-ons when selecting charger (single choice)
+      if (checked) {
+        optionalProducts.forEach(pg => {
+          const inp = pg.querySelector('input[type="radio"], input[type="checkbox"]');
+          if (inp && inp !== chargerInput) {
+            inp.checked = false;
+          }
+        });
+      }
+    };
 
     optionalProducts.forEach(formGroup => {
       contentWrapper1.appendChild(formGroup);
@@ -1135,9 +1141,47 @@ function organizeAddOnProducts(root) {
     if (e.target.closest('.addon-tooltip-icon')) {
       return;
     }
+    // Unselect any selected optional products (ladestander)
+    const optInputs = document.querySelectorAll('.signup__electrical_additional_products input[type="radio"], .signup__electrical_additional_products input[type="checkbox"]');
+    optInputs.forEach(inp => {
+      if (inp.checked) {
+        inp.checked = false;
+        inp.dispatchEvent(new Event('change', { bubbles: true }));
+        inp.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    });
+    // Clear add-on cart tracking
+    if (window.addOnCart) {
+      Object.keys(window.addOnCart).forEach(k => delete window.addOnCart[k]);
+    }
+    if (typeof updatePriceCard === 'function') {
+      try { updatePriceCard(); } catch (e) {}
+    }
+    if (typeof updatePriceSection === 'function') {
+      try { updatePriceSection(); } catch (e) {}
+    }
+
     const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
     if (nextButton && !nextButton.disabled) {
+      // Force submit with empty add-on so backend clears previous selection
+      const form = document.querySelector('form');
+      let tempClear = null;
+      if (form) {
+        tempClear = document.createElement('input');
+        tempClear.type = 'hidden';
+        tempClear.name = 'prospect[product_options][]';
+        tempClear.value = '';
+        form.appendChild(tempClear);
+      }
       nextButton.click();
+      if (tempClear) {
+        // Give the form a moment to consume the value
+        setTimeout(() => {
+          if (tempClear && tempClear.parentNode) {
+            tempClear.parentNode.removeChild(tempClear);
+          }
+        }, 500);
+      }
     }
   });
 
@@ -1164,8 +1208,7 @@ function annotateAddOnCheckboxes(root) {
   checkboxes.forEach((input, index) => {
     // Change type from checkbox to radio
     input.type = 'radio';
-    // Give them all the same name so they're in the same group
-    input.name = 'prospect[product_options_radio]';
+
     // sæt class som din change lytter bruger
     input.classList.add('add_on_product_checkbox');
     // sæt id fra value
@@ -1186,7 +1229,6 @@ function annotateAddOnCheckboxes(root) {
 }
 
 // Update next button state based on form validation
-// Comprehensive validation: checks HTML5 validation, required fields, radio buttons, checkboxes, and error states
 function updateNextButtonState() {
   const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
   if (!nextButton) return;
@@ -1200,120 +1242,14 @@ function updateNextButtonState() {
     return;
   }
 
-  // Steps that are optional - user can proceed without making a selection
-  // These steps don't require any input to continue
-  const optionalSteps = [
-    '.signup__section--installation_address_select', // Installation address type selection is optional
-    '.signup__section--electrical_product_additional-additional' // Add-on products are optional
-  ];
-  
-  // Check if current step is optional
-  const isOptionalStep = optionalSteps.some(selector => container.querySelector(selector));
-  if (isOptionalStep) {
-    // For optional steps, only check for visible errors, not required fields
-    const hasErrors = container.querySelector('.signup__has-error:not(.signup__input--changed)');
-    nextButton.disabled = !!hasErrors;
-    return;
-  }
-  
-  // Gas product step requires a selection - check if any gas option is selected
+  // Gas product step: keep enabled; button visibility handled elsewhere
   if (container.querySelector('.signup__section--gas_product')) {
-    // Find all radio buttons within gas section - they might have different name attributes
-    const gasSection = container.querySelector('.signup__section--gas_product');
-    const gasRadios = gasSection ? gasSection.querySelectorAll('input[type="radio"]') : [];
-    if (gasRadios.length > 0) {
-      const hasGasSelection = Array.from(gasRadios).some(radio => radio.checked);
-      const hasErrors = container.querySelector('.signup__has-error:not(.signup__input--changed)');
-      // Disable button if no gas option is selected OR there are errors
-      nextButton.disabled = !hasGasSelection || !!hasErrors;
-      return;
-    }
-  }
-
-  // Situation step requires a selection
-  if (container.querySelector('.signup__section--situation')) {
-    const sitSection = container.querySelector('.signup__section--situation');
-    const sitRadios = sitSection ? sitSection.querySelectorAll('input[type="radio"]') : [];
-    if (sitRadios.length > 0) {
-      const hasSel = Array.from(sitRadios).some(r => r.checked);
-      const hasErrors = container.querySelector('.signup__has-error:not(.signup__input--changed)');
-      nextButton.disabled = !hasSel || !!hasErrors;
-      return;
-    }
-  }
-
-  // Find the form element
-  const form = container.closest('form') || document.querySelector('form');
-  if (!form) {
     nextButton.disabled = false;
     return;
   }
 
-  // Check HTML5 validation API - respects required attributes and HTML5 validation rules
-  const isValid = form.checkValidity();
-  
-  // Check for visible error messages (from server-side validation)
-  const hasErrors = container.querySelector('.signup__has-error:not(.signup__input--changed)');
-  
-  // Additional checks for required radio buttons and checkboxes within the current container
-  let hasRequiredFieldsEmpty = false;
-  
-  // Check required radio button groups
-  const requiredRadioGroups = container.querySelectorAll('input[type="radio"][required]');
-  if (requiredRadioGroups.length > 0) {
-    const radioGroups = new Set();
-    requiredRadioGroups.forEach(radio => {
-      radioGroups.add(radio.name);
-    });
-    
-    radioGroups.forEach(groupName => {
-      const groupRadios = container.querySelectorAll(`input[type="radio"][name="${groupName}"]`);
-      const isChecked = Array.from(groupRadios).some(radio => radio.checked);
-      if (!isChecked) {
-        hasRequiredFieldsEmpty = true;
-      }
-    });
-  }
-  
-  // Check required checkboxes
-  const requiredCheckboxes = container.querySelectorAll('input[type="checkbox"][required]');
-  if (requiredCheckboxes.length > 0) {
-    const uncheckedRequired = Array.from(requiredCheckboxes).some(checkbox => !checkbox.checked);
-    if (uncheckedRequired) {
-      hasRequiredFieldsEmpty = true;
-    }
-  }
-  
-  // Check for required fields with signup__form--required class
-  // BUT: Skip date inputs that are hidden (not visible) - they're only required when visible
-  const requiredFields = container.querySelectorAll('.signup__form--required input[type="text"], .signup__form--required input[type="email"], .signup__form--required input[type="tel"], .signup__form--required input[type="date"], .signup__form--required input[type="number"]');
-  if (requiredFields.length > 0) {
-    const emptyRequired = Array.from(requiredFields).some(field => {
-      // Skip date inputs that are not visible (hidden by toggle)
-      if (field.type === 'date') {
-        const fieldContainer = field.closest('.signup__situation_cos_start_date, .signup__situation_move_start_date');
-        if (fieldContainer) {
-          const computedStyle = window.getComputedStyle(fieldContainer);
-          // If container is hidden, don't require the date field
-          if (computedStyle.display === 'none' || computedStyle.visibility === 'hidden' || computedStyle.opacity === '0') {
-            return false;
-          }
-        }
-        // Date inputs with placeholder "dd" are considered valid (don't require actual date)
-        if (field.hasAttribute('data-placeholder') && field.getAttribute('data-placeholder') === 'dd') {
-          return false; // Placeholder "dd" is enough
-        }
-        return !field.value || field.value === '';
-      }
-      return !field.value || (typeof field.value.trim === 'function' && field.value.trim() === '');
-    });
-    if (emptyRequired) {
-      hasRequiredFieldsEmpty = true;
-    }
-  }
-  
-  // Disable if form is invalid OR there are visible errors OR required fields are empty
-  nextButton.disabled = !isValid || !!hasErrors || hasRequiredFieldsEmpty;
+  // Default: always enable; server/HTML5 handles validation
+  nextButton.disabled = false;
 }
 
 // Make payment method cards fully clickable by handling clicks on the container
@@ -1397,70 +1333,8 @@ function movePaymentInputsToContainer(root) {
 
 // Debug payment method clicks
 function setupPaymentMethodClickTracking(root) {
-  const scope = root || document;
-  const paymentSection = scope.querySelector('.signup__payment');
-  if (!paymentSection) return;
-  
-  const paymentCards = paymentSection.querySelectorAll('.signup__payment_method_name.signup__form-field--radio');
-  let clickCount = 0;
-  
-  paymentCards.forEach((card, index) => {
-    const input = card.querySelector('input[type="radio"]');
-    const label = card.querySelector('label');
-    
-    if (!input) return;
-    
-    // Track clicks on input
-    input.addEventListener('click', function(e) {
-      clickCount++;
-      console.log(`[PAYMENT DEBUG] Input clicked #${clickCount} - Card ${index + 1}:`, {
-        cardIndex: index + 1,
-        inputId: input.id,
-        inputName: input.name,
-        inputValue: input.value,
-        wasChecked: input.checked,
-        clickCount: clickCount,
-        timestamp: new Date().toISOString()
-      });
-    }, true);
-    
-    // Track clicks on label
-    if (label) {
-      label.addEventListener('click', function(e) {
-        console.log(`[PAYMENT DEBUG] Label clicked - Card ${index + 1}:`, {
-          cardIndex: index + 1,
-          inputId: input.id,
-          target: e.target,
-          currentTarget: e.currentTarget,
-          timestamp: new Date().toISOString()
-        });
-      }, true);
-    }
-    
-    // Track clicks on card container
-    card.addEventListener('click', function(e) {
-      console.log(`[PAYMENT DEBUG] Card container clicked - Card ${index + 1}:`, {
-        cardIndex: index + 1,
-        target: e.target.tagName,
-        targetClass: e.target.className,
-        inputChecked: input.checked,
-        timestamp: new Date().toISOString()
-      });
-    }, true);
-    
-    // Track change events
-    input.addEventListener('change', function(e) {
-      console.log(`[PAYMENT DEBUG] Input changed - Card ${index + 1}:`, {
-        cardIndex: index + 1,
-        inputId: input.id,
-        inputValue: input.value,
-        isChecked: input.checked,
-        timestamp: new Date().toISOString()
-      });
-    });
-  });
-  
-  console.log(`[PAYMENT DEBUG] Setup complete - tracking ${paymentCards.length} payment cards`);
+  // Debug logging removed; keep function to avoid breaking callers
+  return;
 }
 
 // Kald ved domready og når grupper loader
@@ -2086,7 +1960,6 @@ document.addEventListener('group:loaded', initializeTooltipHandles);
       const container = document.getElementById('group-container');
       
       if (!form || !container) {
-        console.error('Could not find form or container');
         return;
       }
 
@@ -2106,56 +1979,6 @@ document.addEventListener('group:loaded', initializeTooltipHandles);
       const html = await response.text();
       container.innerHTML = html;
 
-      // Debug: Log all h1 elements and their structure
-      if (window.innerWidth <= 980) { // Mobile breakpoint
-        const allH1s = document.querySelectorAll('h1');
-        console.log('=== MOBILE DEBUG: All H1 Elements ===');
-        console.log(`Total h1 elements found: ${allH1s.length}`);
-        allH1s.forEach((h1, index) => {
-          console.log(`\nH1 #${index + 1}:`);
-          console.log('  Text:', h1.textContent?.trim().substring(0, 50));
-          console.log('  Classes:', h1.className);
-          console.log('  Tag:', h1.tagName);
-          console.log('  Parent:', h1.parentElement?.className || h1.parentElement?.tagName);
-          console.log('  Parent parent:', h1.parentElement?.parentElement?.className || h1.parentElement?.parentElement?.tagName);
-          const computedStyle = window.getComputedStyle(h1);
-          console.log('  Computed font-size:', computedStyle.fontSize);
-          console.log('  Computed font-size (px):', parseFloat(computedStyle.fontSize));
-          console.log('  Media query active:', window.innerWidth <= 980);
-          console.log('  Is in .signup__page:', h1.closest('.signup__page') !== null);
-          console.log('  Is in #group-container:', h1.closest('#group-container') !== null);
-          console.log('  Is in .signup__form-section:', h1.closest('.signup__form-section') !== null);
-          console.log('  Is in .signup__section:', h1.closest('.signup__section') !== null);
-          console.log('  Full path:', getElementPath(h1));
-          
-          // Check which CSS rules match
-          const matchingRules = [];
-          const stylesheets = Array.from(document.styleSheets);
-          stylesheets.forEach(sheet => {
-            try {
-              const rules = Array.from(sheet.cssRules || []);
-              rules.forEach(rule => {
-                if (rule.media && rule.media.mediaText.includes('max-width')) {
-                  const mediaRules = Array.from(rule.cssRules || []);
-                  mediaRules.forEach(mediaRule => {
-                    if (h1.matches(mediaRule.selectorText)) {
-                      matchingRules.push({
-                        selector: mediaRule.selectorText,
-                        fontSize: mediaRule.style.fontSize,
-                        specificity: mediaRule.selectorText.split(' ').length
-                      });
-                    }
-                  });
-                }
-              });
-            } catch (e) {
-              // Cross-origin stylesheet, skip
-            }
-          });
-          console.log('  Matching mobile rules:', matchingRules);
-        });
-      }
-
       // Trigger events så alt initialiseres korrekt
       document.dispatchEvent(new CustomEvent('group:loaded', { detail: { container } }));
       
@@ -2173,9 +1996,7 @@ document.addEventListener('group:loaded', initializeTooltipHandles);
         nextButton.value = 'Finish';
       }
 
-      console.log('✅ Summary step loaded with real data!');
     } catch (error) {
-      console.error('❌ Could not load summary:', error);
       alert('Kunne ikke loade summary. Tjek console for fejl.');
     }
   };
