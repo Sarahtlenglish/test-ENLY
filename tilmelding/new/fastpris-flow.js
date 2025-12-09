@@ -15,8 +15,8 @@ const CONFIG = {
   IMAGE_FLAT_ON: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/flat_on.webp',
   
   // Product IDs
-  PRODUCT_ID_HOUSE: 34,
-  PRODUCT_ID_APARTMENT: 265,
+  PRODUCT_ID_HOUSE: 1001,
+  PRODUCT_ID_APARTMENT: 1958,
   
   // Prices
   PRICE_HOUSE: 650,
@@ -55,6 +55,60 @@ const CONFIG = {
   KEYWORD_NO_CHARGER: ['ikke ladestander', 'har ikke']
 };
 
+// Price map for product IDs (kept for compatibility)
+CONFIG.PRICE_MAP = new Map([
+  [CONFIG.PRODUCT_ID_HOUSE, CONFIG.PRICE_HOUSE],
+  [CONFIG.PRODUCT_ID_APARTMENT, CONFIG.PRICE_APARTMENT]
+]);
+
+// Helper function to get element path for debugging
+function getElementPath(element) {
+  const path = [];
+  let current = element;
+  while (current && current !== document.body) {
+    let selector = current.tagName.toLowerCase();
+    if (current.id) {
+      selector += '#' + current.id;
+    }
+    if (current.className && typeof current.className === 'string') {
+      selector += '.' + current.className.split(' ').join('.');
+    }
+    path.unshift(selector);
+    current = current.parentElement;
+  }
+  return path.join(' > ');
+}
+
+// PRICE MAP AS IN COLLEAGUE'S SNIPPET
+window.ENLY_DEBUG_PRICE = false;
+function storeSelectedProductFromId(id) {
+  if (!id) return;
+  const price = CONFIG.PRICE_MAP ? CONFIG.PRICE_MAP.get(Number(id)) : 0;
+  const payload = { id, price: Number(price || 0) };
+  const payloadString = JSON.stringify(payload);
+  window.selected_electrical_product = payloadString;
+  try {
+    localStorage.setItem('selected_electrical_product', payloadString);
+  } catch (e) {}
+}
+function loadStoredSelectedProduct() {
+  try {
+    const stored = localStorage.getItem('selected_electrical_product');
+    if (stored) {
+      window.selected_electrical_product = stored;
+      return JSON.parse(stored);
+    }
+    const raw = window.selected_electrical_product;
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+function computeMonthlyPrice() {
+  const stored = loadStoredSelectedProduct();
+  return stored?.price || 0;
+}
+
 // Add preconnect links for Typekit fonts
 (function() {
   const preconnect1 = document.createElement('link');
@@ -70,8 +124,60 @@ const CONFIG = {
 })();
 
 
+// Debug: Log h1 elements on group:loaded event
+document.addEventListener('group:loaded', function() {
+  // Log h1 elements when group loads (for all steps)
+  if (window.innerWidth <= 980) { // Mobile breakpoint
+    setTimeout(() => {
+      const allH1s = document.querySelectorAll('h1');
+      console.log('=== MOBILE DEBUG: H1 Elements on group:loaded ===');
+      console.log(`Viewport width: ${window.innerWidth}px`);
+      console.log(`Media query should match: ${window.innerWidth <= 980}`);
+      console.log(`Total h1 elements found: ${allH1s.length}`);
+      allH1s.forEach((h1, index) => {
+        const computedStyle = window.getComputedStyle(h1);
+        console.log(`\nH1 #${index + 1}:`);
+        console.log('  Text:', h1.textContent?.trim().substring(0, 50));
+        console.log('  Classes:', h1.className);
+        console.log('  Computed font-size:', computedStyle.fontSize);
+        console.log('  Computed font-size (px):', parseFloat(computedStyle.fontSize));
+        console.log('  Expected: 24px (1.5rem)');
+        console.log('  Full path:', getElementPath(h1));
+        
+        // Test if our selectors match
+        const testSelectors = [
+          'h1.signup__section-title',
+          'h1.signup__form-title',
+          '.signup__page h1.signup__section-title',
+          '.signup__page h1.signup__form-title',
+          'form h1.signup__section-title',
+          '#group-container h1.signup__section-title'
+        ];
+        console.log('  Selector matches:');
+        testSelectors.forEach(sel => {
+          try {
+            const matches = h1.matches(sel);
+            console.log(`    ${sel}: ${matches}`);
+          } catch(e) {
+            console.log(`    ${sel}: ERROR - ${e.message}`);
+          }
+        });
+      });
+    }, 100);
+  }
+});
+
 // Hus / Lejlighed radio
 document.addEventListener('group:loaded', function() {
+    const container = document.querySelector(CONFIG.SELECTOR_ELECTRICAL_PRODUCT);
+    if (!container) return;
+
+    const allRadios = Array.from(container.querySelectorAll('input[type="radio"][name="prospect[electrical_product_name]"]'));
+    if (!allRadios.length) return;
+    // Always start with no preselection in the UI (even if markup/server sets one)
+    allRadios.forEach(r => { r.checked = false; });
+
+    // Build options from config (ids/images/labels); price comes from PRICE_MAP
     const options = [
         {
             id: CONFIG.PRODUCT_ID_HOUSE,
@@ -80,7 +186,7 @@ document.addEventListener('group:loaded', function() {
             hoverImage: CONFIG.IMAGE_HOUSE_ON,
             label: 'Jeg bor i hus',
             variant: 'House',
-            price: CONFIG.PRICE_HOUSE
+            price: CONFIG.PRICE_MAP ? CONFIG.PRICE_MAP.get(Number(CONFIG.PRODUCT_ID_HOUSE)) : 0
         },
         {
             id: CONFIG.PRODUCT_ID_APARTMENT,
@@ -89,21 +195,18 @@ document.addEventListener('group:loaded', function() {
             hoverImage: CONFIG.IMAGE_FLAT_ON,
             label: 'Jeg bor i lejlighed',
             variant: 'Apartment',
-            price: CONFIG.PRICE_APARTMENT
+            price: CONFIG.PRICE_MAP ? CONFIG.PRICE_MAP.get(Number(CONFIG.PRODUCT_ID_APARTMENT)) : 0
         }
     ];
 
-    const container = document.querySelector(CONFIG.SELECTOR_ELECTRICAL_PRODUCT);
-    if (!container) return;
-
-    // Ensure all radio buttons start unchecked on step 1
-    // This ensures a clean state unless the form system has pre-filled values (caching)
-    const allRadios = container.querySelectorAll('input[type="radio"][name="prospect[electrical_product_name]"]');
-    allRadios.forEach(radio => {
-        radio.checked = false;
+    window.productInfoMap = window.productInfoMap || new Map();
+    window.productMap = window.productMap || {};
+    options.forEach(opt => {
+        window.productInfoMap.set(String(opt.id), opt);
+        window.productMap[opt.id] = opt;
     });
-    
-    // Also disable all hidden inputs initially
+
+    // Disable all hidden inputs initially; we will re-enable the selected one
     const allHiddenInputs = container.querySelectorAll('input[type="hidden"][name="prospect[electrical_product_id]"]');
     allHiddenInputs.forEach(input => {
         input.disabled = true;
@@ -118,7 +221,7 @@ document.addEventListener('group:loaded', function() {
     imgWrapper.className = 'housing-type-selector';
 
     options.forEach(opt => {
-        const radio = document.querySelector(`input[type="radio"][data-product-id="${opt.id}"]`);
+        const radio = allRadios.find(r => (r.dataset.productId || r.value) == opt.id);
         if (!radio) return;
 
         window.productMap = window.productMap || {};
@@ -131,19 +234,30 @@ document.addEventListener('group:loaded', function() {
         const originalGroup = radio.closest('.signup__electrical_product_name');
         const helpText = originalGroup?.querySelector('.signup__form-help');
 
+        // price strictly from PRICE_MAP (colleague's approach)
+        opt.price = CONFIG.PRICE_MAP ? CONFIG.PRICE_MAP.get(Number(opt.id)) || 0 : 0;
+
         const optionContainer = document.createElement('div');
         optionContainer.className = 'housing-option-card';
-        // Always start unchecked - don't check radio.checked state
-        optionContainer.classList.remove('selected');
-        optionContainer.setAttribute('data-selected', 'false');
+        optionContainer.dataset.productId = String(opt.id);
+        optionContainer.setAttribute('role', 'button');
+        optionContainer.tabIndex = 0;
+        const isInitiallyChecked = radio.checked;
+        if (isInitiallyChecked) {
+            optionContainer.classList.add('selected');
+            optionContainer.setAttribute('data-selected', 'true');
+        } else {
+            optionContainer.classList.remove('selected');
+            optionContainer.setAttribute('data-selected', 'false');
+        }
 
-        const img = document.createElement('img');
+    const img = document.createElement('img');
         // Always start with "off" image
-        img.src = opt.image;
-        img.alt = opt.label;
-        img.dataset.defaultImage = opt.image;
-        img.dataset.hoverImage = opt.hoverImage;
-        img.dataset.selectedImage = opt.selectedImage;
+    img.src = opt.image;
+    img.alt = opt.label;
+    img.dataset.defaultImage = opt.image;
+    img.dataset.hoverImage = opt.hoverImage;
+    img.dataset.selectedImage = opt.selectedImage;
 
         const label = document.createElement('div');
         label.className = 'housing-option-label';
@@ -165,6 +279,9 @@ document.addEventListener('group:loaded', function() {
             );
             if (hiddenInput) hiddenInput.disabled = false;
 
+            // Store selection for price card/summary
+            storeSelectedProductFromId(radio.dataset.productId);
+
             // Trigger change events to ensure form validation
             radio.dispatchEvent(new Event('change', { bubbles: true }));
             radio.dispatchEvent(new Event('input', { bubbles: true }));
@@ -175,23 +292,20 @@ document.addEventListener('group:loaded', function() {
             }
 
             // Update all option visuals
-            imgWrapper.querySelectorAll('.housing-option-card').forEach((container, i) => {
-                const o = options[i];
-                const r = document.querySelector(`input[type="radio"][data-product-id="${o.id}"]`);
-                const img = container.querySelector('img');
+            imgWrapper.querySelectorAll('.housing-option-card').forEach((card) => {
+                const pid = card.dataset.productId;
+                const info = window.productInfoMap?.get(pid);
+                const matchedRadio = allRadios.find(r => (r.dataset.productId || r.value) == pid);
+                const img = card.querySelector('img');
                 
-                if (r && r.checked) {
-                    container.classList.add('selected');
-                    container.setAttribute('data-selected', 'true');
-                    if (img) {
-                        img.src = o.selectedImage;
-                    }
+                if (matchedRadio && matchedRadio.checked) {
+                    card.classList.add('selected');
+                    card.setAttribute('data-selected', 'true');
+                    if (img && info) img.src = info.selectedImage;
                 } else {
-                    container.classList.remove('selected');
-                    container.setAttribute('data-selected', 'false');
-                    if (img) {
-                        img.src = o.image;
-                    }
+                    card.classList.remove('selected');
+                    card.setAttribute('data-selected', 'false');
+                    if (img && info) img.src = info.image;
                 }
             });
             
@@ -229,7 +343,15 @@ document.addEventListener('group:loaded', function() {
                 img.src = opt.image;
             }
         });
-        
+
+        // Keyboard support for accessibility
+        optionContainer.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                select();
+            }
+        });
+
         optionContainer.addEventListener('click', select);
         optionContainer.appendChild(img);
         optionContainer.appendChild(label);
@@ -238,6 +360,28 @@ document.addEventListener('group:loaded', function() {
     });
 
     container.appendChild(imgWrapper);
+
+    // Initial sync: respect any prechecked radio (from server / persisted form)
+    const initiallyChecked = allRadios.find(r => r.checked);
+    if (initiallyChecked) {
+        const hiddenInput = container.querySelector(
+            `input[type="hidden"][name="prospect[electrical_product_id]"][value="${initiallyChecked.dataset.productId}"]`
+        );
+        if (hiddenInput) hiddenInput.disabled = false;
+
+        imgWrapper.querySelectorAll('.housing-option-card').forEach((card) => {
+            const pid = card.dataset.productId;
+            const info = window.productInfoMap?.get(pid);
+            const img = card.querySelector('img');
+            const matchedRadio = allRadios.find(r => (r.dataset.productId || r.value) == pid);
+            const isSel = matchedRadio && matchedRadio.checked;
+            card.classList.toggle('selected', !!isSel);
+            card.setAttribute('data-selected', isSel ? 'true' : 'false');
+            if (img && info) img.src = isSel ? info.selectedImage : info.image;
+        });
+
+        storeSelectedProductFromId(initiallyChecked.dataset.productId);
+    }
 });
 
 // Situation selector (step 2) - konverter radio buttons til billedkort
@@ -304,6 +448,8 @@ document.addEventListener('group:loaded', function() {
             optionCard.classList.add('selected');
             optionCard.setAttribute('data-selected', 'true');
         }
+        optionCard.setAttribute('role', 'button');
+        optionCard.tabIndex = 0;
 
         const img = document.createElement('img');
         img.src = opt.image;
@@ -346,6 +492,12 @@ document.addEventListener('group:loaded', function() {
         optionCard.dataset.value = opt.value;
         optionCard.dataset.radioId = radio.id;
         optionCard.addEventListener('click', selectSituation);
+        optionCard.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectSituation();
+            }
+        });
         optionCard.appendChild(img);
         optionCard.appendChild(label);
         
@@ -372,26 +524,17 @@ document.addEventListener('group:loaded', function() {
 document.addEventListener('group:loaded', function() {
     const gasContainer = document.querySelector('.signup__gas_product');
     if (!gasContainer) {
-        console.log('[GAS SELECTOR] Gas container not found');
         return;
     }
     
-    console.log('[GAS SELECTOR] Initializing gas selector', {
-        container: gasContainer,
-        hasExistingSelector: !!gasContainer.querySelector('.gas-type-selector')
-    });
-    
     // Tjek om vi allerede har oprettet selector'en
     if (gasContainer.querySelector('.gas-type-selector')) {
-        console.log('[GAS SELECTOR] Selector already exists, skipping');
         return; // Allerede initialiseret
     }
 
     // Find alle gas radio buttons
     const radioFields = gasContainer.querySelectorAll('.signup__form-field--radio');
-    console.log('[GAS SELECTOR] Found radio fields:', radioFields.length);
     if (radioFields.length === 0) {
-        console.log('[GAS SELECTOR] No radio fields found, skipping');
         return;
     }
 
@@ -404,19 +547,8 @@ document.addEventListener('group:loaded', function() {
 
     // Find alle radio buttons og deres labels
     const allRadios = gasContainer.querySelectorAll('input[type="radio"][name*="gas"]');
-    console.log('[GAS SELECTOR] Found radio buttons:', allRadios.length, Array.from(allRadios).map(r => ({
-        name: r.name,
-        value: r.value,
-        id: r.id,
-        checked: r.checked
-    })));
     
     allRadios.forEach((radio, index) => {
-        console.log('[GAS SELECTOR] Processing radio', index, {
-            name: radio.name,
-            value: radio.value,
-            id: radio.id
-        });
         // Find label tekst
         const radioField = radio.closest('.signup__form-field--radio');
         if (!radioField) return;
@@ -437,60 +569,33 @@ document.addEventListener('group:loaded', function() {
             optionCard.classList.add('selected');
             optionCard.setAttribute('data-selected', 'true');
         }
+        optionCard.setAttribute('role', 'button');
+        optionCard.tabIndex = 0;
 
         const label = document.createElement('div');
         label.className = 'gas-option-label';
         label.textContent = labelTextContent;
 
         const selectGas = () => {
-            console.log('[GAS SELECTOR] selectGas called', {
-                radioValue: radio.value,
-                radioName: radio.name,
-                radioId: radio.id,
-                productId: radio.dataset.productId
-            });
-            
             // Uncheck all gas radios with same name
             const radioName = radio.name;
             gasContainer.querySelectorAll(`input[type="radio"][name="${radioName}"]`).forEach(r => r.checked = false);
             radio.checked = true;
             
-            console.log('[GAS SELECTOR] Radio checked:', radio.value);
-            
-            // Log all hidden inputs for debugging (but don't modify them)
-            const allHiddenInputs = gasContainer.querySelectorAll('input[type="hidden"][name*="gas"]');
-            console.log('[GAS SELECTOR] Found hidden inputs:', allHiddenInputs.length, Array.from(allHiddenInputs).map(hi => ({
-                name: hi.name,
-                value: hi.value,
-                disabled: hi.disabled
-            })));
-            
             // Trigger change event on radio to ensure form validation works
             radio.dispatchEvent(new Event('change', { bubbles: true }));
             radio.dispatchEvent(new Event('input', { bubbles: true }));
-            console.log('[GAS SELECTOR] Dispatched change and input events');
             
             // Also trigger on the form field container
             const radioField = radio.closest('.signup__form-field--radio');
             if (radioField) {
                 radioField.dispatchEvent(new Event('change', { bubbles: true }));
-                console.log('[GAS SELECTOR] Dispatched change event on form field container');
             }
             
             // Update next button state after selection
             setTimeout(() => {
                 updateNextButtonState();
             }, CONFIG.DELAY_BUTTON_STATE_UPDATE);
-            
-            // Log final state for debugging
-            console.log('[GAS SELECTOR] Selection complete. Current form state:', {
-                checkedRadio: gasContainer.querySelector('input[type="radio"]:checked')?.value,
-                allHiddenInputs: Array.from(gasContainer.querySelectorAll('input[type="hidden"][name*="gas"]')).map(hi => ({
-                    name: hi.name,
-                    value: hi.value,
-                    disabled: hi.disabled
-                }))
-            });
 
             // Update all option visuals
             gasWrapper.querySelectorAll('.gas-option-card').forEach((card) => {
@@ -505,15 +610,20 @@ document.addEventListener('group:loaded', function() {
                     card.setAttribute('data-selected', 'false');
                 }
             });
-            
-            console.log('[GAS SELECTOR] Selection complete. Current form state:', {
-                checkedRadio: gasContainer.querySelector('input[type="radio"]:checked')?.value,
-                allHiddenInputs: Array.from(gasContainer.querySelectorAll('input[type="hidden"][name*="gas"]')).map(hi => ({
-                    name: hi.name,
-                    value: hi.value,
-                    disabled: hi.disabled
-                }))
-            });
+
+            // Auto-advance: hide next button on gas step and click it programmatically
+            const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
+            if (nextButton) {
+                nextButton.style.display = 'none';
+                const wasDisabled = nextButton.disabled;
+                if (wasDisabled) nextButton.disabled = false;
+                setTimeout(() => {
+                    nextButton.click();
+                    if (wasDisabled) {
+                        setTimeout(() => { nextButton.disabled = wasDisabled; }, CONFIG.DELAY_BUTTON_CLICK);
+                    }
+                }, CONFIG.DELAY_BUTTON_CLICK);
+            }
         };
 
         if (!radio.id) {
@@ -521,12 +631,16 @@ document.addEventListener('group:loaded', function() {
         }
         optionCard.dataset.radioId = radio.id;
         optionCard.addEventListener('click', selectGas);
+        optionCard.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectGas();
+            }
+        });
         optionCard.appendChild(label);
         
         gasWrapper.appendChild(optionCard);
     });
-    
-    console.log('[GAS SELECTOR] Created', gasWrapper.children.length, 'option cards');
 
     // Find insert point - after section title
     const sectionTitle = gasContainer.querySelector('.signup__section-title');
@@ -542,8 +656,6 @@ document.addEventListener('group:loaded', function() {
         // Insert at beginning if no title
         gasContainer.insertBefore(gasWrapper, gasContainer.firstChild);
     }
-    
-    console.log('[GAS SELECTOR] Initialization complete');
 });
 
 // Installation address selector - konverter radio buttons til store tekst knapper
@@ -608,6 +720,8 @@ document.addEventListener('group:loaded', function() {
             optionCard.classList.add('selected');
             optionCard.setAttribute('data-selected', 'true');
         }
+        optionCard.setAttribute('role', 'button');
+        optionCard.tabIndex = 0;
 
         const label = document.createElement('div');
         label.className = 'installation-option-label';
@@ -651,6 +765,12 @@ document.addEventListener('group:loaded', function() {
         }
         optionCard.dataset.radioId = radio.id;
         optionCard.addEventListener('click', selectInstallation);
+        optionCard.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectInstallation();
+            }
+        });
         optionCard.appendChild(label);
         
         installationWrapper.appendChild(optionCard);
@@ -719,6 +839,40 @@ function handleDateInputClick(e) {
     }
 }
 
+// Ensure calendar icons are visible and properly positioned
+function ensureCalendarIconsVisible() {
+    const dateLabels = document.querySelectorAll('.signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label, .signup__situation_move_start_date .signup__form-field:has(input[type="date"]) label');
+    
+    dateLabels.forEach(label => {
+        // Ensure label has position relative for icon positioning
+        if (window.getComputedStyle(label).position === 'static') {
+            label.style.position = 'relative';
+        }
+        
+        // Check if icon exists, if not, ensure it's visible via CSS
+        const dateInput = label.querySelector('input[type="date"]');
+        if (dateInput) {
+            // Force calendar icon to be visible
+            label.style.setProperty('position', 'relative', 'important');
+            
+            // Add placeholder "dd" functionality for empty date inputs
+            // Since date inputs don't support placeholder, we'll add a data attribute and style it
+            if (!dateInput.value) {
+                dateInput.setAttribute('data-placeholder', 'dd');
+            }
+            
+            // Update placeholder on change
+            dateInput.addEventListener('change', function() {
+                if (this.value) {
+                    this.removeAttribute('data-placeholder');
+                } else {
+                    this.setAttribute('data-placeholder', 'dd');
+                }
+            });
+        }
+    });
+}
+
 // Reorganize COS and Move section elements to correct order
 function reorganizeSituationElements() {
     // COS section: Checkbox -> Date picker -> Legal text
@@ -731,6 +885,18 @@ function reorganizeSituationElements() {
             // Ensure checkbox is first, then date section
             if (cosMore.firstElementChild !== checkboxField) {
                 cosMore.insertBefore(checkboxField, cosMore.firstElementChild);
+            }
+            
+            // COS date section should be hidden by default - only show when checkbox is checked
+            const checkbox = checkboxField.querySelector('input[type="checkbox"]');
+            if (checkbox && !checkbox.checked) {
+                dateSection.style.display = 'none';
+                dateSection.style.visibility = 'hidden';
+                dateSection.style.opacity = '0';
+            } else if (checkbox && checkbox.checked) {
+                dateSection.style.display = 'flex';
+                dateSection.style.visibility = 'visible';
+                dateSection.style.opacity = '1';
             }
         }
     }
@@ -762,16 +928,47 @@ function reorganizeSituationElements() {
     
     // Make date inputs clickable after reorganization
     makeDateInputsClickable();
+    
+    // Ensure calendar icons are visible and properly positioned
+    ensureCalendarIconsVisible();
 }
 
 // Initialize reorganization
 document.addEventListener('DOMContentLoaded', () => {
     reorganizeSituationElements();
     makeDateInputsClickable();
+    ensureCalendarIconsVisible();
 });
 document.addEventListener('group:loaded', () => {
     reorganizeSituationElements();
     makeDateInputsClickable();
+    ensureCalendarIconsVisible();
+});
+
+// Handle COS checkbox toggle - show/hide date section
+document.addEventListener('change', function(e) {
+    // Handle COS checkbox toggle - show/hide date section
+    if (e.target.matches('.signup__situation_cos_more input[type="checkbox"]')) {
+        const dateSection = document.querySelector('.signup__situation_cos_start_date');
+        if (dateSection) {
+            if (e.target.checked) {
+                dateSection.style.display = 'flex';
+                dateSection.style.visibility = 'visible';
+                dateSection.style.opacity = '1';
+            } else {
+                dateSection.style.display = 'none';
+                dateSection.style.visibility = 'hidden';
+                dateSection.style.opacity = '0';
+            }
+            // Update button state after toggle
+            setTimeout(updateNextButtonState, 100);
+        }
+    }
+    
+    // Also reorganize when situation changes
+    if (e.target.matches('input[type="radio"][name*="situation"]')) {
+        setTimeout(reorganizeSituationElements, CONFIG.DELAY_REORGANIZE);
+    }
 });
 
 // Also reorganize when situation changes
@@ -799,7 +996,8 @@ function organizeAddOnProducts(root) {
   const hasNoChargerProducts = [];
   
   formGroups.forEach(formGroup => {
-    const checkbox = formGroup.querySelector('input[type="checkbox"]');
+    // Check for both checkbox and radio (since we convert checkboxes to radio)
+    const checkbox = formGroup.querySelector('input[type="checkbox"], input[type="radio"][name="prospect[product_options_radio]"]');
     if (!checkbox) return;
     
     const checkboxText = formGroup.querySelector('.signup__checkbox-text')?.textContent?.toLowerCase() || '';
@@ -946,10 +1144,17 @@ function organizeAddOnProducts(root) {
   container.appendChild(section2);
 }
 
-// Add-on products
+// Add-on products - convert checkboxes to radio buttons so only one can be selected
 function annotateAddOnCheckboxes(root) {
   const scope = root || document;
-  scope.querySelectorAll('input[name="prospect[product_options][]"]').forEach(input => {
+  const checkboxes = scope.querySelectorAll('input[name="prospect[product_options][]"]');
+  
+  // Convert all checkboxes to radio buttons with same name
+  checkboxes.forEach((input, index) => {
+    // Change type from checkbox to radio
+    input.type = 'radio';
+    // Give them all the same name so they're in the same group
+    input.name = 'prospect[product_options_radio]';
     // sæt class som din change lytter bruger
     input.classList.add('add_on_product_checkbox');
     // sæt id fra value
@@ -970,7 +1175,7 @@ function annotateAddOnCheckboxes(root) {
 }
 
 // Update next button state based on form validation
-// Simplified approach: Let the system handle validation, we just check basic HTML5 validation
+// Comprehensive validation: checks HTML5 validation, required fields, radio buttons, checkboxes, and error states
 function updateNextButtonState() {
   const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
   if (!nextButton) return;
@@ -984,6 +1189,48 @@ function updateNextButtonState() {
     return;
   }
 
+  // Steps that are optional - user can proceed without making a selection
+  // These steps don't require any input to continue
+  const optionalSteps = [
+    '.signup__section--installation_address_select', // Installation address type selection is optional
+    '.signup__section--electrical_product_additional-additional' // Add-on products are optional
+  ];
+  
+  // Check if current step is optional
+  const isOptionalStep = optionalSteps.some(selector => container.querySelector(selector));
+  if (isOptionalStep) {
+    // For optional steps, only check for visible errors, not required fields
+    const hasErrors = container.querySelector('.signup__has-error:not(.signup__input--changed)');
+    nextButton.disabled = !!hasErrors;
+    return;
+  }
+  
+  // Gas product step requires a selection - check if any gas option is selected
+  if (container.querySelector('.signup__section--gas_product')) {
+    // Find all radio buttons within gas section - they might have different name attributes
+    const gasSection = container.querySelector('.signup__section--gas_product');
+    const gasRadios = gasSection ? gasSection.querySelectorAll('input[type="radio"]') : [];
+    if (gasRadios.length > 0) {
+      const hasGasSelection = Array.from(gasRadios).some(radio => radio.checked);
+      const hasErrors = container.querySelector('.signup__has-error:not(.signup__input--changed)');
+      // Disable button if no gas option is selected OR there are errors
+      nextButton.disabled = !hasGasSelection || !!hasErrors;
+      return;
+    }
+  }
+
+  // Situation step requires a selection
+  if (container.querySelector('.signup__section--situation')) {
+    const sitSection = container.querySelector('.signup__section--situation');
+    const sitRadios = sitSection ? sitSection.querySelectorAll('input[type="radio"]') : [];
+    if (sitRadios.length > 0) {
+      const hasSel = Array.from(sitRadios).some(r => r.checked);
+      const hasErrors = container.querySelector('.signup__has-error:not(.signup__input--changed)');
+      nextButton.disabled = !hasSel || !!hasErrors;
+      return;
+    }
+  }
+
   // Find the form element
   const form = container.closest('form') || document.querySelector('form');
   if (!form) {
@@ -991,25 +1238,232 @@ function updateNextButtonState() {
     return;
   }
 
-  // Use HTML5 validation API - check if form is valid
-  // This respects required attributes and HTML5 validation rules
+  // Check HTML5 validation API - respects required attributes and HTML5 validation rules
   const isValid = form.checkValidity();
   
-  // Also check if there are any visible error messages (from server-side validation)
+  // Check for visible error messages (from server-side validation)
   const hasErrors = container.querySelector('.signup__has-error:not(.signup__input--changed)');
   
-  // Disable if form is invalid OR there are visible errors
-  nextButton.disabled = !isValid || !!hasErrors;
+  // Additional checks for required radio buttons and checkboxes within the current container
+  let hasRequiredFieldsEmpty = false;
+  
+  // Check required radio button groups
+  const requiredRadioGroups = container.querySelectorAll('input[type="radio"][required]');
+  if (requiredRadioGroups.length > 0) {
+    const radioGroups = new Set();
+    requiredRadioGroups.forEach(radio => {
+      radioGroups.add(radio.name);
+    });
+    
+    radioGroups.forEach(groupName => {
+      const groupRadios = container.querySelectorAll(`input[type="radio"][name="${groupName}"]`);
+      const isChecked = Array.from(groupRadios).some(radio => radio.checked);
+      if (!isChecked) {
+        hasRequiredFieldsEmpty = true;
+      }
+    });
+  }
+  
+  // Check required checkboxes
+  const requiredCheckboxes = container.querySelectorAll('input[type="checkbox"][required]');
+  if (requiredCheckboxes.length > 0) {
+    const uncheckedRequired = Array.from(requiredCheckboxes).some(checkbox => !checkbox.checked);
+    if (uncheckedRequired) {
+      hasRequiredFieldsEmpty = true;
+    }
+  }
+  
+  // Check for required fields with signup__form--required class
+  // BUT: Skip date inputs that are hidden (not visible) - they're only required when visible
+  const requiredFields = container.querySelectorAll('.signup__form--required input[type="text"], .signup__form--required input[type="email"], .signup__form--required input[type="tel"], .signup__form--required input[type="date"], .signup__form--required input[type="number"]');
+  if (requiredFields.length > 0) {
+    const emptyRequired = Array.from(requiredFields).some(field => {
+      // Skip date inputs that are not visible (hidden by toggle)
+      if (field.type === 'date') {
+        const fieldContainer = field.closest('.signup__situation_cos_start_date, .signup__situation_move_start_date');
+        if (fieldContainer) {
+          const computedStyle = window.getComputedStyle(fieldContainer);
+          // If container is hidden, don't require the date field
+          if (computedStyle.display === 'none' || computedStyle.visibility === 'hidden' || computedStyle.opacity === '0') {
+            return false;
+          }
+        }
+        // Date inputs with placeholder "dd" are considered valid (don't require actual date)
+        if (field.hasAttribute('data-placeholder') && field.getAttribute('data-placeholder') === 'dd') {
+          return false; // Placeholder "dd" is enough
+        }
+        return !field.value || field.value === '';
+      }
+      return !field.value || (typeof field.value.trim === 'function' && field.value.trim() === '');
+    });
+    if (emptyRequired) {
+      hasRequiredFieldsEmpty = true;
+    }
+  }
+  
+  // Disable if form is invalid OR there are visible errors OR required fields are empty
+  nextButton.disabled = !isValid || !!hasErrors || hasRequiredFieldsEmpty;
+}
+
+// Make payment method cards fully clickable by handling clicks on the container
+function movePaymentInputsToContainer(root) {
+  const scope = root || document;
+  const paymentSection = scope.querySelector('.signup__payment');
+  if (!paymentSection) return;
+  
+  // Clean up any old cloned inputs from previous implementation
+  const oldClonedInputs = paymentSection.querySelectorAll('input[type="radio"][data-moved-to-container]');
+  oldClonedInputs.forEach(cloned => cloned.remove());
+  
+  const paymentCards = paymentSection.querySelectorAll('.signup__payment_method_name.signup__form-field--radio');
+  
+  paymentCards.forEach((card) => {
+    // Find the original radio input (not already processed)
+    const input = card.querySelector('input[type="radio"]:not([data-click-handler-added])');
+    if (!input) return;
+    
+    // Mark as processed
+    input.setAttribute('data-click-handler-added', 'true');
+    
+    // Hide original input visually but keep it functional for form submission
+    input.style.position = 'absolute';
+    input.style.opacity = '0';
+    input.style.width = '0';
+    input.style.height = '0';
+    input.style.top = '0';
+    input.style.left = '0';
+    input.style.pointerEvents = 'none';
+    
+    // Make the entire card clickable
+    card.style.cursor = 'pointer';
+    card.style.position = 'relative';
+    
+    // Handle clicks on the entire card
+    const handleCardClick = (e) => {
+      // Don't handle if clicking directly on the input or its label
+      if (e.target === input || e.target.closest('label') === input.closest('label')) {
+        return;
+      }
+      
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Uncheck all other radio buttons with same name
+      const form = card.closest('form');
+      if (form) {
+        const allRadios = form.querySelectorAll(`input[type="radio"][name="${input.name}"]`);
+        allRadios.forEach(radio => {
+          if (radio !== input) {
+            radio.checked = false;
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      }
+      
+      // Check this input
+      input.checked = true;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+    
+    // Add click handler to card
+    card.addEventListener('click', handleCardClick);
+    
+    // Also ensure the label click still works
+    const label = card.querySelector('label');
+    if (label) {
+      label.addEventListener('click', (e) => {
+        // Let the default label behavior handle it, but also trigger our handler
+        setTimeout(() => {
+          if (!input.checked) {
+            handleCardClick(e);
+          }
+        }, 0);
+      });
+    }
+  });
+}
+
+// Debug payment method clicks
+function setupPaymentMethodClickTracking(root) {
+  const scope = root || document;
+  const paymentSection = scope.querySelector('.signup__payment');
+  if (!paymentSection) return;
+  
+  const paymentCards = paymentSection.querySelectorAll('.signup__payment_method_name.signup__form-field--radio');
+  let clickCount = 0;
+  
+  paymentCards.forEach((card, index) => {
+    const input = card.querySelector('input[type="radio"]');
+    const label = card.querySelector('label');
+    
+    if (!input) return;
+    
+    // Track clicks on input
+    input.addEventListener('click', function(e) {
+      clickCount++;
+      console.log(`[PAYMENT DEBUG] Input clicked #${clickCount} - Card ${index + 1}:`, {
+        cardIndex: index + 1,
+        inputId: input.id,
+        inputName: input.name,
+        inputValue: input.value,
+        wasChecked: input.checked,
+        clickCount: clickCount,
+        timestamp: new Date().toISOString()
+      });
+    }, true);
+    
+    // Track clicks on label
+    if (label) {
+      label.addEventListener('click', function(e) {
+        console.log(`[PAYMENT DEBUG] Label clicked - Card ${index + 1}:`, {
+          cardIndex: index + 1,
+          inputId: input.id,
+          target: e.target,
+          currentTarget: e.currentTarget,
+          timestamp: new Date().toISOString()
+        });
+      }, true);
+    }
+    
+    // Track clicks on card container
+    card.addEventListener('click', function(e) {
+      console.log(`[PAYMENT DEBUG] Card container clicked - Card ${index + 1}:`, {
+        cardIndex: index + 1,
+        target: e.target.tagName,
+        targetClass: e.target.className,
+        inputChecked: input.checked,
+        timestamp: new Date().toISOString()
+      });
+    }, true);
+    
+    // Track change events
+    input.addEventListener('change', function(e) {
+      console.log(`[PAYMENT DEBUG] Input changed - Card ${index + 1}:`, {
+        cardIndex: index + 1,
+        inputId: input.id,
+        inputValue: input.value,
+        isChecked: input.checked,
+        timestamp: new Date().toISOString()
+      });
+    });
+  });
+  
+  console.log(`[PAYMENT DEBUG] Setup complete - tracking ${paymentCards.length} payment cards`);
 }
 
 // Kald ved domready og når grupper loader
 document.addEventListener('DOMContentLoaded', () => {
   annotateAddOnCheckboxes();
+  movePaymentInputsToContainer();
+  setupPaymentMethodClickTracking();
   updateNextButtonState();
 });
 document.addEventListener('group:loaded', e => {
   const container = e?.detail?.container || document;
   annotateAddOnCheckboxes(container);
+  movePaymentInputsToContainer(container);
+  setupPaymentMethodClickTracking(container);
   updateNextButtonState();
 });
 
@@ -1017,6 +1471,38 @@ document.addEventListener('group:loaded', e => {
 // Use event delegation for better performance
 document.addEventListener('input', updateNextButtonState, true);
 document.addEventListener('change', updateNextButtonState, true);
+
+// Also update when form validation state changes (e.g., when errors are shown/hidden)
+// Use MutationObserver to watch for changes to error states
+const validationObserver = new MutationObserver(() => {
+  updateNextButtonState();
+});
+
+// Observe the container for changes to error classes
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector(CONFIG.SELECTOR_GROUP_CONTAINER);
+  if (container) {
+    validationObserver.observe(container, {
+      attributes: true,
+      attributeFilter: ['class'],
+      subtree: true,
+      childList: true
+    });
+  }
+});
+
+// Also observe when new groups are loaded
+document.addEventListener('group:loaded', (e) => {
+  const container = e?.detail?.container || document.querySelector(CONFIG.SELECTOR_GROUP_CONTAINER);
+  if (container) {
+    validationObserver.observe(container, {
+      attributes: true,
+      attributeFilter: ['class'],
+      subtree: true,
+      childList: true
+    });
+  }
+});
 
 window.addOnCart = window.addOnCart || {};
 
@@ -1158,18 +1644,32 @@ document.addEventListener('change', function(e) {
     quantity: 1
   };
 
-  // opdater lokal kurvetilstand til brug ved view_cart og purchase
+  // Since these are now radio buttons, clear all previous selections first
   if (isChecked) {
+    // Clear all previous selections from cart
+    Object.keys(window.addOnCart).forEach(key => {
+      delete window.addOnCart[key];
+    });
+    // Add the newly selected item
     window.addOnCart[productId] = item;
+    
+    // Remove 'remove_from_cart' events for other items
+    // Only send add_to_cart for the selected item
+    dataLayer.push({
+      event: 'add_to_cart',
+      ecommerce: { items: [item] }
+    });
   } else {
+    // If unchecked (shouldn't happen with radio, but handle it)
     delete window.addOnCart[productId];
-  }
-
   dataLayer.push({
-    event: isChecked ? 'add_to_cart' : 'remove_from_cart',
+      event: 'remove_from_cart',
     ecommerce: { items: [item] }
   });
+  }
 });
+
+// Payment method cards - styling handled by CSS, no JS manipulation needed
 
 // SHA256 helper
 async function sha256(str) {
@@ -1178,4 +1678,495 @@ async function sha256(str) {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
+
+// Initialize tooltip handles - convert signup__tooltip-handle spans to tooltip icons
+function initializeTooltipHandles() {
+    const tooltipHandles = document.querySelectorAll('.signup__tooltip-handle[data-tooltip]');
+    
+    tooltipHandles.forEach(handle => {
+        const tooltipText = handle.getAttribute('data-tooltip');
+        if (!tooltipText) return;
+        
+        // Set aria-label
+        handle.setAttribute('aria-label', CONFIG.TOOLTIP_HELP_LABEL);
+        
+        // Add question text inside the handle, before the icon
+        if (!handle.querySelector('.signup__tooltip-question')) {
+            const questionText = document.createElement('span');
+            questionText.className = 'signup__tooltip-question';
+            questionText.textContent = 'Hvorfor skal i bruge mit CPR nummer?';
+            handle.insertBefore(questionText, handle.firstChild);
+        }
+        
+        // Add SVG icon if not already present
+        if (!handle.querySelector('svg')) {
+            const svgIcon = document.createElement('span');
+            svgIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.3125C5.87512 1.3125 4.7755 1.64607 3.8402 2.27102C2.90489 2.89597 2.17591 3.78423 1.74544 4.82349C1.31496 5.86274 1.20233 7.00631 1.42179 8.10958C1.64124 9.21284 2.18292 10.2263 2.97833 11.0217C3.77374 11.8171 4.78716 12.3588 5.89043 12.5782C6.99369 12.7977 8.13726 12.685 9.17651 12.2546C10.2158 11.8241 11.104 11.0951 11.729 10.1598C12.3539 9.2245 12.6875 8.12488 12.6875 7C12.6861 5.49203 12.0864 4.04623 11.0201 2.97993C9.95377 1.91363 8.50798 1.31395 7 1.3125ZM7 11.8125C6.04818 11.8125 5.11773 11.5303 4.32632 11.0014C3.53491 10.4726 2.91808 9.72103 2.55383 8.84166C2.18959 7.9623 2.09428 6.99466 2.27997 6.06113C2.46566 5.12759 2.92401 4.27009 3.59705 3.59705C4.27009 2.92401 5.1276 2.46566 6.06113 2.27997C6.99466 2.09428 7.9623 2.18958 8.84167 2.55383C9.72104 2.91808 10.4726 3.53491 11.0014 4.32632C11.5303 5.11773 11.8125 6.04818 11.8125 7C11.8111 8.27591 11.3036 9.49915 10.4014 10.4014C9.49915 11.3036 8.27591 11.8111 7 11.8125ZM7.65625 9.84375C7.65625 9.97354 7.61776 10.1004 7.54565 10.2083C7.47354 10.3163 7.37105 10.4004 7.25114 10.45C7.13122 10.4997 6.99927 10.5127 6.87197 10.4874C6.74467 10.4621 6.62774 10.3996 6.53596 10.3078C6.44419 10.216 6.38168 10.0991 6.35636 9.97178C6.33104 9.84448 6.34404 9.71253 6.39371 9.59261C6.44338 9.4727 6.52749 9.37021 6.63541 9.2981C6.74333 9.22599 6.87021 9.1875 7 9.1875C7.17405 9.1875 7.34097 9.25664 7.46404 9.37971C7.58711 9.50278 7.65625 9.6697 7.65625 9.84375ZM8.96875 5.90625C8.96875 6.35236 8.81725 6.78524 8.53905 7.13399C8.26085 7.48273 7.87246 7.72665 7.4375 7.82578V7.875C7.4375 7.99103 7.39141 8.10231 7.30936 8.18436C7.22731 8.26641 7.11603 8.3125 7 8.3125C6.88397 8.3125 6.77269 8.26641 6.69064 8.18436C6.6086 8.10231 6.5625 7.99103 6.5625 7.875V7.4375C6.5625 7.32147 6.6086 7.21019 6.69064 7.12814C6.77269 7.04609 6.88397 7 7 7C7.21633 7 7.42779 6.93585 7.60766 6.81567C7.78752 6.69549 7.92771 6.52467 8.0105 6.32481C8.09328 6.12495 8.11494 5.90504 8.07274 5.69287C8.03053 5.4807 7.92636 5.28582 7.7734 5.13285C7.62044 4.97989 7.42555 4.87572 7.21338 4.83352C7.00122 4.79131 6.7813 4.81297 6.58144 4.89576C6.38159 4.97854 6.21077 5.11873 6.09058 5.29859C5.9704 5.47846 5.90625 5.68993 5.90625 5.90625C5.90625 6.02228 5.86016 6.13356 5.77811 6.21561C5.69606 6.29766 5.58478 6.34375 5.46875 6.34375C5.35272 6.34375 5.24144 6.29766 5.15939 6.21561C5.07735 6.13356 5.03125 6.02228 5.03125 5.90625C5.03125 5.38411 5.23867 4.88335 5.60789 4.51413C5.9771 4.14492 6.47786 3.9375 7 3.9375C7.52215 3.9375 8.02291 4.14492 8.39212 4.51413C8.76133 4.88335 8.96875 5.38411 8.96875 5.90625Z" fill="black" fill-opacity="0.3"/></svg>';
+            handle.appendChild(svgIcon);
+        }
+        
+        // Add tooltip text if not already present
+        if (!handle.querySelector('.tooltip-text')) {
+            const tooltipTextDiv = document.createElement('div');
+            tooltipTextDiv.className = 'tooltip-text';
+            tooltipTextDiv.textContent = tooltipText;
+            handle.appendChild(tooltipTextDiv);
+        }
+    });
+}
+
+// Initialize tooltip handles on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', initializeTooltipHandles);
+
+// Also initialize when group:loaded event fires (for dynamically loaded content)
+document.addEventListener('group:loaded', initializeTooltipHandles);
+
+// Price-card
+(function () {
+  function ensurePriceCard() {
+    if (document.getElementById("price-card")) return;
+
+    const card = document.createElement("div");
+    card.id = "price-card";
+    card.setAttribute("aria-live", "polite");
+    card.style.display = "none"; // hidden by default
+    card.innerHTML = `
+      <div class="price-card__inner">
+        <div class="price-card__label">Din pris</div>
+        <div class="price-card__amount">
+          <span id="price-card-value">–</span><span class="price-card__currency">,-</span>
+        </div>
+        <div class="price-card__sub">Pr. måned alt inkluderet</div>
+      </div>
+    `;
+    document.body.appendChild(card);
+  }
+
+  function getCheckedElectricalRadio() {
+    return document.querySelector(
+      'input[type="radio"][name="prospect[electrical_product_name]"]:checked'
+    );
+  }
+
+  function showCardIfSelected() {
+    const card = document.getElementById("price-card");
+    if (!card) return;
+    const stored = loadStoredSelectedProduct();
+    const valueEl = document.getElementById("price-card-value");
+    // Show card if we have stored product OR if card already has a valid price displayed
+    const hasValidPrice = valueEl && valueEl.textContent && valueEl.textContent !== "–" && valueEl.textContent !== "";
+    card.style.display = (stored || hasValidPrice) ? "block" : "none";
+  }
+
+  function ensurePriceSection() {
+    const summary = document.querySelector('.signup__summary');
+    if (!summary) return null;
+    
+    // Check if price section already exists
+    let priceSection = summary.querySelector('section.summary-price-section');
+    if (priceSection) return priceSection;
+    
+    // Create new price section - compact format matching design
+    priceSection = document.createElement('section');
+    priceSection.className = 'summary-price-section';
+    priceSection.innerHTML = `
+      <h3>Din pris</h3>
+      <div class="row">
+        <div class="col-md-10">
+          <span id="summary-price-value">–</span><span class="summary-price-currency">,-</span>
+        </div>
+      </div>
+    `;
+    
+    // Insert after "Valgte produkter" section (4th section) or before Kundeoplysninger (1st section)
+    const valgteProdukter = summary.querySelector('section:nth-of-type(4)');
+    const kundeoplysninger = summary.querySelector('section:nth-of-type(1)');
+    
+    if (valgteProdukter && valgteProdukter.nextSibling) {
+      summary.insertBefore(priceSection, valgteProdukter.nextSibling);
+    } else if (kundeoplysninger) {
+      summary.insertBefore(priceSection, kundeoplysninger);
+    } else {
+      summary.appendChild(priceSection);
+    }
+    
+    return priceSection;
+  }
+
+
+  function updatePriceSection() {
+    const summary = document.querySelector('.signup__summary');
+    if (!summary) {
+      // Summary not yet rendered, try again later
+      setTimeout(updatePriceSection, 200);
+      return;
+    }
+    
+    
+    const priceSection = ensurePriceSection();
+    if (!priceSection) return;
+    
+    const valueEl = priceSection.querySelector('#summary-price-value');
+    if (!valueEl) return;
+    
+    let stored = loadStoredSelectedProduct();
+    
+    // If no stored product, try to get it from form or checked radio
+    if (!stored) {
+      const checkedRadio = getCheckedElectricalRadio();
+      if (checkedRadio && checkedRadio.dataset.productId) {
+        storeSelectedProductFromId(checkedRadio.dataset.productId);
+        stored = loadStoredSelectedProduct();
+      }
+      
+      // Also try to get from hidden input if available
+      if (!stored) {
+        const hiddenInput = document.querySelector('input[name="prospect[electrical_product_id]"]:not([disabled])');
+        if (hiddenInput && hiddenInput.value) {
+          storeSelectedProductFromId(hiddenInput.value);
+          stored = loadStoredSelectedProduct();
+        }
+      }
+      
+      // Also try to extract from summary HTML if product info is shown there
+      if (!stored && summary) {
+        const valgteProdukterSection = summary.querySelector('section:nth-of-type(4)');
+        if (valgteProdukterSection) {
+          const productText = valgteProdukterSection.textContent || '';
+          // Try to find product ID from any data attributes in the summary
+          const productLink = valgteProdukterSection.querySelector('[data-product-id]');
+          if (productLink && productLink.dataset.productId) {
+            storeSelectedProductFromId(productLink.dataset.productId);
+            stored = loadStoredSelectedProduct();
+          }
+        }
+      }
+    }
+    
+    if (!stored) {
+      // Only hide if price section doesn't already have a valid price displayed
+      const currentPriceText = valueEl.textContent;
+      if (currentPriceText === "–" || currentPriceText === "" || currentPriceText === null) {
+      priceSection.style.display = 'none';
+      }
+      return;
+    }
+    
+    const price = computeMonthlyPrice();
+    const priceText = price > 0 ? Math.round(price).toString() : "–";
+    
+    // Only update if price has changed
+    if (valueEl.textContent === priceText && priceSection.style.display !== 'none') {
+      return; // Already correct, no need to update
+    }
+    
+    valueEl.textContent = priceText;
+    priceSection.style.display = '';
+  }
+
+  function updatePriceCard() {
+    ensurePriceCard();
+    const valueEl = document.getElementById("price-card-value");
+    if (!valueEl) return;
+    const stored = loadStoredSelectedProduct();
+    if (!stored) {
+      showCardIfSelected();
+      updatePriceSection();
+      return;
+    }
+    const price = computeMonthlyPrice();
+    valueEl.textContent = price > 0 ? Math.round(price) : "–";
+    showCardIfSelected();
+    updatePriceSection();
+  }
+
+  // Initial load: create card + restore selection + show if exists
+  document.addEventListener("DOMContentLoaded", () => {
+    ensurePriceCard();
+    // If some radio is checked on initial render, store it
+    const checked = getCheckedElectricalRadio();
+    if (checked) storeSelectedProductFromId(checked.dataset.productId);
+    updatePriceCard();
+    
+    // Check if summary already exists (e.g., if we're on permissions step)
+    setTimeout(() => {
+      const summary = document.querySelector('.signup__summary');
+      if (summary) {
+        // Try to get product from form if not already stored
+        if (!loadStoredSelectedProduct()) {
+          const checkedRadio = getCheckedElectricalRadio();
+          if (checkedRadio && checkedRadio.dataset.productId) {
+            storeSelectedProductFromId(checkedRadio.dataset.productId);
+          } else {
+            const hiddenInput = document.querySelector('input[name="prospect[electrical_product_id]"]:not([disabled])');
+            if (hiddenInput && hiddenInput.value) {
+              storeSelectedProductFromId(hiddenInput.value);
+            }
+          }
+        }
+      }
+      updatePriceSection();
+    }, 200);
+  });
+
+  // After each group load
+  document.addEventListener("group:loaded", (event) => {
+    ensurePriceCard();
+    const checked = getCheckedElectricalRadio();
+    if (checked) storeSelectedProductFromId(checked.dataset.productId);
+    updatePriceCard();
+    
+    
+    // If this is the permissions group, wait a bit longer for summary to render
+    const groupName = event.detail?.groupName || event.detail?.completedGroup;
+    const delay = groupName === 'permissions' ? 500 : 100; // Longer delay for permissions
+    
+    setTimeout(() => {
+      // Try to get product from summary if not already stored
+      const summary = document.querySelector('.signup__summary');
+      if (summary) {
+        if (!loadStoredSelectedProduct()) {
+        // Look for product info in summary HTML
+        const valgteProdukter = summary.querySelector('section:nth-of-type(4)');
+        if (valgteProdukter) {
+          // Try to find any radio or input that might have product info
+          const allRadios = document.querySelectorAll('input[type="radio"][name="prospect[electrical_product_name]"]');
+          for (const radio of allRadios) {
+            if (radio.dataset.productId) {
+              storeSelectedProductFromId(radio.dataset.productId);
+              break;
+              }
+            }
+          }
+        }
+      }
+      updatePriceSection();
+    }, delay);
+  });
+
+  // Ensure product set if set on prospect
+  document.addEventListener("group:completed", async function(event) {
+    ensurePriceCard();
+    pid = event.detail.container.electrical_product_id;
+    if (pid != null) storeSelectedProductFromId(pid);
+    updatePriceCard();
+    
+    // If permissions group completed, wait for summary to render
+    const groupName = event.detail?.completedGroup || event.detail?.groupName;
+    if (groupName === 'permissions') {
+      setTimeout(() => {
+        updatePriceSection();
+      }, 500);
+    } else {
+      updatePriceSection();
+    }
+  });
+
+  // When radios change
+  document.addEventListener("change", (e) => {
+    if (e.target.matches('input[type="radio"][name="prospect[electrical_product_name]"]')) {
+      storeSelectedProductFromId(e.target.dataset.productId);
+      updatePriceCard();
+      updatePriceSection();
+    }
+    if (e.target.matches(".add_on_product_checkbox")) {
+      updatePriceCard();
+      updatePriceSection();
+    }
+  });
+
+  // When custom image options are clicked, the radio changes inside select()
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".signup__electrical_product")) {
+      setTimeout(() => {
+        const checked = getCheckedElectricalRadio();
+        storeSelectedProductFromId(checked.dataset.productId);
+        updatePriceCard();
+        updatePriceSection();
+      }, 0);
+    }
+  });
+
+  // Watch for summary section being added to DOM (optimized to only check for summary element)
+  let summaryUpdateTimeout = null;
+  let observerActive = true;
+  
+  const observer = new MutationObserver((mutations) => {
+    // Only process if observer is still active
+    if (!observerActive) return;
+    
+    // Check if summary element was added in this batch of mutations
+    let summaryAdded = false;
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType === 1) { // Element node
+          if (node.classList?.contains('signup__summary') || node.querySelector?.('.signup__summary')) {
+            summaryAdded = true;
+            break;
+          }
+        }
+      }
+      if (summaryAdded) break;
+    }
+    
+    // Only proceed if summary was actually added
+    if (!summaryAdded) return;
+    
+    // Debounce: only update once per batch of mutations
+    if (summaryUpdateTimeout) {
+      clearTimeout(summaryUpdateTimeout);
+    }
+    
+    summaryUpdateTimeout = setTimeout(() => {
+      const summary = document.querySelector('.signup__summary');
+      if (summary && summary.offsetParent !== null) {
+        // Try to get product from form if not already stored
+        if (!loadStoredSelectedProduct()) {
+          const checkedRadio = getCheckedElectricalRadio();
+          if (checkedRadio && checkedRadio.dataset.productId) {
+            storeSelectedProductFromId(checkedRadio.dataset.productId);
+          } else {
+            // Try hidden input
+            const hiddenInput = document.querySelector('input[name="prospect[electrical_product_id]"]:not([disabled])');
+            if (hiddenInput && hiddenInput.value) {
+              storeSelectedProductFromId(hiddenInput.value);
+            }
+          }
+        }
+        
+        updatePriceSection();
+        
+        // Stop observing once summary is found and price is updated
+        // Check if price was successfully set
+        setTimeout(() => {
+          const priceSection = summary.querySelector('section.summary-price-section');
+          const valueEl = priceSection?.querySelector('#summary-price-value');
+          if (priceSection && valueEl && valueEl.textContent !== "–" && valueEl.textContent !== "") {
+            observer.disconnect();
+            observerActive = false;
+          }
+        }, 500);
+      }
+      summaryUpdateTimeout = null;
+    }, 300);
+  });
+
+  // Start observing when DOM is ready, but only watch for summary container
+  if (document.body) {
+    observer.observe(document.body, {
+      childList: true,
+      subtree: false // Only watch direct children, not all descendants
+    });
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      observer.observe(document.body, {
+        childList: true,
+        subtree: false
+      });
+    });
+  }
+
+  // DEV MODE: Skip to summary step with real data (midlertidig løsning)
+  // Brug: Åbn console og skriv: window.skipToSummary()
+  window.skipToSummary = async function() {
+    try {
+      // Find form og container
+      const form = document.querySelector('form');
+      const container = document.getElementById('group-container');
+      
+      if (!form || !container) {
+        console.error('Could not find form or container');
+        return;
+      }
+
+      // Hent permissions group direkte fra serveren (indeholder summary med retvisende data)
+      const formData = new FormData(form);
+      formData.set('current_group', 'permissions');
+      
+      const response = await fetch('/prospects/fast-pris-flow-test/group?group=permissions', {
+        method: 'GET',
+        headers: {'Accept': 'text/html'}
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const html = await response.text();
+      container.innerHTML = html;
+
+      // Debug: Log all h1 elements and their structure
+      if (window.innerWidth <= 980) { // Mobile breakpoint
+        const allH1s = document.querySelectorAll('h1');
+        console.log('=== MOBILE DEBUG: All H1 Elements ===');
+        console.log(`Total h1 elements found: ${allH1s.length}`);
+        allH1s.forEach((h1, index) => {
+          console.log(`\nH1 #${index + 1}:`);
+          console.log('  Text:', h1.textContent?.trim().substring(0, 50));
+          console.log('  Classes:', h1.className);
+          console.log('  Tag:', h1.tagName);
+          console.log('  Parent:', h1.parentElement?.className || h1.parentElement?.tagName);
+          console.log('  Parent parent:', h1.parentElement?.parentElement?.className || h1.parentElement?.parentElement?.tagName);
+          const computedStyle = window.getComputedStyle(h1);
+          console.log('  Computed font-size:', computedStyle.fontSize);
+          console.log('  Computed font-size (px):', parseFloat(computedStyle.fontSize));
+          console.log('  Media query active:', window.innerWidth <= 980);
+          console.log('  Is in .signup__page:', h1.closest('.signup__page') !== null);
+          console.log('  Is in #group-container:', h1.closest('#group-container') !== null);
+          console.log('  Is in .signup__form-section:', h1.closest('.signup__form-section') !== null);
+          console.log('  Is in .signup__section:', h1.closest('.signup__section') !== null);
+          console.log('  Full path:', getElementPath(h1));
+          
+          // Check which CSS rules match
+          const matchingRules = [];
+          const stylesheets = Array.from(document.styleSheets);
+          stylesheets.forEach(sheet => {
+            try {
+              const rules = Array.from(sheet.cssRules || []);
+              rules.forEach(rule => {
+                if (rule.media && rule.media.mediaText.includes('max-width')) {
+                  const mediaRules = Array.from(rule.cssRules || []);
+                  mediaRules.forEach(mediaRule => {
+                    if (h1.matches(mediaRule.selectorText)) {
+                      matchingRules.push({
+                        selector: mediaRule.selectorText,
+                        fontSize: mediaRule.style.fontSize,
+                        specificity: mediaRule.selectorText.split(' ').length
+                      });
+                    }
+                  });
+                }
+              });
+            } catch (e) {
+              // Cross-origin stylesheet, skip
+            }
+          });
+          console.log('  Matching mobile rules:', matchingRules);
+        });
+      }
+
+      // Trigger events så alt initialiseres korrekt
+      document.dispatchEvent(new CustomEvent('group:loaded', { detail: { container } }));
+      
+      // Opdater progress bar
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      if (progressBar && progressText) {
+        progressBar.style.width = '100%';
+        progressText.textContent = 'Trin 7 af 7';
+      }
+
+      // Skjul next button eller opdater den
+      const nextButton = document.getElementById('next-button');
+      if (nextButton) {
+        nextButton.value = 'Finish';
+      }
+
+      console.log('✅ Summary step loaded with real data!');
+    } catch (error) {
+      console.error('❌ Could not load summary:', error);
+      alert('Kunne ikke loade summary. Tjek console for fejl.');
+    }
+  };
+})();
 </script>
