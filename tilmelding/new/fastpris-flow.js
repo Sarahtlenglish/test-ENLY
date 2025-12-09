@@ -1019,6 +1019,8 @@ function organizeAddOnProducts(root) {
     headerCard1.className = 'addon-group-header';
     headerCard1.setAttribute('role', 'button');
     headerCard1.setAttribute('tabindex', '0');
+    headerCard1.setAttribute('role', 'button');
+    headerCard1.setAttribute('tabindex', '0');
     
     // Tooltip icon - positioned in top right corner
     const tooltipIcon1 = document.createElement('div');
@@ -1079,26 +1081,61 @@ function organizeAddOnProducts(root) {
     };
 
     optionalProducts.forEach(formGroup => {
+      // Make each product focusable and keyboard-activatable
+      formGroup.tabIndex = 0;
+      formGroup.setAttribute('role', 'button');
+      formGroup.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          const inp = formGroup.querySelector('input[type="radio"], input[type="checkbox"]');
+          if (inp) {
+            inp.click();
+          }
+        }
+      });
       contentWrapper1.appendChild(formGroup);
     });
 
     const toggleContent1 = (e) => {
       // Don't toggle if clicking on tooltip icon
-      if (e.target.closest('.addon-tooltip-icon')) {
+      if (e && e.target && e.target.closest('.addon-tooltip-icon')) {
         return;
       }
       const isOpen = !contentWrapper1.classList.contains('addon-group-content--hidden');
       contentWrapper1.classList.toggle('addon-group-content--hidden', isOpen);
       headerCard1.classList.toggle('open', !isOpen);
+      headerCard1.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        const firstFocusable = contentWrapper1.querySelector('input, button, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (firstFocusable) firstFocusable.focus();
+      }
     };
 
-    headerCard1.addEventListener('click', toggleContent1);
-    headerCard1.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleContent1();
+    let suppressNextClick = false;
+
+    headerCard1.addEventListener('click', (e) => {
+      if (suppressNextClick) {
+        suppressNextClick = false;
+        return;
       }
+      toggleContent1(e);
     });
+
+    // Support keyboard activation (Enter/Space) on both keydown/keyup
+    ['keydown', 'keyup'].forEach(evt => {
+      headerCard1.addEventListener(evt, (e) => {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          suppressNextClick = true; // avoid Space firing click after keydown
+          if (evt === 'keydown') {
+            toggleContent1(e);
+          }
+        }
+      });
+    });
+
+    // Closed by default; updated via toggle
+    headerCard1.setAttribute('aria-expanded', 'false');
 
     section1.appendChild(headerCard1);
     section1.appendChild(contentWrapper1);
@@ -1186,12 +1223,9 @@ function organizeAddOnProducts(root) {
   });
 
   headerCard2.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
       e.preventDefault();
-      const nextButton = document.querySelector(CONFIG.SELECTOR_NEXT_BUTTON);
-      if (nextButton && !nextButton.disabled) {
-        nextButton.click();
-      }
+      headerCard2.click();
     }
   });
 
