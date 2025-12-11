@@ -15,13 +15,10 @@ const CONFIG = {
   IMAGE_FLAT_ON: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/flat_on.webp',
   
   // Product IDs
-  PRODUCT_ID_HOUSE: 1001,
-  PRODUCT_ID_APARTMENT: 1958,
-  
-  // Prices
-  PRICE_HOUSE: 650,
-  PRICE_APARTMENT: 400,
-  
+  PRODUCT_ID_HOUSE: 2024,
+  PRODUCT_ID_APARTMENT: 1991,
+
+
   // Delays (milliseconds)
   DELAY_BUTTON_CLICK: 100,
   DELAY_BUTTON_STATE_UPDATE: 50,
@@ -32,12 +29,6 @@ const CONFIG = {
   SELECTOR_NEXT_BUTTON: '#next-button',
   SELECTOR_GROUP_CONTAINER: '#group-container',
   
-  // GTM/GA4
-  CURRENCY: 'DKK',
-  PRODUCT_CATEGORY: 'El',
-  DEFAULT_AFFILIATE: 'ENLY.dk',
-  DEFAULT_UNKNOWN: 'unknown',
-  DEFAULT_UNKNOWN_PRODUCT: 'Ukendt produkt',
   
   // Text content
   TOOLTIP_HELP_LABEL: 'Hjælp',
@@ -55,13 +46,11 @@ const CONFIG = {
   KEYWORD_NO_CHARGER: ['ikke ladestander', 'har ikke']
 };
 
-// Price map for product IDs (kept for compatibility)
 CONFIG.PRICE_MAP = new Map([
   [CONFIG.PRODUCT_ID_HOUSE, CONFIG.PRICE_HOUSE],
   [CONFIG.PRODUCT_ID_APARTMENT, CONFIG.PRICE_APARTMENT]
 ]);
 
-// Helper function to get element path for debugging
 function getElementPath(element) {
   const path = [];
   let current = element;
@@ -80,15 +69,20 @@ function getElementPath(element) {
 }
 
 window.ENLY_DEBUG_PRICE = false;
-function storeSelectedProductFromId(id) {
-  if (!id) return;
-  const price = CONFIG.PRICE_MAP ? CONFIG.PRICE_MAP.get(Number(id)) : 0;
-  const payload = { id, price: Number(price || 0) };
-  const payloadString = JSON.stringify(payload);
-  window.selected_electrical_product = payloadString;
-  try {
-    localStorage.setItem('selected_electrical_product', payloadString);
-  } catch (e) {}
+function storeSelectedProductFromId(id, subscriptionPrice) {
+  if (!id) {
+    return;
+  }
+
+  const price = CONFIG.PRICE_MAP.get(Number(id));
+
+  const payload = {
+    id: id,
+    price: Number(price || 0),
+    electricalProductSubscriptionPrice: subscriptionPrice
+  };
+
+  window.selected_electrical_product = JSON.stringify(payload);
 }
 function loadStoredSelectedProduct() {
   try {
@@ -105,11 +99,13 @@ function loadStoredSelectedProduct() {
 }
 function computeMonthlyPrice() {
   const stored = loadStoredSelectedProduct();
-  return stored?.price || 0;
+  // Only use electricalProductSubscriptionPrice from backend - no fallbacks
+  return stored?.electricalProductSubscriptionPrice || 0;
 }
 
-// Add preconnect links for Typekit fonts
+// Load Aptly font from Typekit
 (function() {
+  // Add preconnect links for Typekit fonts
   const preconnect1 = document.createElement('link');
   preconnect1.rel = 'preconnect';
   preconnect1.href = CONFIG.TYPEKIT_URL;
@@ -120,13 +116,32 @@ function computeMonthlyPrice() {
   preconnect2.href = CONFIG.TYPEKIT_P_URL;
   preconnect2.crossOrigin = 'anonymous';
   document.head.appendChild(preconnect2);
+
+  // Load Aptly font stylesheets
+  const aptlyStylesheet1 = document.createElement('link');
+  aptlyStylesheet1.rel = 'stylesheet';
+  aptlyStylesheet1.href = 'https://use.typekit.net/uqv7fhq.css';
+  document.head.appendChild(aptlyStylesheet1);
+
+  const aptlyStylesheet2 = document.createElement('link');
+  aptlyStylesheet2.rel = 'stylesheet';
+  aptlyStylesheet2.href = 'https://use.typekit.net/tik0ert.css';
+  document.head.appendChild(aptlyStylesheet2);
 })();
 
 
-// Hus / Lejlighed radio
-document.addEventListener('group:loaded', function() {
+// Hus / Lejlighed radio - only run on electrical_product group
+document.addEventListener('group:loaded', function(e) {
+    // Only run electrical_product code if this is actually the electrical_product group
+    const groupName = e?.detail?.completedGroup;
+    if (groupName !== 'electrical_product' && !document.querySelector(CONFIG.SELECTOR_ELECTRICAL_PRODUCT)) {
+        return; // Not electrical_product group and no container found
+    }
+    
     const container = document.querySelector(CONFIG.SELECTOR_ELECTRICAL_PRODUCT);
-    if (!container) return;
+    if (!container) {
+        return; // Not on electrical_product step
+    }
 
     const allRadios = Array.from(container.querySelectorAll('input[type="radio"][name="prospect[electrical_product_name]"]'));
     if (!allRadios.length) return;
@@ -142,7 +157,7 @@ document.addEventListener('group:loaded', function() {
             hoverImage: CONFIG.IMAGE_HOUSE_ON,
             label: 'Jeg bor i hus',
             variant: 'House',
-            price: CONFIG.PRICE_MAP ? CONFIG.PRICE_MAP.get(Number(CONFIG.PRODUCT_ID_HOUSE)) : 0
+            price: CONFIG.PRICE_MAP.get(Number(CONFIG.PRODUCT_ID_HOUSE))
         },
         {
             id: CONFIG.PRODUCT_ID_APARTMENT,
@@ -151,7 +166,7 @@ document.addEventListener('group:loaded', function() {
             hoverImage: CONFIG.IMAGE_FLAT_ON,
             label: 'Jeg bor i lejlighed',
             variant: 'Apartment',
-            price: CONFIG.PRICE_MAP ? CONFIG.PRICE_MAP.get(Number(CONFIG.PRODUCT_ID_APARTMENT)) : 0
+            price: CONFIG.PRICE_MAP.get(Number(CONFIG.PRODUCT_ID_APARTMENT))
         }
     ];
 
@@ -191,7 +206,7 @@ document.addEventListener('group:loaded', function() {
         const helpText = originalGroup?.querySelector('.signup__form-help');
 
         // price strictly from PRICE_MAP (colleague's approach)
-        opt.price = CONFIG.PRICE_MAP ? CONFIG.PRICE_MAP.get(Number(opt.id)) || 0 : 0;
+        opt.price = CONFIG.PRICE_MAP.get(Number(opt.id));
 
         const optionContainer = document.createElement('div');
         optionContainer.className = 'housing-option-card';
@@ -1365,9 +1380,7 @@ function movePaymentInputsToContainer(root) {
   });
 }
 
-// Debug payment method clicks
 function setupPaymentMethodClickTracking(root) {
-  // Debug logging removed; keep function to avoid breaking callers
   return;
 }
 
@@ -1437,10 +1450,11 @@ function getAllCartItems() {
 
 // GTM Events
 document.addEventListener('group:completed', async function(event) {
+
   const container = event.detail.container;
   const groupName = event.detail.completedGroup;
   const stepNumber = event.detail.stepNumber + 1; // 0-indexed
-
+ 
   // Log checkout progress
   const payload = {
     event: "checkout_progress",
@@ -1449,45 +1463,64 @@ document.addEventListener('group:completed', async function(event) {
       checkout_option: { step_name: groupName }
     }
   };
-
+ 
   // Tilføj alle items til payload efterfølgende
   payload.ecommerce.items = getAllCartItems();
-
+ 
   // Berig payload med ekstra info
   if (groupName === "situation") {
     payload.ecommerce.checkout_option.option = container.situation;
   }
-
+ 
   if (groupName === "installation_address") {
     payload.ecommerce.checkout_option.option = container.installation_address_mode || "unknown";
   }
-
+ 
   dataLayer.push(payload);
-
+ 
   // Log customer info when available
   if (groupName === "customer") {
-    const hashedEmail = "abcd1234"; // Mocked, brug sha256(container.email) i prod
+    const hashedEmail = "abcd1234"; // brug sha256 i prod
     dataLayer.push({
       event: "user_identifier",
       hashed_email: hashedEmail
     });
   }
-
+ 
   // Log product added to cart using productMap
   if (groupName === "electrical_product") {
     const product = window.productMap?.[container.electrical_product_id];
     if (!product) return;
+
+    // Extract price from electrical_product_name (fallback since backend doesn't send electricalProductSubscriptionPrice)
+    let subscriptionPrice = event.detail.electricalProductSubscriptionPrice ||
+                           event.detail.container?.electricalProductSubscriptionPrice;
+
+    // FALLBACK: Try to extract price from electrical_product_name (e.g., "enly_flatrate_lejlighed_389" -> 389)
+    if (!subscriptionPrice && event.detail.container?.electrical_product_name) {
+      const nameMatch = event.detail.container.electrical_product_name.match(/_(\d+)$/);
+      if (nameMatch) {
+        subscriptionPrice = parseInt(nameMatch[1]);
+      }
+    }
+
 
     // Gem kun de felter vi skal bruge til GA4 (renset version)
     window.selectedProduct = {
       item_id: String(product.id),
       item_name: product.label,
       item_variant: product.variant,
-      item_category: CONFIG.PRODUCT_CATEGORY,
+      item_category: "El",
       price: product.price,
-      currency: CONFIG.CURRENCY,
-      quantity: 1
+      currency: "DKK",
+      quantity: 1,
+      electricalProductSubscriptionPrice: subscriptionPrice
     };
+
+    // Store selection for price card/summary with subscription price
+    if (subscriptionPrice) {
+      storeSelectedProductFromId(container.electrical_product_id, subscriptionPrice);
+    }
 
     dataLayer.push({
       event: "add_to_cart",
@@ -1499,22 +1532,22 @@ document.addEventListener('group:completed', async function(event) {
         },
         items: [window.selectedProduct]
       },
-      hashed_email: "abcd1234" // Mocked, brug sha256(container.email) i prod
+      hashed_email: "abcd1234" // brug sha256 i prod
     });
   }
-
+ 
   // Log payment info + view_cart når man når payment-step
   if (groupName === "payment") {
     const mainItems = window.selectedProduct ? [window.selectedProduct] : [];
     const addOnItems = Object.values(window.addOnCart || {});
     const allItems = [...mainItems, ...addOnItems];
-
+ 
     // Skyd view_cart på payment-step
     dataLayer.push({
       event: "view_cart",
       ecommerce: { items: allItems }
     });
-
+ 
     // Skyd payment event
     dataLayer.push({
       event: "add_payment_info",
@@ -1524,72 +1557,58 @@ document.addEventListener('group:completed', async function(event) {
       }
     });
   }
-
+ 
   // Purchase på permissions-step
   if (groupName === "permissions") {
     const mainItems = window.selectedProduct ? [window.selectedProduct] : [];
     const addOnItems = Object.values(window.addOnCart || {});
     const allItems = [...mainItems, ...addOnItems];
     const totalValue = allItems.reduce((sum, it) => sum + (parseFloat(it.price) || 0), 0);
-
+ 
     dataLayer.push({
       event: "purchase",
       ecommerce: {
-        transaction_id: container.signup_id || CONFIG.DEFAULT_UNKNOWN,
-        affiliation: container.affiliate || CONFIG.DEFAULT_AFFILIATE,
+        transaction_id: container.signup_id || "unknown",
+        affiliation: container.affiliate || "ENLY.dk",
         value: totalValue,
-        currency: CONFIG.CURRENCY,
+        currency: "DKK",
         items: allItems
       }
     });
   }
 });
-
-
+ 
+ 
 document.addEventListener('change', function(e) {
   if (!e.target.matches('.add_on_product_checkbox')) return;
-
+ 
   const el = e.target;
   const isChecked = el.checked;
   const productId = String(el.dataset.productId || el.value);
-  const productName = el.dataset.productName || CONFIG.DEFAULT_UNKNOWN_PRODUCT;
+  const productName = el.dataset.productName || 'Ukendt produkt';
   const productPrice = parseFloat(el.dataset.productPrice || '0');
-
+ 
   const item = {
     item_id: productId,
     item_name: productName,
     price: productPrice,
-    currency: CONFIG.CURRENCY,
+    currency: 'DKK',
     quantity: 1
   };
-
-  // Since these are now radio buttons, clear all previous selections first
+ 
+  // opdater lokal kurvetilstand til brug ved view_cart og purchase
   if (isChecked) {
-    // Clear all previous selections from cart
-    Object.keys(window.addOnCart).forEach(key => {
-      delete window.addOnCart[key];
-    });
-    // Add the newly selected item
     window.addOnCart[productId] = item;
-    
-    // Remove 'remove_from_cart' events for other items
-    // Only send add_to_cart for the selected item
-    dataLayer.push({
-      event: 'add_to_cart',
-      ecommerce: { items: [item] }
-    });
   } else {
-    // If unchecked (shouldn't happen with radio, but handle it)
     delete window.addOnCart[productId];
+  }
+ 
   dataLayer.push({
-      event: 'remove_from_cart',
+    event: isChecked ? 'add_to_cart' : 'remove_from_cart',
     ecommerce: { items: [item] }
   });
-  }
 });
-
-// Payment method cards - styling handled by CSS, no JS manipulation needed
-
+ 
 // SHA256 helper
 async function sha256(str) {
     const buffer = new TextEncoder("utf-8").encode(str.trim().toLowerCase());
@@ -1639,6 +1658,17 @@ document.addEventListener('DOMContentLoaded', initializeTooltipHandles);
 
 // Also initialize when group:loaded event fires (for dynamically loaded content)
 document.addEventListener('group:loaded', initializeTooltipHandles);
+
+// Ensure input values are synced before form submission
+document.addEventListener('submit', (e) => {
+    // Sync all input values with their value attributes before submission
+    const allInputs = e.target.querySelectorAll('input, select, textarea');
+    allInputs.forEach(input => {
+        if (input.value !== undefined) {
+            input.setAttribute('value', input.value);
+        }
+    });
+}, true);
 
 // Price-card
 (function () {
@@ -1985,54 +2015,5 @@ document.addEventListener('group:loaded', initializeTooltipHandles);
     });
   }
 
-  // DEV MODE: Skip to summary step with real data (midlertidig løsning)
-  // Brug: Åbn console og skriv: window.skipToSummary()
-  window.skipToSummary = async function() {
-    try {
-      // Find form og container
-      const form = document.querySelector('form');
-      const container = document.getElementById('group-container');
-      
-      if (!form || !container) {
-        return;
-      }
-
-      // Hent permissions group direkte fra serveren (indeholder summary med retvisende data)
-      const formData = new FormData(form);
-      formData.set('current_group', 'permissions');
-      
-      const response = await fetch('/prospects/fast-pris-flow-test/group?group=permissions', {
-        method: 'GET',
-        headers: {'Accept': 'text/html'}
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const html = await response.text();
-      container.innerHTML = html;
-
-      // Trigger events så alt initialiseres korrekt
-      document.dispatchEvent(new CustomEvent('group:loaded', { detail: { container } }));
-      
-      // Opdater progress bar
-      const progressBar = document.getElementById('progress-bar');
-      const progressText = document.getElementById('progress-text');
-      if (progressBar && progressText) {
-        progressBar.style.width = '100%';
-        progressText.textContent = 'Trin 7 af 7';
-      }
-
-      // Skjul next button eller opdater den
-      const nextButton = document.getElementById('next-button');
-      if (nextButton) {
-        nextButton.value = 'Finish';
-      }
-
-    } catch (error) {
-      alert('Kunne ikke loade summary. Tjek console for fejl.');
-    }
-  };
 })();
 </script>

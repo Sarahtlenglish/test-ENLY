@@ -36,3 +36,4 @@ This checklist summarizes places in our JS that can influence step order, valida
 - Add a fetch wrapper to log 422 responses (URL + response text) to identify exactly which field/group the server rejects. Remove after diagnosis.
 
 
+

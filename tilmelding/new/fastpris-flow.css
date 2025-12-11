@@ -90,7 +90,8 @@
 
   /* Layout */
   --Max-Width-Page: 1200px;
-  --Max-Width-Form: 800px;
+  --Max-Width-Form: 600px;
+  --Max-Width-Form-Medium: 800px;
   --Max-Width-Form-Large: 900px;
   --Max-Width-Form-XLarge: 1200px;
   --Max-Width-Progress: 400px;
@@ -256,7 +257,9 @@ body {
   align-items: center;
   gap: var(--Spacing-MD);
   font-weight: var(--Font-Weight-Bold);
-  font-size: var(--Font-Size-Base);
+  font-size: 16px;
+  font-family: 'Aptly', 'Gamay Narrow', sans-serif;
+  text-transform: uppercase;
   line-height: var(--Line-Height-Tight);
   padding: var(--Font-Size-XS) var(--Spacing-Hero-Padding);
   border-radius: var(--Radius-LG);
@@ -365,7 +368,7 @@ body {
   justify-content: flex-start;
   flex-wrap: wrap;
   text-align: center;
-  max-width: var(--Max-Width-Form);
+  max-width: var(--Max-Width-Form-Medium);
   margin: 0 auto;
 }
 
@@ -424,17 +427,17 @@ body {
 
 /* Installation address select - styled like gas buttons */
 .signup__installation_address_select {
-  max-width: var(--Max-Width-Form);
+  max-width: var(--Max-Width-Form-Medium);
   margin: 0 auto;
   justify-content: center;
 }
 
 .signup__installation_address_select .installation-type-selector {
   display: flex;
-  gap: var(--Selector-Gap);
+  gap: 20px;
   margin: var(--Spacing-XXL) 0;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: stretch;
   align-items: stretch;
   width: 100%;
 }
@@ -446,12 +449,27 @@ body {
   justify-content: center;
   align-items: center;
   gap: var(--Card-Gap);
-  border-radius: var(--Radius-MD);
+  border-radius: 0;
   border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  border-right: none;
   background: transparent;
   cursor: pointer;
   transition: all var(--Transition-Base);
-  flex: 0 1 auto;
+  flex: 1 1 0;
+}
+
+.installation-option-card:first-child {
+  border-radius: var(--Radius-MD) 0 0 var(--Radius-MD);
+}
+
+.installation-option-card:last-child {
+  border-radius: 0 var(--Radius-MD) var(--Radius-MD) 0;
+  border-right: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+}
+
+.installation-option-card:only-child {
+  border-radius: var(--Radius-MD);
+  border-right: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
 }
 
 .installation-option-card:hover {
@@ -841,6 +859,7 @@ body {
   position: relative;
 }
 
+/* Date input fields - shared styles for both COS and Move sections */
 .signup__situation_cos_start_date .signup__form-field input[type="date"],
 .signup__situation_move_start_date .signup__form-field input[type="date"],
 .signup__situation_cos_start_date .signup__form-field input[type="text"],
@@ -861,6 +880,10 @@ body {
   margin-top: 0;
   align-self: flex-start;
   cursor: pointer;
+  padding: clamp(12px, 2vh, 18px) clamp(15px, 2vw, 20px);
+  padding-right: clamp(40px, 5vw, 50px);
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) label,
@@ -889,7 +912,7 @@ body {
 }
 
 
-/* Date input placeholder and value styling */
+/* Date input placeholder and value styling - shared for both sections */
 .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-calendar-picker-indicator,
 .signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
@@ -936,6 +959,7 @@ body {
   color: var(--Date-Text-Color);
 }
 
+/* Date input field parts - shared styling for both sections */
 .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-month-field,
 .signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-month-field,
 .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-day-field,
@@ -1256,7 +1280,6 @@ body {
   opacity: 1;
 }
 
-.housing-option-card:hover:not(.selected):not([data-selected="true"]) img {}
 
 .housing-option-label {
   color: var(--Black);
@@ -1300,9 +1323,20 @@ body {
 
 /* Tilkøb / Add-on products (electrical_product_additional) */
 .signup__section--electrical_product_additional-additional {
-  max-width: var(--Max-Width-Form);
+  max-width: var(--Max-Width-Form-Medium);
   margin: 0 auto;
   padding: 0 clamp(var(--Spacing-Base), 2vw, var(--Spacing-XL));
+}
+
+/* Permissions section - desktop padding */
+.signup__section--permissions {
+  padding: 0 clamp(var(--Spacing-Base), 2vw, var(--Spacing-XL));
+}
+
+/* Permissions form-group - desktop: padding top and bottom only */
+.signup__permissions .signup__form-group {
+  padding: var(--Spacing-Base) 0 0 0;
+  margin: 0;
 }
 
 .signup__section--electrical_product_additional-additional .signup__section-title {
@@ -1329,11 +1363,14 @@ body {
 .signup__electrical_additional_products {
   background: var(--Nautral-Lightest);
   border-radius: var(--Radius-LG);
-  padding: var(--Spacing-LG);
+  padding: var(--Spacing-Base);
   display: flex;
   flex-direction: column;
   gap: var(--Spacing-Base);
   box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Light));
+  max-width: var(--Max-Width-Form-Medium);
+  width: 100%;
+  margin: 0 auto;
 }
 
 .signup__electrical_additional_products .addon-group-section {
@@ -1376,7 +1413,6 @@ body {
 
 .signup__electrical_additional_products .addon-group-header.addon-group-skip-button .signup__group-title {
   color: var(--Black);
-  font-size: var(--Font-Size-LG);
   font-style: normal;
   font-weight: var(--Font-Weight-ExtraBold);
   line-height: var(--Line-Height-Label);
@@ -1385,7 +1421,6 @@ body {
 .signup__electrical_additional_products .addon-group-header.addon-group-skip-button .addon-group-description {
   color: var(--Black);
   text-align: left;
-  font-size: var(--Font-Size-MD);
   font-style: normal;
   font-weight: var(--Font-Weight-Light);
   line-height: var(--Line-Height-Label);
@@ -1681,7 +1716,6 @@ body {
   margin-top: 2px;
 }
 
-.signup__electrical_additional input[type="radio"] {}
 
 .signup__electrical_additional .signup__checkbox-text {
   color: #000;
@@ -1743,7 +1777,7 @@ body {
 }
 
 .signup__installation_address_select {
-  max-width: 800px;
+  max-width: var(--Max-Width-Form-Medium);
   margin: 0 auto;
   justify-content: center;
 }
@@ -1757,7 +1791,7 @@ body {
 }
 
 .signup__customer {
-  max-width: var(--Max-Width-Form);
+  max-width: var(--Max-Width-Form-Medium);
   margin: 0 auto;
 }
 
@@ -1781,7 +1815,7 @@ body {
 }
 
 .signup__installation_address_search {
-  max-width: var(--Max-Width-Form);
+  max-width: var(--Max-Width-Form-Medium);
   margin: 0 auto;
   justify-content: center;
 }
@@ -1800,7 +1834,7 @@ body {
 }
 
 .signup__installation_address {
-  max-width: var(--Max-Width-Form);
+  max-width: var(--Max-Width-Form-Medium);
   margin: 0 auto;
   justify-content: center;
 }
@@ -1836,25 +1870,6 @@ body {
   justify-content: flex-start;
 }
 
-
-/* Make the last field take full width if it's alone in its row - permissions and payment */
-.signup__permissions_extras .signup__form-field:last-child:nth-child(odd),
-.signup__permissions_extras .signup__form-field:last-child:nth-child(5),
-.signup__permissions_extras .signup__form-field:last-child:nth-child(7),
-.signup__permissions_extras .signup__form-field:last-child:nth-child(9),
-.signup__payment_pbs_more .signup__form-field:last-child:nth-child(odd),
-.signup__payment_pbs_more .signup__form-field:last-child:nth-child(5),
-.signup__payment_pbs_more .signup__form-field:last-child:nth-child(7),
-.signup__payment_pbs_more .signup__form-field:last-child:nth-child(9) {
-  flex-basis: 100%;
-}
-
-/* Situation date sections - ensure last field takes full width */
-.signup__situation_cos_start_date .signup__form-field:last-child,
-.signup__situation_move_start_date .signup__form-field:last-child:not(.signup__situation_move_acknowledged) {
-  width: 100%;
-}
-
 .signup__customer .signup__form-field label>span.signup__radio-wrap,
 .signup__customer .signup__form-field label>span.signup__checkbox-wrap,
 .signup__installation_address_manual .signup__form-field label>span.signup__radio-wrap,
@@ -1874,7 +1889,7 @@ body {
 .signup__payment {
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 40px auto 0 auto;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -2105,9 +2120,9 @@ body {
 
 .signup__permissions {
   width: 100%;
-  max-width: 600px;
+  max-width: var(--Max-Width-Form);
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 var(--Spacing-SM);
 }
 
 .signup__permissions .signup__form-field--checkbox {
@@ -2161,7 +2176,6 @@ body {
 
 .signup__summary {
   width: 100%;
-  max-width: 600px;
   margin: 0 auto;
   padding: 16px;
   background: var(--White);
@@ -2520,7 +2534,7 @@ p:has(#earliest-date),
   }
 
   #price-card .price-card__currency {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   #price-card .price-card__sub {
@@ -2628,15 +2642,17 @@ p:has(#earliest-date),
 .signup__section--electrical_product~.actions #next-button,
 .signup__section--electrical_product+.actions #next-button,
 body:has(.signup__section--electrical_product) .actions #next-button {
-  display: none;
+  /* DEBUG: Changed from display: none to allow programmatic clicks */
+  /* display: none; */
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
   position: absolute;
-  width: 0;
-  height: 0;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+  /* Keep element in DOM for programmatic access */
 }
 
 .signup__section--situation~* .actions #next-button,
@@ -2785,8 +2801,23 @@ body:has(.signup__section--electrical_product) .actions #next-button {
     padding: 0 var(--Spacing-Base);
   }
 
+  /* Permissions and electrical additional - remove padding from form-field on mobile */
+  .signup__permissions .signup__form-field,
+  .signup__electrical_additional_products .signup__form-field {
+    padding: 0;
+  }
+
   .signup__form-group {
     padding: 0 var(--Spacing-Base);
+  }
+
+  /* Permissions form-group - mobile: padding on all sides */
+  .signup__permissions .signup__form-group {
+    padding: var(--Spacing-Base) var(--Spacing-Base) 0 var(--Spacing-Base);
+  }
+
+  .signup__section--electrical_product_additional-additional .signup__form-group {
+    padding: 0;
   }
 
   /* ============================================
@@ -2806,15 +2837,12 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   }
 
   .signup__page .hero .topnav {
-    position: absolute;
-    top: var(--Spacing-Hero-Padding);
-    right: var(--Spacing-Base);
+    position: relative;
     padding: 0;
     width: auto;
     order: 1;
     margin-top: 0;
     align-self: flex-start;
-    z-index: calc(var(--Z-Index-Hero) + 1);
   }
 
   .topnav ul {
@@ -2832,7 +2860,9 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   }
 
   .topnav ul li a {
-    font-size: var(--Font-Size-Base);
+    font-size: 16px;
+    font-family: 'Aptly', 'Gamay Narrow', sans-serif;
+    text-transform: uppercase;
     padding: var(--Spacing-MD) var(--Spacing-MD);
     white-space: nowrap;
   }
@@ -2845,93 +2875,28 @@ body:has(.signup__section--electrical_product) .actions #next-button {
      TYPOGRAPHY - TITLES
      ============================================ */
 
-  .signup__page form #group-container .signup__form-section h1.signup__section-title,
-  .signup__page form #group-container .signup__form-section h5.signup__section-title,
-  .signup__page form #group-container .signup__form-section h1.signup__group-title,
-  .signup__page form #group-container h1.signup__section-title,
-  .signup__page form #group-container h5.signup__section-title,
-  .signup__page form #group-container h1.signup__group-title,
-  .signup__page form h1.signup__section-title,
-  .signup__page form h5.signup__section-title,
-  .signup__page form h1.signup__group-title,
-  .signup__page form h1.signup__form-title,
-  .signup__page #group-container h1.signup__section-title,
-  .signup__page #group-container h5.signup__section-title,
-  .signup__page #group-container h1.signup__group-title,
-  .signup__page h1.signup__section-title,
-  .signup__page h5.signup__section-title,
-  .signup__page h1.signup__group-title,
-  .signup__page h1.signup__form-title,
-  form #group-container h1.signup__section-title,
-  form #group-container h5.signup__section-title,
-  form #group-container h1.signup__group-title,
-  form h1.signup__section-title,
-  form h5.signup__section-title,
-  form h1.signup__group-title,
-  form h1.signup__form-title,
-  #group-container .signup__form-section h1.signup__section-title,
-  #group-container .signup__form-section h5.signup__section-title,
-  #group-container .signup__form-section h1.signup__group-title,
-  #group-container h1.signup__section-title,
-  #group-container h5.signup__section-title,
-  #group-container h1.signup__group-title,
-  .signup__form-section h1.signup__section-title,
-  .signup__form-section h5.signup__section-title,
-  .signup__form-section h1.signup__group-title,
-  .signup__section h1.signup__section-title,
-  .signup__section h5.signup__section-title,
-  .signup__section h1.signup__group-title,
+  /* All section/group/form titles - simplified selector */
+  .signup__section-title,
+  .signup__group-title,
+  .signup__form-title,
   h1.signup__section-title,
   h5.signup__section-title,
   h1.signup__group-title,
-  h1.signup__form-title,
-  h1,
-  .signup__section-title,
-  .signup__group-title {
+  h1.signup__form-title {
     font-size: 1.5rem;
-    padding: 0 var(--Spacing-Base);
-    margin-left: var(--Spacing-Base);
-    margin-right: var(--Spacing-Base);
+
   }
 
-  .signup__section--electrical_product h1.signup__section-title,
-  .signup__section--electrical_product h5.signup__section-title,
-  .signup__section--electrical_product .signup__section-title,
-  .signup__section--electrical_product_additional-additional h1.signup__section-title,
-  .signup__section--electrical_product_additional-additional h5.signup__section-title,
-  .signup__section--electrical_product_additional-additional .signup__section-title,
-  .signup__page form #group-container .signup__form-section.signup__section--electrical_product h1.signup__section-title,
-  .signup__page form #group-container .signup__form-section.signup__section--electrical_product h5.signup__section-title,
-  .signup__page form #group-container .signup__form-section.signup__section--electrical_product_additional-additional h1.signup__section-title,
-  .signup__page form #group-container .signup__form-section.signup__section--electrical_product_additional-additional h5.signup__section-title,
-  #group-container .signup__form-section.signup__section--electrical_product h1.signup__section-title,
-  #group-container .signup__form-section.signup__section--electrical_product h5.signup__section-title,
-  #group-container .signup__form-section.signup__section--electrical_product_additional-additional h1.signup__section-title,
-  #group-container .signup__form-section.signup__section--electrical_product_additional-additional h5.signup__section-title,
-  .signup__form-section[class*="electrical"] h1.signup__section-title,
-  .signup__form-section[class*="electrical"] h5.signup__section-title,
-  .signup__form-section[class*="electrical"] .signup__section-title,
+  /* Electrical and payment sections - override with !important for specificity */
   .signup__section--electrical_product .signup__section-title,
   .signup__section--electrical_product_additional-additional .signup__section-title,
-  .signup__payment .signup__section-title,
-  .signup__payment h5.signup__section-title {
+  .signup__payment .signup__section-title {
     font-size: 1.5rem !important;
     padding: 0 var(--Spacing-Base);
     margin-left: var(--Spacing-Base);
     margin-right: var(--Spacing-Base);
   }
 
-  .signup__payment .signup__group-title,
-  .signup__electrical_additional_products .signup__group-title,
-  .signup__electrical_additional_products .addon-group-header.addon-group-skip-button .signup__group-title,
-  .signup__payment .signup__payment_pbs_frequency .signup__group-title,
-  .signup__payment .signup__payment_card_frequency .signup__group-title,
-  .signup__payment .signup__payment_ls_frequency .signup__group-title,
-  .signup__payment .signup__payment_fi_frequency .signup__group-title,
-  .signup__payment .payment-frequency-heading {
-    font-size: 1.125rem;
-    /* 18px */
-  }
 
   .signup__summary>section h3,
   .signup__summary .summary-price-section h3 {
@@ -2989,9 +2954,13 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   .signup__section--electrical_product_additional-additional,
   .signup__section--customer,
   .signup__section--installation_address_search,
-  .signup__section--payment,
-  .signup__section--permissions {
+  .signup__section--payment {
     padding: 0 var(--Spacing-Base);
+  }
+
+  /* Permissions section - no padding on mobile for maximum width */
+  .signup__section--permissions {
+    padding: 0;
   }
 
   /* ============================================
@@ -3012,10 +2981,6 @@ body:has(.signup__section--electrical_product) .actions #next-button {
     gap: 12px;
   }
 
-  .signup__form-field label>span.signup__radio-text,
-  .signup__form-field label>span.signup__checkbox-text {
-    margin-left: 12px;
-  }
 
   .signup__form-field--checkbox .signup__form-help {
     margin-left: clamp(12px, calc(12px + var(--Checkbox-Size, 16px)), 28px);
@@ -3068,6 +3033,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 
   .signup__summary>section {
     width: 100%;
+    padding: 0 !important;
   }
 
   .signup__summary>section:nth-of-type(1) {
@@ -3075,6 +3041,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
     flex-direction: column;
     gap: var(--Spacing-SM);
     margin-top: 0;
+    padding: var(--Spacing-Base) !important;
   }
 
   .signup__summary>section:nth-of-type(1) .row:has(.col-md-3):has(.col-md-7) {
@@ -3113,6 +3080,35 @@ body:has(.signup__section--electrical_product) .actions #next-button {
     width: 100%;
   }
 
+  /* Permissions - minimal padding on mobile for maximum width */
+  .signup__permissions {
+    padding: 0 var(--Spacing-XS);
+  }
+
+  /* Installation address select buttons - full width on mobile */
+  .signup__installation_address_select .installation-type-selector {
+    gap: 0;
+  }
+
+  .installation-option-card {
+    border-radius: 0;
+    border-right: none;
+  }
+
+  .installation-option-card:first-child {
+    border-radius: var(--Radius-MD) var(--Radius-MD) 0 0;
+  }
+
+  .installation-option-card:last-child {
+    border-radius: 0 0 var(--Radius-MD) var(--Radius-MD);
+    border-right: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  }
+
+  .installation-option-card:only-child {
+    border-radius: var(--Radius-MD);
+    border-right: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  }
+
   /* ============================================
      INPUTS & FORM ELEMENTS - RESPONSIVE
      ============================================ */
@@ -3125,6 +3121,50 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   textarea,
   .signup__form-field--date input {
     max-width: 100%;
+    width: 100%;
+  }
+
+  /* Fix for iOS Safari zoom issue - font-size must be at least 16px */
+  .signup__situation_cos_start_date .signup__form-field input[type="date"],
+  .signup__situation_move_start_date .signup__form-field input[type="date"],
+  .signup__situation_cos_start_date .signup__form-field input[type="text"],
+  .signup__situation_move_start_date .signup__form-field input[type="text"] {
+    font-size: 16px;
+  }
+
+  .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit,
+  .signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit,
+  .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+  .signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+  .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-month-field,
+  .signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-month-field,
+  .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-day-field,
+  .signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-day-field,
+  .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-year-field,
+  .signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-year-field {
+    font-size: 16px;
+  }
+
+  /* ============================================
+     STEP 3 - CUSTOMER & INSTALLATION ADDRESS
+     Mobile: flex-direction column (1 input per row)
+     ============================================ */
+
+  .signup__customer,
+  .signup__installation_address {
+    flex-direction: column;
+  }
+
+  .signup__customer .signup__form-field,
+  .signup__installation_address .signup__form-field {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  .signup__customer .signup__form-field label,
+  .signup__installation_address .signup__form-field label {
+    display: flex;
+    flex-direction: column;
     width: 100%;
   }
 
@@ -3182,10 +3222,16 @@ body:has(.signup__section--electrical_product) .actions #next-button {
      ADDITIONAL PRODUCTS
      ============================================ */
 
+  /* Electrical additional products - minimal padding/margin on mobile for maximum width */
   .signup__electrical_additional_products {
-    padding: var(--Spacing-Base);
-    margin: 0 var(--Spacing-Base);
-    max-width: calc(100% - (var(--Spacing-Base) * 2));
+    padding: var(--Spacing-SM) var(--Spacing-XS);
+    margin: 0 var(--Spacing-XS);
+    max-width: calc(100% - (var(--Spacing-XS) * 2));
+  }
+
+  /* Electrical additional products section - no padding on mobile */
+  .signup__section--electrical_product_additional-additional {
+    padding: 0;
   }
 
   .signup__electrical_additional.signup__form-field--checkbox {
