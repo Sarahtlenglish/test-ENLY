@@ -299,7 +299,7 @@ body {
 }
 
 .topnav ul li a:hover {
-  opacity: var(--Opacity-Hover);
+  transform: scale(1.02);
 }
 
 /* Progress indicator */
@@ -500,7 +500,7 @@ body {
 
 .installation-option-label {
   font-weight: var(--Font-Weight-Regular);
-  font-size: clamp(var(--Font-Size-MD), 2vw, var(--Font-Size-LG));
+  font-size: clamp(var(--Font-Size-SM), 2vw, var(--Font-Size-LG));
   color: var(--Black);
   text-align: center;
   line-height: var(--Line-Height-Loose);
@@ -671,6 +671,7 @@ body {
 .signup__situation .signup__form-group {
   flex: 0 1 auto;
   margin: 0;
+  gap: 0.5rem;
 }
 
 .signup__situation .signup__form-field--radio {
@@ -1181,7 +1182,7 @@ body {
   font-family: Gamay, sans-serif;
   font-size: var(--Font-Size-Base);
   font-style: normal;
-  font-weight: var(--Font-Weight-Medium);
+  font-weight: var(--Font-Weight-Regular);
   line-height: 120%;
   margin-left: 12px;
   flex: 1;
@@ -2000,7 +2001,7 @@ body {
 .signup__payment .signup__payment_method_name.signup__form-field--radio label {
   border: none;
   display: flex;
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -2045,7 +2046,7 @@ body {
 }
 
 .signup__payment .signup__payment_method_name.signup__form-field--radio .signup__form-help {
-  font-size: var(--Font-Size-XS);
+  font-size: var(--Font-Size-MD);
   color: var(--Gray-Dark);
   line-height: var(--Line-Height-Loose);
   margin: 0;
@@ -2577,11 +2578,15 @@ p:has(#earliest-date),
   font-size: var(--Font-Size-Base);
   font-weight: var(--Font-Weight-Bold);
   line-height: var(--Line-Height-Button);
-  padding: 12px 16px;
+  padding: 12px 22px;
   border: none;
   border-radius: var(--Radius-MD);
   cursor: pointer;
-  transition: all var(--Transition-Base);
+  transition: all var(--Transition-Base), transform var(--Transition-Fast);
+}
+
+.actions input[type="submit"]:hover {
+  transform: scale(1.02);
 }
 
 #back-button {
@@ -2592,12 +2597,13 @@ p:has(#earliest-date),
   font-family: var(--Font-Family);
   font-size: var(--Font-Size-Base);
   font-style: normal;
-  font-weight: var(--Font-Weight-Bold);
+  font-weight: var(--Font-Weight-Normal);
   line-height: var(--Line-Height-Button);
+  transition: transform var(--Transition-Fast);
 }
 
 #back-button:hover {
-  color: var(--Black);
+  transform: scale(1.02);
 }
 
 #next-button {
@@ -2607,10 +2613,11 @@ p:has(#earliest-date),
   font-size: var(--Font-Size-Base);
   font-weight: var(--Font-Weight-Bold);
   line-height: var(--Line-Height-Button);
+  transition: transform var(--Transition-Fast);
 }
 
 #next-button:hover {
-  opacity: var(--Opacity-Hover);
+  transform: scale(1.02);
 }
 
 #next-button:disabled {
@@ -2694,7 +2701,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   word-wrap: break-word;
 }
 
-.signup__page a:hover {
+.signup__page a:not(.topnav ul li a):hover {
   opacity: var(--Opacity-Link-Hover);
 }
 
@@ -2831,7 +2838,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 
   .topnav ul {
     flex-direction: row;
-    gap: var(--Spacing-SM);
+    gap: var(--Spacing-MD);
     flex-wrap: wrap;
     justify-content: flex-end;
     margin-top: 0;
@@ -2852,7 +2859,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   }
 
   .topnav ul li:nth-child(1) a {
-    padding-left: calc(var(--Spacing-Base) + 18px + var(--Spacing-XS));
+    padding-left: calc(var(--Spacing-Base) + 18px + var(--Spacing-SM));
   }
 
   /* ============================================
@@ -3265,3 +3272,4 @@ body:has(.signup__section--electrical_product) .actions #next-button {
     min-width: 200px;
   }
 }
+ 
