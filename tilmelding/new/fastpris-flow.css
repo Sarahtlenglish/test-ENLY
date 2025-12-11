@@ -1435,7 +1435,7 @@ body {
 .signup__electrical_additional_products .addon-group-header.addon-group-skip-button p:not(.addon-group-description):not(.signup__group-title) {
   color: #000;
   text-align: center;
-  font-size: 12px;
+  font-size: var(--Font-Size-XS);
   font-style: normal;
   font-weight: 100;
   line-height: 32px;
@@ -1477,7 +1477,7 @@ body {
   border-radius: var(--Radius-MD);
   border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
   box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
-  font-size: 12px;
+  font-size: var(--Font-Size-XS);
   font-style: normal;
   font-weight: 300;
   line-height: var(--Line-Height-XLoose);
@@ -1570,7 +1570,7 @@ body {
   border-radius: var(--Radius-MD);
   border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
   box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
-  font-size: 12px;
+  font-size: var(--Font-Size-XS);
   font-style: normal;
   font-weight: 300;
   line-height: var(--Line-Height-XLoose);
@@ -2425,7 +2425,7 @@ h1+p * {
 .signup__summary+div,
 .signup__form-group:has(.signup__summary)+p,
 .signup__form-group:has(.signup__summary)+div {
-  font-size: 12px;
+  font-size: var(--Font-Size-XS);
   line-height: 20px;
   color: var(--Black);
   margin-top: 16px;
@@ -2572,11 +2572,14 @@ p:has(#earliest-date),
 }
 
 .actions input[type="submit"] {
+  color: var(--White);
+  font-family: var(--Font-Family);
+  font-size: var(--Font-Size-Base);
   font-weight: var(--Font-Weight-Bold);
-  font-size: var(--Font-Size-MD);
-  padding: var(--Button-Padding-Y) var(--Button-Padding-X);
+  line-height: var(--Line-Height-Button);
+  padding: 12px 16px;
   border: none;
-  border-radius: var(--Radius-LG);
+  border-radius: var(--Radius-MD);
   cursor: pointer;
   transition: all var(--Transition-Base);
 }
@@ -2586,9 +2589,10 @@ p:has(#earliest-date),
   text-align: center;
   text-decoration: none;
   background: transparent;
+  font-family: var(--Font-Family);
   font-size: var(--Font-Size-Base);
   font-style: normal;
-  font-weight: var(--Font-Weight-Normal);
+  font-weight: var(--Font-Weight-Bold);
   line-height: var(--Line-Height-Button);
 }
 
@@ -2599,6 +2603,10 @@ p:has(#earliest-date),
 #next-button {
   background: var(--Black);
   color: var(--White);
+  font-family: var(--Font-Family);
+  font-size: var(--Font-Size-Base);
+  font-weight: var(--Font-Weight-Bold);
+  line-height: var(--Line-Height-Button);
 }
 
 #next-button:hover {
