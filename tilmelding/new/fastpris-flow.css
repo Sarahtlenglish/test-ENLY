@@ -39,6 +39,7 @@
 
   /* Typography */
   --Font-Family: 'Gamay', sans-serif;
+  --Font-Size-XXS: 10px;
   --Font-Size-XS: 12px;
   --Font-Size-SM: 13px;
   --Font-Size-Base: 14px;
@@ -47,6 +48,7 @@
   --Font-Size-XL: 32px;
   --Font-Size-XXL: 48px;
   --Font-Weight-Light: 100;
+  --Font-Weight-Thin: 200;
   --Font-Weight-Normal: 300;
   --Font-Weight-Regular: 400;
   --Font-Weight-Medium: 500;
@@ -137,7 +139,6 @@
   --Selector-Gap-Mobile: 15px;
 }
 
-/* Gamay font - fallback to system fonts if not available */
 @font-face {
   font-family: 'Gamay';
   font-weight: 100;
@@ -169,10 +170,8 @@ body {
   background:
     radial-gradient(circle at 92% -20%,
       var(--Yellow-Accent) 0 20vw,
-      /* yellow radius */
       transparent 20vw 100%),
     var(--Nautral-Lightest);
-  /* page background */
   background-repeat: no-repeat;
   background-attachment: fixed;
   margin: 0;
@@ -256,7 +255,7 @@ body {
   display: flex;
   align-items: center;
   gap: var(--Spacing-MD);
-  font-weight: var(--Font-Weight-Bold);
+  font-weight: var(--Font-Weight-ExtraBold);
   font-size: 16px;
   font-family: 'Aptly', 'Gamay Narrow', sans-serif;
   text-transform: uppercase;
@@ -346,9 +345,24 @@ body {
   font-weight: var(--Font-Weight-Bold);
   font-size: var(--Font-Size-XXL);
   line-height: var(--Line-Height-Normal);
-  margin: 0 0 var(--Spacing-SM);
+  margin: 0 0 var(--Spacing-MD);
   color: var(--Black);
   text-align: center;
+}
+
+#group-description {
+  font-size: var(--Font-Size-MD);
+  color: black;
+  font-weight: 200;
+}
+
+.inclusion-text {
+  font-size: 10px;
+  font-weight: 200;
+  color: var(--Gray-Dark);
+  line-height: var(--Line-Height-XLoose);
+  margin: var(--Spacing-SM) 0 0 0;
+  text-align: left;
 }
 
 /* Remove asterisk from required section titles */
@@ -360,7 +374,6 @@ body {
   display: none;
 }
 
-/* Gas product section - styled like situation but with larger text buttons */
 .signup__gas_product {
   display: flex;
   flex-direction: column;
@@ -375,7 +388,7 @@ body {
 .signup__gas_product .gas-type-selector {
   display: flex;
   gap: var(--Selector-Gap);
-  margin: var(--Spacing-XXL) 0;
+  margin: var(--Spacing-LG) 0;
   flex-wrap: wrap;
   justify-content: center;
   align-items: stretch;
@@ -513,7 +526,6 @@ body {
 
 .signup__page p {
   padding: 0;
-  margin-bottom: var(--Spacing-Base);
   text-align: left;
   color: var(--Gray-Dark);
   font-size: var(--Font-Size-Base);
@@ -706,7 +718,6 @@ body {
   font-weight: 700;
 }
 
-/* Situation date sections - override with column layout */
 .signup__situation_cos_more {
   display: flex;
   flex-direction: column;
@@ -1168,9 +1179,9 @@ body {
 .signup__form-field label>span.signup__checkbox-text {
   color: #000;
   font-family: Gamay, sans-serif;
-  font-size: 14px;
+  font-size: var(--Font-Size-Base);
   font-style: normal;
-  font-weight: var(--Font-Weight-Light);
+  font-weight: var(--Font-Weight-Medium);
   line-height: 120%;
   margin-left: 12px;
   flex: 1;
@@ -1304,9 +1315,9 @@ body {
 
 /* Form help text */
 .signup__form-help {
-  font-size: var(--Font-Size-XS);
-  line-height: var(--Line-Height-XLoose);
-  color: var(--Gray-Dark);
+  font-size: var(--Font-Size-XXS);
+  font-weight: var(--Font-Weight-Thin);
+  color: var(--Black);
   margin: var(--Spacing-SM) 0 0;
   text-align: left;
 }
@@ -1321,19 +1332,16 @@ body {
   text-align: left;
 }
 
-/* Tilkøb / Add-on products (electrical_product_additional) */
 .signup__section--electrical_product_additional-additional {
   max-width: var(--Max-Width-Form-Medium);
   margin: 0 auto;
   padding: 0 clamp(var(--Spacing-Base), 2vw, var(--Spacing-XL));
 }
 
-/* Permissions section - desktop padding */
 .signup__section--permissions {
   padding: 0 clamp(var(--Spacing-Base), 2vw, var(--Spacing-XL));
 }
 
-/* Permissions form-group - desktop: padding top and bottom only */
 .signup__permissions .signup__form-group {
   padding: var(--Spacing-Base) 0 0 0;
   margin: 0;
@@ -1361,13 +1369,11 @@ body {
 
 /* Light gray card container for all content */
 .signup__electrical_additional_products {
-  background: var(--Nautral-Lightest);
   border-radius: var(--Radius-LG);
   padding: var(--Spacing-Base);
   display: flex;
   flex-direction: column;
   gap: var(--Spacing-Base);
-  box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Light));
   max-width: var(--Max-Width-Form-Medium);
   width: 100%;
   margin: 0 auto;
@@ -1386,7 +1392,6 @@ body {
   margin-top: var(--Spacing-Base);
 }
 
-/* Clickable header card - styled like other cards */
 .signup__electrical_additional_products .addon-group-header {
   padding: var(--Spacing-Base) var(--Spacing-LG);
   background: transparent;
@@ -1472,8 +1477,9 @@ body {
   border-radius: var(--Radius-MD);
   border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
   box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
-  font-size: clamp(var(--Font-Size-XS), 1.5vw, var(--Font-Size-Base));
-  font-weight: var(--Font-Weight-Regular);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
   line-height: var(--Line-Height-XLoose);
   white-space: nowrap;
   max-width: 300px;
@@ -1564,8 +1570,9 @@ body {
   border-radius: var(--Radius-MD);
   border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
   box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
-  font-size: clamp(var(--Font-Size-XS), 1.5vw, var(--Font-Size-Base));
-  font-weight: var(--Font-Weight-Regular);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
   line-height: var(--Line-Height-XLoose);
   white-space: normal;
   max-width: 300px;
@@ -1639,7 +1646,7 @@ body {
 
 .signup__electrical_additional_products .addon-group-description-line1 {
   color: var(--Black);
-  font-size: var(--Font-Size-Base);
+  font-size: var(--Font-Size-MD);
   font-weight: var(--Font-Weight-Light);
   line-height: var(--Line-Height-XLoose);
   margin-bottom: 0;
@@ -1955,7 +1962,6 @@ body {
   flex-direction: column;
   position: relative;
   min-height: fit-content;
-  /* Ensure container has calculable height for absolute positioning */
 }
 
 .signup__payment .signup__payment_method_name.signup__form-field--radio input[type="radio"] {
@@ -2028,7 +2034,6 @@ body {
   order: 2;
   font-weight: var(--Font-Weight-Bold);
   font-size: 20px;
-  /* Match group-title font size */
   color: var(--Black);
   margin: 0;
   line-height: var(--Line-Height-Loose);
@@ -2047,7 +2052,6 @@ body {
   padding: 0 20px 20px 20px;
   width: 100%;
   pointer-events: none;
-  /* Allow clicks to pass through to input */
 }
 
 
@@ -2104,7 +2108,6 @@ body {
   margin-left: 0;
   font-weight: var(--Font-Weight-Bold);
   font-size: 20px;
-  /* Match section-title font size */
   color: var(--Black);
   margin-bottom: var(--Spacing-XS);
   text-align: left;
@@ -2196,15 +2199,7 @@ body {
 
 .signup__summary>h4,
 .signup__summary>p {
-  font-weight: var(--Font-Weight-Light);
-  font-size: var(--Font-Size-Base);
-  line-height: var(--Line-Height-Loose);
-  color: var(--Black);
-  margin: 0 0 16px 0;
-  text-align: left;
-  font-family: var(--Font-Family);
-  grid-column: 1 / -1;
-  /* Span full width across 2 columns */
+  display: none;
 }
 
 .signup__form-title+h4,
@@ -2219,7 +2214,7 @@ h1+p {
   text-align: left;
   font-family: var(--Font-Family);
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -2252,12 +2247,9 @@ h1+p * {
 .signup__summary>section h3 {
   font-weight: 600;
   font-size: 14px;
-  /* Smaller, more compact */
   line-height: 20px;
-  /* Tighter line height */
   color: var(--Black);
   margin: 0 0 4px 0;
-  /* More compact spacing */
   text-align: left;
   font-family: var(--Font-Family);
 }
@@ -2266,7 +2258,6 @@ h1+p * {
   order: 5;
   grid-column: 1 / -1;
   grid-row: auto;
-  margin-top: 16px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
@@ -2274,9 +2265,7 @@ h1+p * {
 
 .signup__summary>section:nth-of-type(1) h3 {
   grid-column: 1 / -1;
-  /* Heading spans full width */
-  font-weight: 400;
-  /* Regular weight */
+  font-weight: 600;
   font-size: 14px;
   line-height: 20px;
 }
@@ -2288,10 +2277,8 @@ h1+p * {
   color: var(--Black);
   margin: 0 0 16px 0;
   text-align: center;
-  /* Centered text */
   font-family: var(--Font-Family);
   grid-column: 1 / -1;
-  /* Span full width across 2 columns */
 }
 
 .signup__summary>section:nth-of-type(1) .row {
@@ -2304,26 +2291,26 @@ h1+p * {
 .signup__summary>section:nth-of-type(2) {
   order: 1;
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 1;
 }
 
 .signup__summary>section:nth-of-type(3) {
   order: 2;
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 1;
 }
 
 .signup__summary>section:nth-of-type(4) {
   order: 3;
   grid-column: 1;
-  grid-row: 3;
+  grid-row: 2;
 }
 
 .signup__summary>section:nth-of-type(5),
 .signup__summary>section.summary-price-section {
   order: 4;
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 2;
 }
 
 .signup__summary .summary-price-section h3 {
@@ -2420,7 +2407,6 @@ h1+p * {
   flex-direction: column;
   gap: 0;
   margin-bottom: 0;
-  /* No margin, handled by grid gap */
 }
 
 .signup__summary>section:nth-of-type(1) .row:has(.col-md-3):has(.col-md-7) {
@@ -2511,41 +2497,33 @@ p:has(#earliest-date),
 }
 
 /* Responsive tweaks for price card */
-@media (max-width: 768px) {
+@media (max-width: 980px) {
   #price-card {
     right: var(--Spacing-Base);
     bottom: var(--Spacing-Base);
-    transform: scale(0.6);
-    transform-origin: bottom right;
   }
 
   #price-card .price-card__inner {
-    padding: var(--Spacing-Base) var(--Spacing-SM) var(--Spacing-XS);
-    min-width: 120px;
+    padding: var(--Spacing-MD) var(--Spacing-SM) var(--Spacing-Base);
+    min-width: 130px;
   }
 
   #price-card .price-card__label {
-    font-size: var(--Font-Size-XS);
+    font-size: var(--Font-Size-SM);
     margin-bottom: var(--Spacing-XS);
   }
 
   #price-card .price-card__amount {
-    font-size: 32px;
+    font-size: 40px;
   }
 
   #price-card .price-card__currency {
-    font-size: 16px;
+    font-size: 24px;
   }
 
   #price-card .price-card__sub {
-    font-size: 10px;
+    font-size: var(--Font-Size-XXS);
     margin-top: var(--Spacing-XS);
-  }
-}
-
-@media (max-width: 480px) {
-  #price-card {
-    transform: scale(0.5);
   }
 }
 
@@ -2582,7 +2560,6 @@ p:has(#earliest-date),
   /* centering */
 }
 
-/* Navigation buttons */
 .actions {
   display: flex;
   justify-content: center;
@@ -2642,8 +2619,7 @@ p:has(#earliest-date),
 .signup__section--electrical_product~.actions #next-button,
 .signup__section--electrical_product+.actions #next-button,
 body:has(.signup__section--electrical_product) .actions #next-button {
-  /* DEBUG: Changed from display: none to allow programmatic clicks */
-  /* display: none; */
+
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
@@ -2901,30 +2877,25 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   .signup__summary>section h3,
   .signup__summary .summary-price-section h3 {
     font-size: 1rem;
-    /* 16px */
   }
 
   .signup__electrical_additional_products .addon-group-section h4 {
     font-size: 0.9375rem;
-    /* 15px */
   }
 
   .signup__section--electrical_product>p {
     font-size: var(--Font-Size-Base);
-    /* 14px */
   }
 
   .signup__electrical_additional_products .addon-group-description,
   .signup__electrical_additional_products .addon-group-header.addon-group-skip-button .addon-group-description {
     font-size: var(--Font-Size-Base);
-    /* 14px */
   }
 
   .signup__electrical_additional .signup__checkbox-text,
   .signup__permissions .signup__checkbox-text,
   .signup__form-field label>span.signup__checkbox-text {
     font-size: var(--Font-Size-Base);
-    /* 14px */
   }
 
   .signup__summary>h4,
@@ -2934,12 +2905,10 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   h1+h4,
   h1+p {
     font-size: var(--Font-Size-Base);
-    /* 14px */
   }
 
   .signup__payment .signup__payment_method_name.signup__form-field--radio label .signup__radio-text {
     font-size: 1.125rem;
-    /* 18px - matches group-title on mobile */
   }
 
   /* ============================================
@@ -3124,7 +3093,6 @@ body:has(.signup__section--electrical_product) .actions #next-button {
     width: 100%;
   }
 
-  /* Fix for iOS Safari zoom issue - font-size must be at least 16px */
   .signup__situation_cos_start_date .signup__form-field input[type="date"],
   .signup__situation_move_start_date .signup__form-field input[type="date"],
   .signup__situation_cos_start_date .signup__form-field input[type="text"],
@@ -3222,7 +3190,6 @@ body:has(.signup__section--electrical_product) .actions #next-button {
      ADDITIONAL PRODUCTS
      ============================================ */
 
-  /* Electrical additional products - minimal padding/margin on mobile for maximum width */
   .signup__electrical_additional_products {
     padding: var(--Spacing-SM) var(--Spacing-XS);
     margin: 0 var(--Spacing-XS);

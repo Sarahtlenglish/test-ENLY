@@ -1,36 +1,30 @@
 <script>
-// Configuration constants
+// Constants
 const CONFIG = {
-  // URLs
   TYPEKIT_URL: 'https://use.typekit.net',
   TYPEKIT_P_URL: 'https://p.typekit.net',
   GITHUB_IMAGE_BASE: 'https://sarahtlenglish.github.io/test-ENLY/img',
   GITHUB_RAW_BASE: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img',
   VERCEL_IMAGE_BASE: 'https://h8nip4886wtjcobp.public.blob.vercel-storage.com',
   
-  // Product Images (step 1 - electrical product) - using raw GitHub URLs
   IMAGE_HOUSE_OFF: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/house_off.webp',
   IMAGE_HOUSE_ON: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/house_on.webp',
   IMAGE_FLAT_OFF: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/flat_off.webp',
   IMAGE_FLAT_ON: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/flat_on.webp',
   
-  // Product IDs
   PRODUCT_ID_HOUSE: 2024,
   PRODUCT_ID_APARTMENT: 1991,
 
 
-  // Delays (milliseconds)
   DELAY_BUTTON_CLICK: 100,
   DELAY_BUTTON_STATE_UPDATE: 50,
   DELAY_REORGANIZE: 100,
   
-  // Selectors
   SELECTOR_ELECTRICAL_PRODUCT: '.signup__electrical_product',
   SELECTOR_NEXT_BUTTON: '#next-button',
   SELECTOR_GROUP_CONTAINER: '#group-container',
   
   
-  // Text content
   TOOLTIP_HELP_LABEL: 'Hjælp',
   TOOLTIP_TEXT_CHARGING: 'Uanset hvordan du lader derhjemme, skal vi vide det, hvis din faste pris skal dække opladning af elbil.',
   TOOLTIP_TEXT_NO_CHARGER: 'Vælg denne hvis du ikke har noget som helst der bruger ekstra strøm i din bolig.',
@@ -42,7 +36,6 @@ const CONFIG = {
   DESC_NO_CHARGER: 'Nix. Ingen elbil hjemme hos mig. Videre til min aftale.',
   MOVE_DATE_LABEL: 'Angiv din indflytningsdato.',
   
-  // Product keywords for categorization
   KEYWORD_NO_CHARGER: ['ikke ladestander', 'har ikke']
 };
 
@@ -68,21 +61,23 @@ function getElementPath(element) {
   return path.join(' > ');
 }
 
-window.ENLY_DEBUG_PRICE = false;
 function storeSelectedProductFromId(id, subscriptionPrice) {
   if (!id) {
     return;
   }
+
+  const existing = loadStoredSelectedProduct();
 
   const price = CONFIG.PRICE_MAP.get(Number(id));
 
   const payload = {
     id: id,
     price: Number(price || 0),
-    electricalProductSubscriptionPrice: subscriptionPrice
+    electricalProductSubscriptionPrice: subscriptionPrice !== undefined ? subscriptionPrice : existing?.electricalProductSubscriptionPrice
   };
 
   window.selected_electrical_product = JSON.stringify(payload);
+  localStorage.setItem('selected_electrical_product', JSON.stringify(payload));
 }
 function loadStoredSelectedProduct() {
   try {
@@ -99,9 +94,140 @@ function loadStoredSelectedProduct() {
 }
 function computeMonthlyPrice() {
   const stored = loadStoredSelectedProduct();
-  // Only use electricalProductSubscriptionPrice from backend - no fallbacks
   return stored?.electricalProductSubscriptionPrice || 0;
 }
+
+(function() {
+  let autocompleteActive = false;
+  let blockedSubmissions = [];
+  let observer = null;
+
+  function checkAutofillStatus() {
+    const autofillInputs = document.querySelectorAll('input:-webkit-autofill');
+    return autofillInputs.length > 0;
+  }
+
+  function startMonitoring() {
+    if (observer) return;
+
+    observer = new MutationObserver(function(mutations) {
+      let hasAutofillChange = false;
+
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' &&
+            mutation.attributeName === 'data-com-*-autofill' &&
+            mutation.target.matches('input')) {
+          hasAutofillChange = true;
+        }
+      });
+
+      if (hasAutofillChange) {
+        const hasAutofill = checkAutofillStatus();
+
+        if (hasAutofill && !autocompleteActive) {
+          autocompleteActive = true;
+        } else if (!hasAutofill && autocompleteActive) {
+          autocompleteActive = false;
+          processBlockedSubmissions();
+        }
+      }
+    });
+
+    const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"]');
+    inputs.forEach(input => {
+      observer.observe(input, {
+        attributes: true,
+        attributeFilter: ['value', 'data-com-*-autofill']
+      });
+    });
+
+    setTimeout(() => {
+      if (autocompleteActive) {
+        autocompleteActive = false;
+        processBlockedSubmissions();
+      }
+    }, 3000);
+  }
+
+  function stopMonitoring() {
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+  }
+
+  function processBlockedSubmissions() {
+    if (blockedSubmissions.length === 0) return;
+
+    const latestSubmission = blockedSubmissions[blockedSubmissions.length - 1];
+    blockedSubmissions = [];
+
+    setTimeout(() => {
+      latestSubmission.form.submit();
+    }, 100);
+  }
+
+  document.addEventListener('focusin', function(e) {
+    if (e.target.matches('input[type="text"], input[type="email"], input[type="tel"]')) {
+      startMonitoring();
+    }
+  }, true);
+
+  document.addEventListener('submit', function(e) {
+    if (autocompleteActive) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      blockedSubmissions.push({
+        form: e.target,
+        timestamp: Date.now()
+      });
+
+      return false;
+    }
+  }, true);
+
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('input[type="submit"], button[type="submit"]') && autocompleteActive) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return false;
+    }
+  }, true);
+
+})();
+
+// Log alle navigation events og form submits med timing
+document.addEventListener('submit', function(e) {
+  console.log('🚨 FORM SUBMIT DETEKTERET:', new Date().toLocaleTimeString());
+  console.log('🎯 FORM ACTION:', e.target.action);
+  console.log('📝 FORM METHOD:', e.target.method);
+
+  const formData = new FormData(e.target);
+  console.log('📦 FORM DATA FØR SYNC:');
+  let dataCount = 0;
+  for (let [key, value] of formData.entries()) {
+    console.log(`  ${key}: "${value}"`);
+    dataCount++;
+  }
+  console.log(`📊 TOTAL FELTER: ${dataCount}`);
+
+  // Check for browser autocomplete state
+  const inputs = e.target.querySelectorAll('input');
+  const autofillInputs = Array.from(inputs).filter(input =>
+    input.matches(':-webkit-autofill') ||
+    input.hasAttribute('data-autocomplete-active')
+  );
+  if (autofillInputs.length > 0) {
+    console.warn('⚠️ AUTOFILL DETEKTERET på følgende felter:');
+    autofillInputs.forEach(input => {
+      console.log(`  ${input.name}: "${input.value}"`);
+    });
+  }
+
+}, true);
+
+
 
 // Load Aptly font from Typekit
 (function() {
@@ -1246,6 +1372,12 @@ function organizeAddOnProducts(root) {
 
   section2.appendChild(headerCard2);
   container.appendChild(section2);
+
+  // Add inclusion text at the very bottom after all addon groups
+  const inclusionText = document.createElement('p');
+  inclusionText.className = 'inclusion-text';
+  inclusionText.textContent = 'Inkluderer 250 kWh/md., svarende til ca. 15.000 km/år afhængigt af din elbil, kørestil, samt kørsels- og vejrforhold. Ved beregningen er forudsat et gennemsnitligt forbrug på 5-5,2 km/kWh. Inkluderede kWh, som i en måned ikke forbruges, overføres ikke til forbrug i næste måned.';
+  container.appendChild(inclusionText);
 }
 
 // Add-on products - convert checkboxes to radio buttons so only one can be selected
@@ -1492,17 +1624,9 @@ document.addEventListener('group:completed', async function(event) {
     const product = window.productMap?.[container.electrical_product_id];
     if (!product) return;
 
-    // Extract price from electrical_product_name (fallback since backend doesn't send electricalProductSubscriptionPrice)
-    let subscriptionPrice = event.detail.electricalProductSubscriptionPrice ||
-                           event.detail.container?.electricalProductSubscriptionPrice;
-
-    // FALLBACK: Try to extract price from electrical_product_name (e.g., "enly_flatrate_lejlighed_389" -> 389)
-    if (!subscriptionPrice && event.detail.container?.electrical_product_name) {
-      const nameMatch = event.detail.container.electrical_product_name.match(/_(\d+)$/);
-      if (nameMatch) {
-        subscriptionPrice = parseInt(nameMatch[1]);
-      }
-    }
+    // Get price from backend electricalProductSubscriptionPrice
+    const subscriptionPrice = Number(event.detail.electricalProductSubscriptionPrice ||
+                             event.detail.container?.electricalProductSubscriptionPrice || 0);
 
 
     // Gem kun de felter vi skal bruge til GA4 (renset version)
@@ -1518,7 +1642,7 @@ document.addEventListener('group:completed', async function(event) {
     };
 
     // Store selection for price card/summary with subscription price
-    if (subscriptionPrice) {
+    if (subscriptionPrice !== undefined) {
       storeSelectedProductFromId(container.electrical_product_id, subscriptionPrice);
     }
 
@@ -1661,6 +1785,12 @@ document.addEventListener('group:loaded', initializeTooltipHandles);
 
 // Ensure input values are synced before form submission
 document.addEventListener('submit', (e) => {
+    console.log('🚀 SUBMIT EVENT - Form data before sync:');
+    const formData = new FormData(e.target);
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
     // Sync all input values with their value attributes before submission
     const allInputs = e.target.querySelectorAll('input, select, textarea');
     allInputs.forEach(input => {
@@ -1668,6 +1798,12 @@ document.addEventListener('submit', (e) => {
             input.setAttribute('value', input.value);
         }
     });
+
+    console.log('📤 SUBMIT EVENT - Form data after sync:');
+    const formDataAfter = new FormData(e.target);
+    for (let [key, value] of formDataAfter.entries()) {
+        console.log(`${key}: ${value}`);
+    }
 }, true);
 
 // Price-card
@@ -1697,9 +1833,21 @@ document.addEventListener('submit', (e) => {
     );
   }
 
+  function isFirstStep() {
+    // Check if we're on electrical_product step (first step)
+    return document.querySelector('.signup__section--electrical_product') !== null;
+  }
+
   function showCardIfSelected() {
     const card = document.getElementById("price-card");
     if (!card) return;
+
+    // Don't show price card on first step (electrical_product)
+    if (isFirstStep()) {
+      card.style.display = "none";
+      return;
+    }
+
     const stored = loadStoredSelectedProduct();
     const valueEl = document.getElementById("price-card-value");
     // Show card if we have stored product OR if card already has a valid price displayed
@@ -1803,12 +1951,12 @@ document.addEventListener('submit', (e) => {
     
     const price = computeMonthlyPrice();
     const priceText = price > 0 ? Math.round(price).toString() : "–";
-    
+
     // Only update if price has changed
     if (valueEl.textContent === priceText && priceSection.style.display !== 'none') {
       return; // Already correct, no need to update
     }
-    
+
     valueEl.textContent = priceText;
     priceSection.style.display = '';
   }
@@ -1869,7 +2017,15 @@ document.addEventListener('submit', (e) => {
     // If this is the permissions group, wait a bit longer for summary to render
     const groupName = event.detail?.groupName || event.detail?.completedGroup;
     const delay = groupName === 'permissions' ? 500 : 100; // Longer delay for permissions
-    
+
+    // For permissions group, also ensure price card is updated
+    if (groupName === 'permissions') {
+      console.log('Permissions group loaded - updating price card');
+      setTimeout(() => {
+        updatePriceCard();
+      }, 200);
+    }
+
     setTimeout(() => {
       // Try to get product from summary if not already stored
       const summary = document.querySelector('.signup__summary');
@@ -1899,11 +2055,24 @@ document.addEventListener('submit', (e) => {
     pid = event.detail.container.electrical_product_id;
     if (pid != null) storeSelectedProductFromId(pid);
     updatePriceCard();
-    
+
     // If permissions group completed, wait for summary to render
     const groupName = event.detail?.completedGroup || event.detail?.groupName;
     if (groupName === 'permissions') {
       setTimeout(() => {
+        updatePriceSection();
+      }, 500);
+    } else if (groupName === 'electrical_product') {
+      // Update summary price when electrical product is selected
+      setTimeout(() => {
+        updatePriceSection();
+      }, 200);
+    } else if (groupName === 'permissions') {
+      // Update price card and summary when permissions are completed
+      console.log('Permissions step completed - updating prices');
+      setTimeout(() => {
+        console.log('Updating price card and section for permissions');
+        updatePriceCard();
         updatePriceSection();
       }, 500);
     } else {
