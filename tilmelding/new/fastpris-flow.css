@@ -39,19 +39,20 @@
 
   /* Typography */
   --Font-Family: 'Gamay', sans-serif;
-  --Font-Size-XXS: 10px;
-  --Font-Size-XS: 12px;
-  --Font-Size-SM: 13px;
-  --Font-Size-Base: 14px;
-  --Font-Size-MD: 16px;
-  --Font-Size-LG: 18px;
-  --Font-Size-XL: 32px;
-  --Font-Size-XXL: 48px;
+  --Font-Size-XXS: 0.625rem;
+  --Font-Size-XS: 0.75rem;
+  --Font-Size-SM: 0.8125rem;
+  --Font-Size-Base: 0.875rem;
+  --Font-Size-MD: 1rem;
+  --Font-Size-LG: 1.125rem;
+  --Font-Size-XL: 2rem;
+  --Font-Size-XXL: 3rem;
   --Font-Weight-Light: 100;
   --Font-Weight-Thin: 200;
   --Font-Weight-Normal: 300;
   --Font-Weight-Regular: 400;
   --Font-Weight-Medium: 500;
+  --Font-Weight-SemiBold: 600;
   --Font-Weight-Bold: 700;
   --Font-Weight-ExtraBold: 800;
   --Line-Height-Tight: 1;
@@ -59,8 +60,8 @@
   --Line-Height-Relaxed: 1.3;
   --Line-Height-Loose: 1.4;
   --Line-Height-XLoose: 1.5;
-  --Line-Height-Button: 24px;
-  --Line-Height-Label: 32px;
+  --Line-Height-Button: 1.5rem;
+  --Line-Height-Label: 2rem;
 
   /* Spacing */
   --Spacing-XS: 0.25rem;
@@ -70,14 +71,14 @@
   --Spacing-LG: 1.5rem;
   --Spacing-XL: 2rem;
   --Spacing-XXL: 3rem;
-  --Spacing-Page-Top: 80px;
-  --Spacing-Page-Bottom: 60px;
-  --Spacing-Page-Top-Mobile: 140px;
-  --Spacing-Hero-Padding: 20px;
-  --Spacing-Hero-Padding-Large: 50px;
-  --Spacing-Form-Field: 25px;
-  --Spacing-Section-Bottom: 60px;
-  --Spacing-Progress-Margin: 20px;
+  --Spacing-Page-Top: 5rem;
+  --Spacing-Page-Bottom: 3.75rem;
+  --Spacing-Page-Top-Mobile: 8.75rem;
+  --Spacing-Hero-Padding: 1.25rem;
+  --Spacing-Hero-Padding-Large: 3.125rem;
+  --Spacing-Form-Field: 1.5625rem;
+  --Spacing-Section-Bottom: 3.75rem;
+  --Spacing-Progress-Margin: 1.25rem;
 
   /* Border Radius */
   --Radius-XS: 1px;
@@ -91,22 +92,22 @@
   --Transition-Slow: 0.3s ease-out;
 
   /* Layout */
-  --Max-Width-Page: 1200px;
-  --Max-Width-Form: 600px;
-  --Max-Width-Form-Medium: 800px;
-  --Max-Width-Form-Large: 900px;
-  --Max-Width-Form-XLarge: 1200px;
-  --Max-Width-Progress: 400px;
-  --Max-Width-Button-Container: 600px;
-  --Max-Width-Text: 700px;
-  --Max-Width-Logo: 120px;
-  --Max-Width-Logo-Mobile: 100px;
-  --Max-Width-Housing-Card: 280px;
-  --Max-Width-Housing-Image: 240px;
-  --Max-Width-Housing-Image-Mobile: 120px;
+  --Max-Width-Page: 75rem;
+  --Max-Width-Form: 37.5rem;
+  --Max-Width-Form-Medium: 50rem;
+  --Max-Width-Form-Large: 56.25rem;
+  --Max-Width-Form-XLarge: 75rem;
+  --Max-Width-Progress: 25rem;
+  --Max-Width-Button-Container: 37.5rem;
+  --Max-Width-Text: 43.75rem;
+  --Max-Width-Logo: 7.5rem;
+  --Max-Width-Logo-Mobile: 5rem;
+  --Max-Width-Housing-Card: 17.5rem;
+  --Max-Width-Housing-Image: 15rem;
+  --Max-Width-Housing-Image-Mobile: 7.5rem;
   --Min-Height-Page: 100vh;
-  --Min-Height-Container: 400px;
-  --Min-Height-Situation-Card: 320px;
+  --Min-Height-Container: 25rem;
+  --Min-Height-Situation-Card: 20rem;
   --Width-Date-Input: 22.5rem;
 
   /* Z-Index */
@@ -116,27 +117,27 @@
   --Z-Index-Tooltip: 10000;
 
   /* Breakpoints */
-  --Breakpoint-Mobile: 980px;
+  --Breakpoint-Mobile: 61.25rem;
 
   /* Specific dimensions */
-  --Input-Height: 50px;
-  --Input-Padding-X: 20px;
-  --Input-Padding-Y: 18px;
-  --Button-Padding-X: 40px;
-  --Button-Padding-Y: 15px;
-  --Radio-Size: 20px;
-  --Checkbox-Size: 16px;
-  --Radio-Inner-Size: 8px;
-  --Tooltip-Icon-Size: 14px;
-  --Calendar-Icon-Size: 24px;
-  --Calendar-Icon-Size-Large: 32px;
+  --Input-Height: 3.125rem;
+  --Input-Padding-X: 1.25rem;
+  --Input-Padding-Y: 1.125rem;
+  --Button-Padding-X: 2.5rem;
+  --Button-Padding-Y: 0.9375rem;
+  --Radio-Size: 1.25rem;
+  --Checkbox-Size: 1rem;
+  --Radio-Inner-Size: 0.5rem;
+  --Tooltip-Icon-Size: 0.875rem;
+  --Calendar-Icon-Size: 1.5rem;
+  --Calendar-Icon-Size-Large: 2rem;
   --Date-Text-Color: rgba(0, 0, 0, 0.60);
-  --Date-Line-Height: 20px;
-  --Topnav-Gap: 12px;
-  --Topnav-Gap-Mobile: 8px;
-  --Card-Gap: 10px;
-  --Selector-Gap: 2rem;
-  --Selector-Gap-Mobile: 15px;
+  --Date-Line-Height: 1.25rem;
+  --Topnav-Gap: 0.75rem;
+  --Topnav-Gap-Mobile: 0.5rem;
+  --Card-Gap: 0.625rem;
+  --Selector-Gap: 1rem;
+  --Selector-Gap-Mobile: 0.9375rem;
 }
 
 @font-face {
@@ -147,13 +148,13 @@
 
 @font-face {
   font-family: 'Gamay';
-  font-weight: 200;
+  font-weight: var(--Font-Weight-Thin);
   src: local('Gamay Light'), local('Gamay-Regular');
 }
 
 @font-face {
   font-family: 'Gamay';
-  font-weight: 700;
+  font-weight: var(--Font-Weight-Bold);
   src: local('Gamay Bold'), local('Gamay-Bold');
 }
 
@@ -256,7 +257,7 @@ body {
   align-items: center;
   gap: var(--Spacing-MD);
   font-weight: var(--Font-Weight-ExtraBold);
-  font-size: 16px;
+  font-size: var(--Font-Size-MD);
   font-family: 'Aptly', 'Gamay Narrow', sans-serif;
   text-transform: uppercase;
   line-height: var(--Line-Height-Tight);
@@ -268,9 +269,9 @@ body {
 }
 
 .topnav ul li:nth-child(1) a {
-  border-radius: 8px;
-  border: 0.5px solid rgba(0, 0, 0, 0.10);
-  background: var(--White, #FFF);
+  border-radius: var(--Radius-LG);
+  border: 0.5px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
+  background: var(--White);
   backdrop-filter: blur(5px);
   color: var(--Black);
   position: relative;
@@ -284,8 +285,8 @@ body {
   left: var(--Spacing-Hero-Padding);
   top: 50%;
   transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
+  width: 1.125rem;
+  height: 1.125rem;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cg clip-path='url(%23clip0_4415_1854)'%3E%3Cpath d='M9 1.5C4.85775 1.5 1.5 4.85775 1.5 9C1.5 13.1422 4.85775 16.5 9 16.5C13.1422 16.5 16.5 13.1422 16.5 9C16.5 4.85775 13.1422 1.5 9 1.5Z' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M3.20312 13.7595C3.20312 13.7595 4.87488 11.625 8.99988 11.625C13.1249 11.625 14.7974 13.7595 14.7974 13.7595M8.99988 9C9.59661 9 10.1689 8.76295 10.5909 8.34099C11.0128 7.91903 11.2499 7.34674 11.2499 6.75C11.2499 6.15326 11.0128 5.58097 10.5909 5.15901C10.1689 4.73705 9.59661 4.5 8.99988 4.5C8.40314 4.5 7.83084 4.73705 7.40888 5.15901C6.98693 5.58097 6.74988 6.15326 6.74988 6.75C6.74988 7.34674 6.98693 7.91903 7.40888 8.34099C7.83084 8.76295 8.40314 9 8.99988 9Z' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_4415_1854'%3E%3Crect width='18' height='18' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
   background-size: contain;
   background-repeat: no-repeat;
@@ -293,7 +294,7 @@ body {
 }
 
 .topnav ul li:nth-child(2) a {
-  border-radius: 8px;
+  border-radius: var(--Radius-LG);
   background: var(--Dark, #222);
   color: var(--White);
 }
@@ -353,12 +354,12 @@ body {
 #group-description {
   font-size: var(--Font-Size-MD);
   color: black;
-  font-weight: 200;
+  font-weight: var(--Font-Weight-Thin);
 }
 
 .inclusion-text {
-  font-size: 10px;
-  font-weight: 200;
+  font-size: var(--Font-Size-XXS);
+  font-weight: var(--Font-Weight-Thin);
   color: var(--Gray-Dark);
   line-height: var(--Line-Height-XLoose);
   margin: var(--Spacing-SM) 0 0 0;
@@ -388,7 +389,7 @@ body {
 .signup__gas_product .gas-type-selector {
   display: flex;
   gap: var(--Selector-Gap);
-  margin: var(--Spacing-LG) 0;
+  margin: var(--Spacing-SM) 0;
   flex-wrap: wrap;
   justify-content: center;
   align-items: stretch;
@@ -424,7 +425,7 @@ body {
 }
 
 .gas-option-label {
-  font-weight: var(--Font-Weight-Regular);
+  font-weight: var(--Font-Weight-SemiBold);
   font-size: clamp(var(--Font-Size-MD), 2vw, var(--Font-Size-LG));
   color: var(--Black);
   text-align: center;
@@ -447,7 +448,7 @@ body {
 
 .signup__installation_address_select .installation-type-selector {
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
   margin: var(--Spacing-XXL) 0;
   flex-wrap: wrap;
   justify-content: stretch;
@@ -499,7 +500,7 @@ body {
 }
 
 .installation-option-label {
-  font-weight: var(--Font-Weight-Regular);
+  font-weight: var(--Font-Weight-SemiBold);
   font-size: clamp(var(--Font-Size-SM), 2vw, var(--Font-Size-LG));
   color: var(--Black);
   text-align: center;
@@ -527,8 +528,8 @@ body {
 .signup__page p {
   padding: 0;
   text-align: left;
-  color: var(--Gray-Dark);
-  font-size: var(--Font-Size-Base);
+  color: var(--Black);
+  font-size: var(--Font-Size-XS);
   line-height: var(--Line-Height-XLoose);
 }
 
@@ -671,7 +672,7 @@ body {
 .signup__situation .signup__form-group {
   flex: 0 1 auto;
   margin: 0;
-  gap: 0.5rem;
+  gap: var(--Spacing-SM);
 }
 
 .signup__situation .signup__form-field--radio {
@@ -716,7 +717,7 @@ body {
 }
 
 .signup__situation .signup__form-field--radio input:checked~.signup__radio-text {
-  font-weight: 700;
+  font-weight: var(--Font-Weight-Bold);
 }
 
 .signup__situation_cos_more {
@@ -851,7 +852,7 @@ body {
 .signup__situation_cos_start_date .signup__form-field:has(input[type="date"]) input[type="date"],
 .signup__situation_move_start_date .signup__form-field:has(input[type="date"]) input[type="date"] {
   cursor: pointer;
-  padding-right: calc(16px + var(--Spacing-MD) + var(--Spacing-SM));
+  padding-right: calc(1rem + var(--Spacing-MD) + var(--Spacing-SM));
 }
 
 .signup__situation_cos_start_date .signup__form-field label,
@@ -892,8 +893,8 @@ body {
   margin-top: 0;
   align-self: flex-start;
   cursor: pointer;
-  padding: clamp(12px, 2vh, 18px) clamp(15px, 2vw, 20px);
-  padding-right: clamp(40px, 5vw, 50px);
+  padding: clamp(0.75rem, 2vh, 1.125rem) clamp(0.9375rem, 2vw, 1.25rem);
+  padding-right: clamp(2.5rem, 5vw, 3.125rem);
   -webkit-appearance: none;
   appearance: none;
 }
@@ -908,10 +909,10 @@ body {
   content: "";
   display: block !important;
   position: absolute;
-  right: 12px;
-  bottom: 16px;
-  width: 20px;
-  height: 20px;
+  right: 0.75rem;
+  bottom: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
   opacity: 1 !important;
   visibility: visible !important;
   background-repeat: no-repeat;
@@ -1070,7 +1071,7 @@ body {
   margin-bottom: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 0.75rem;
   width: 100%;
 }
 
@@ -1080,7 +1081,7 @@ body {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .signup__form-field label>span.signup__radio-wrap,
@@ -1129,7 +1130,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 6px;
+  left: 0.375rem;
   width: var(--Radio-Inner-Size);
   height: var(--Radio-Inner-Size);
   border-radius: 50%;
@@ -1178,13 +1179,13 @@ body {
 
 .signup__form-field label>span.signup__radio-text,
 .signup__form-field label>span.signup__checkbox-text {
-  color: #000;
+  color: var(--Black);
   font-family: Gamay, sans-serif;
   font-size: var(--Font-Size-Base);
   font-style: normal;
-  font-weight: var(--Font-Weight-Regular);
+  font-weight: var(--Font-Weight-Bold);
   line-height: 120%;
-  margin-left: 12px;
+  margin-left: 0.75rem;
   flex: 1;
 }
 
@@ -1434,12 +1435,12 @@ body {
 
 .signup__electrical_additional_products .addon-group-header.addon-group-skip-button .addon-group-description+p,
 .signup__electrical_additional_products .addon-group-header.addon-group-skip-button p:not(.addon-group-description):not(.signup__group-title) {
-  color: #000;
+  color: var(--Black);
   text-align: center;
   font-size: var(--Font-Size-XS);
   font-style: normal;
   font-weight: 100;
-  line-height: 32px;
+  line-height: 2rem;
   /* 266.667% */
 }
 
@@ -1480,13 +1481,13 @@ body {
   box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
   font-size: var(--Font-Size-XS);
   font-style: normal;
-  font-weight: 300;
+  font-weight: var(--Font-Weight-Normal);
   line-height: var(--Line-Height-XLoose);
   white-space: nowrap;
-  max-width: 300px;
+  max-width: 18.75rem;
   white-space: normal;
   width: max-content;
-  min-width: 200px;
+  min-width: 12.5rem;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -1542,9 +1543,9 @@ body {
 .signup__tooltip-question {
   color: rgba(0, 0, 0, 0.50);
   font-family: var(--Font-Family);
-  font-size: 10px;
+  font-size: var(--Font-Size-XXS);
   font-style: normal;
-  font-weight: 400;
+  font-weight: var(--Font-Weight-Regular);
   line-height: 100%;
   margin-right: var(--Spacing-XS);
   white-space: nowrap;
@@ -1573,12 +1574,12 @@ body {
   box-shadow: 0 var(--Radius-SM) var(--Spacing-MD) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
   font-size: var(--Font-Size-XS);
   font-style: normal;
-  font-weight: 300;
+  font-weight: var(--Font-Weight-Normal);
   line-height: var(--Line-Height-XLoose);
   white-space: normal;
-  max-width: 300px;
+  max-width: 18.75rem;
   width: max-content;
-  min-width: 200px;
+  min-width: 12.5rem;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -1667,6 +1668,36 @@ body {
   font-weight: var(--Font-Weight-Bold);
 }
 
+/* Heating info text in permissions section - same styling as charger text */
+.signup__permissions .signup__heating-info .addon-group-description-line1 {
+  color: var(--Black);
+  font-weight: var(--Font-Weight-Light);
+  line-height: var(--Line-Height-XLoose);
+  margin-bottom: 0;
+}
+
+/* Gas heating info text (under gas buttons) */
+.gas-heating-warning {
+  margin-top: var(--Spacing-XL);
+  text-align: center;
+}
+
+.gas-heating-warning__text {
+  color: var(--Color-Scheme-1-Text, var(--Black));
+  text-align: center !important;
+  font-family: Gamay, var(--Font-Family-Base, sans-serif);
+  font-size: var(--Font-Size-XXS);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Thin);
+  line-height: 150%;
+  margin: 0 auto;
+  max-width: 31.25rem;
+}
+
+.gas-heating-warning__text strong {
+  font-weight: var(--Font-Weight-Bold);
+}
+
 .signup__electrical_additional_products .addon-group-description {
   color: var(--Black);
   font-size: var(--Font-Size-MD);
@@ -1709,28 +1740,106 @@ body {
   border-radius: 0;
   background: transparent;
   cursor: pointer;
-  transition: none;
-  align-items: center;
-  margin-bottom: 0;
+}
+
+.signup__electrical_additional.signup__form-field--radio label {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  width: 100%;
+  align-items: center;
 }
 
 .signup__electrical_additional .signup__checkbox-wrap,
 .signup__electrical_additional .signup__radio-wrap {
+  position: relative;
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-right: var(--Spacing-Base);
+}
+
+.signup__electrical_additional .signup__checkbox-wrap input[type="radio"],
+.signup__electrical_additional .signup__radio-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.signup__electrical_additional .signup__checkbox-wrap:has(input[type="radio"]) .signup__checkbox-pseudo:before,
+.signup__electrical_additional .signup__radio-wrap .signup__radio-pseudo:before {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--Radio-Size);
+  height: var(--Radio-Size);
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, var(--Opacity-Border-Medium));
+  background: transparent;
+  transition: all var(--Transition-Base);
+}
+
+.signup__electrical_additional .signup__checkbox-wrap:has(input[type="radio"]) .signup__checkbox-pseudo:after,
+.signup__electrical_additional .signup__radio-wrap .signup__radio-pseudo:after {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0.375rem;
+  width: var(--Radio-Inner-Size);
+  height: var(--Radio-Inner-Size);
+  border-radius: 50%;
+  background: transparent;
+  transition: all var(--Transition-Base);
+}
+
+.signup__electrical_additional .signup__checkbox-wrap:has(input[type="radio"]) input:checked+.signup__checkbox-pseudo:before,
+.signup__electrical_additional .signup__radio-wrap input:checked+.signup__radio-pseudo:before {
+  background: transparent;
+  border-color: var(--Black);
+}
+
+.signup__electrical_additional .signup__checkbox-wrap:has(input[type="radio"]) input:checked+.signup__checkbox-pseudo:after,
+.signup__electrical_additional .signup__radio-wrap input:checked+.signup__radio-pseudo:after {
+  background: var(--Black);
+}
+
+.signup__electrical_additional .signup__checkbox-wrap:has(input[type="radio"]) .signup__checkbox-pseudo,
+.signup__electrical_additional .signup__radio-wrap .signup__radio-pseudo {
+  width: var(--Radio-Size);
+  height: var(--Radio-Size);
+  position: relative;
 }
 
 
 .signup__electrical_additional .signup__checkbox-text {
-  color: #000;
+  color: var(--Black);
   font-family: Gamay;
-  font-size: 14px;
+  font-size: var(--Font-Size-Base);
   font-style: normal;
-  font-weight: 600;
+  font-weight: var(--Font-Weight-SemiBold);
+  line-height: 120%;
+  margin-left: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XS);
+  text-align: left;
+}
+
+.signup__electrical_additional .signup__radio-text {
+  color: var(--Black);
+  font-family: Gamay;
+  font-size: var(--Font-Size-Base);
+  font-style: normal;
+  font-weight: var(--Font-Weight-Regular);
   line-height: 120%;
   margin-left: 0;
   flex: 1;
@@ -1781,7 +1890,7 @@ body {
 
 .signup__situation_cos_start_date,
 .signup__situation_move_start_date {
-  margin: 0 -18px;
+  margin: 0 -1.125rem;
 }
 
 .signup__installation_address_select {
@@ -1795,7 +1904,7 @@ body {
   justify-content: center;
   width: 100%;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--Selector-Gap);
 }
 
 .signup__customer {
@@ -1896,8 +2005,8 @@ body {
 /* Payment & Permissions */
 .signup__payment {
   width: 100%;
-  max-width: 600px;
-  margin: 40px auto 0 auto;
+  max-width: 37.5rem;
+  margin: 2.5rem auto 0 auto;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -1911,7 +2020,7 @@ body {
 }
 
 .signup__payment .signup__group-title {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: var(--Font-Weight-Bold);
   margin-bottom: var(--Spacing-SM);
   text-align: left;
@@ -1952,8 +2061,8 @@ body {
 }
 
 .signup__payment .signup__payment_method_name.signup__form-field--radio {
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: var(--Radius-LG);
+  border: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
   background: transparent;
   padding: 0;
   margin-bottom: var(--Spacing-SM);
@@ -1995,17 +2104,17 @@ body {
 
 .signup__payment .signup__payment_method_name.signup__form-field--radio:hover,
 .signup__payment .signup__payment_method_name.signup__form-field--radio:has(input:checked) {
-  background: #FFF;
+  background: var(--White);
 }
 
 .signup__payment .signup__payment_method_name.signup__form-field--radio label {
   border: none;
   display: flex;
-  padding: 20px 20px 10px 20px;
+  padding: 1.25rem 1.25rem 0.625rem 1.25rem;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 16px;
+  gap: var(--Selector-Gap);
   align-self: stretch;
   background: transparent;
   cursor: pointer;
@@ -2023,8 +2132,8 @@ body {
 
 .signup__payment .signup__form-field--radio label img {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   object-fit: contain;
   display: block;
   order: 1;
@@ -2034,14 +2143,14 @@ body {
 .signup__payment .signup__payment_method_name.signup__form-field--radio label .signup__radio-text {
   order: 2;
   font-weight: var(--Font-Weight-Bold);
-  font-size: 20px;
+  font-size: 1.25rem;
   color: var(--Black);
   margin: 0;
   line-height: var(--Line-Height-Loose);
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   flex: 1;
 }
 
@@ -2050,7 +2159,7 @@ body {
   color: var(--Gray-Dark);
   line-height: var(--Line-Height-Loose);
   margin: 0;
-  padding: 0 20px 20px 20px;
+  padding: 0 1.25rem 1.25rem 1.25rem;
   width: 100%;
   pointer-events: none;
 }
@@ -2090,9 +2199,9 @@ body {
 .signup__payment .signup__payment_card_frequency .signup__form-field--radio label .signup__radio-text,
 .signup__payment .signup__payment_ls_frequency .signup__form-field--radio label .signup__radio-text,
 .signup__payment .signup__payment_fi_frequency .signup__form-field--radio label .signup__radio-text {
-  color: #000;
+  color: var(--Black);
   font-family: Gamay, sans-serif;
-  font-size: 14px;
+  font-size: var(--Font-Size-Base);
   font-style: normal;
   font-weight: var(--Font-Weight-Light);
   line-height: 120%;
@@ -2108,7 +2217,7 @@ body {
   margin-top: var(--Spacing-XS);
   margin-left: 0;
   font-weight: var(--Font-Weight-Bold);
-  font-size: 20px;
+  font-size: 1.25rem;
   color: var(--Black);
   margin-bottom: var(--Spacing-XS);
   text-align: left;
@@ -2116,7 +2225,7 @@ body {
 
 .signup__payment .signup__form-help {
   margin-top: var(--Spacing-XS);
-  margin-left: calc(32px + var(--Spacing-SM));
+  margin-left: calc(2rem + var(--Spacing-SM));
   font-size: var(--Font-Size-XS);
   color: var(--Gray-Dark);
   line-height: var(--Line-Height-XLoose);
@@ -2133,7 +2242,7 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  margin-bottom: 6px;
+  margin-bottom: 0.375rem;
 }
 
 .signup__permissions .signup__form-field--checkbox label {
@@ -2147,7 +2256,7 @@ body {
   margin-bottom: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .signup__permissions .signup__form-field--checkbox label:hover {
@@ -2159,11 +2268,11 @@ body {
 }
 
 .signup__permissions .signup__checkbox-text {
-  color: #000;
+  color: var(--Black);
   font-family: Gamay;
-  font-size: 14px;
+  font-size: var(--Font-Size-Base);
   font-style: normal;
-  font-weight: 600;
+  font-weight: var(--Font-Weight-SemiBold);
   line-height: 120%;
   margin-left: 0;
   flex: 1;
@@ -2181,15 +2290,15 @@ body {
 .signup__summary {
   width: 100%;
   margin: 0 auto;
-  padding: 16px;
+  padding: var(--Spacing-Base);
   background: var(--White);
-  border-radius: 4px;
-  outline: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 0.25rem;
+  outline: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
   outline-offset: -1px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-flow: row dense;
-  gap: 12px 16px;
+  gap: 0.75rem 1rem;
   /* Smaller vertical gap, standard horizontal gap */
   align-items: start;
 }
@@ -2211,11 +2320,11 @@ h1+p {
   font-size: var(--Font-Size-Base);
   line-height: var(--Line-Height-Loose);
   color: var(--Black);
-  margin: 0 0 16px 0;
+  margin: 0 0 1rem 0;
   text-align: left;
   font-family: var(--Font-Family);
   width: 100%;
-  max-width: 700px;
+  max-width: 43.75rem;
   margin-left: auto;
   margin-right: auto;
 }
@@ -2232,10 +2341,10 @@ h1+p * {
 .signup__summary>section {
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: var(--Spacing-Base);
   background: var(--Nautral-Lightest);
-  border-radius: 4px;
-  outline: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 0.25rem;
+  outline: 1px solid rgba(0, 0, 0, var(--Opacity-Border-Light));
   outline-offset: -1px;
 }
 
@@ -2246,11 +2355,11 @@ h1+p * {
 }
 
 .signup__summary>section h3 {
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
+  font-weight: var(--Font-Weight-SemiBold);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Date-Line-Height);
   color: var(--Black);
-  margin: 0 0 4px 0;
+  margin: 0 0 0.25rem 0;
   text-align: left;
   font-family: var(--Font-Family);
 }
@@ -2261,14 +2370,14 @@ h1+p * {
   grid-row: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .signup__summary>section:nth-of-type(1) h3 {
   grid-column: 1 / -1;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
+  font-weight: var(--Font-Weight-SemiBold);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Date-Line-Height);
 }
 
 .signup__summary>.signup__permissions-earliest-date {
@@ -2276,7 +2385,7 @@ h1+p * {
   font-size: var(--Font-Size-Base);
   line-height: var(--Line-Height-Loose);
   color: var(--Black);
-  margin: 0 0 16px 0;
+  margin: 0 0 1rem 0;
   text-align: center;
   font-family: var(--Font-Family);
   grid-column: 1 / -1;
@@ -2315,22 +2424,22 @@ h1+p * {
 }
 
 .signup__summary .summary-price-section h3 {
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
-  margin: 0 0 8px 0;
+  font-weight: var(--Font-Weight-SemiBold);
+  font-size: var(--Font-Size-Base);
+  line-height: var(--Date-Line-Height);
+  margin: 0 0 0.5rem 0;
 }
 
 .signup__summary .summary-price-section #summary-price-value {
   font-weight: var(--Font-Weight-Light);
-  font-size: 14px;
+  font-size: var(--Font-Size-Base);
   /* Same as other values */
-  line-height: 20px;
+  line-height: var(--Date-Line-Height);
   color: var(--Black);
 }
 
 .signup__summary .summary-price-section .summary-price-currency {
-  font-size: 14px;
+  font-size: var(--Font-Size-Base);
   vertical-align: baseline;
   margin-left: 0;
   color: var(--Black);
@@ -2339,7 +2448,7 @@ h1+p * {
 .signup__summary>section .row {
   display: flex;
   gap: 0;
-  margin-bottom: 8px;
+  margin-bottom: var(--Spacing-SM);
   align-items: flex-start;
   width: 100%;
   flex-direction: column;
@@ -2357,7 +2466,7 @@ h1+p * {
 
 
 .signup__summary>section:nth-of-type(1) .row:has(.col-md-3):has(.col-md-7) {
-  gap: 32px;
+  gap: 2rem;
 }
 
 .signup__summary .row:not(:has(.col-md-3):has(.col-md-7)) .col-md-3,
@@ -2372,10 +2481,10 @@ h1+p * {
 .signup__summary .col-md-10 {
   padding: 0;
   color: var(--Black);
-  font-size: 14px;
+  font-size: var(--Font-Size-Base);
   /* Smaller, more compact */
   font-family: var(--Font-Family);
-  line-height: 20px;
+  line-height: var(--Date-Line-Height);
   /* Tighter line height */
   font-weight: var(--Font-Weight-Light);
   display: block;
@@ -2390,7 +2499,7 @@ h1+p * {
 }
 
 .signup__summary .col-md-3 {
-  font-weight: 600;
+  font-weight: var(--Font-Weight-SemiBold);
   min-width: 0;
   white-space: nowrap;
 }
@@ -2413,7 +2522,7 @@ h1+p * {
 .signup__summary>section:nth-of-type(1) .row:has(.col-md-3):has(.col-md-7) {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 32px;
+  gap: 2rem;
   /* Horizontal gap between label and value */
 }
 
@@ -2427,9 +2536,9 @@ h1+p * {
 .signup__form-group:has(.signup__summary)+p,
 .signup__form-group:has(.signup__summary)+div {
   font-size: var(--Font-Size-XS);
-  line-height: 20px;
+  line-height: var(--Date-Line-Height);
   color: var(--Black);
-  margin-top: 16px;
+  margin-top: var(--Spacing-Base);
   text-align: left;
   font-family: var(--Font-Family);
   font-weight: var(--Font-Weight-Light);
@@ -2442,7 +2551,7 @@ p:has(#earliest-date),
 .signup__form-group:has(.signup__summary)+p:has(#earliest-date) {
   text-align: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 37.5rem;
   margin-left: auto;
   margin-right: auto;
 }
@@ -2458,12 +2567,13 @@ p:has(#earliest-date),
 
 #price-card .price-card__inner {
   pointer-events: auto;
-  background: var(--White, #FFF);
+  background: var(--White);
   border: 1px solid rgba(0, 0, 0, 0.20);
-  border-radius: 2px;
+  border-radius: var(--Radius-SM);
   padding: var(--Spacing-LG) var(--Spacing-Base) var(--Spacing-MD);
-  min-width: 170px;
-  box-shadow: 8px 8px 1px 0 #000;
+  min-width: 10.625rem;
+  max-width: 18rem;
+  box-shadow: 0.5rem 0.5rem 1px 0 #000;
   text-align: left;
   font-family: var(--Font-Family);
 }
@@ -2477,14 +2587,14 @@ p:has(#earliest-date),
 
 #price-card .price-card__amount {
   font-weight: var(--Font-Weight-ExtraBold);
-  font-size: 56px;
+  font-size: 3.5rem;
   line-height: var(--Line-Height-Tight);
   letter-spacing: -1px;
   color: var(--Black);
 }
 
 #price-card .price-card__currency {
-  font-size: 32px;
+  font-size: 2rem;
   vertical-align: super;
   margin-left: var(--Radius-XS);
   color: var(--Black);
@@ -2500,13 +2610,17 @@ p:has(#earliest-date),
 /* Responsive tweaks for price card */
 @media (max-width: 980px) {
   #price-card {
-    right: var(--Spacing-Base);
-    bottom: var(--Spacing-Base);
+    position: static;
+    margin: var(--Spacing-XL) 0;
+    text-align: center;
   }
 
   #price-card .price-card__inner {
     padding: var(--Spacing-MD) var(--Spacing-SM) var(--Spacing-Base);
-    min-width: 130px;
+    min-width: 8.125rem;
+    max-width: 18rem;
+    margin: 0 auto;
+    display: inline-block;
   }
 
   #price-card .price-card__label {
@@ -2515,11 +2629,11 @@ p:has(#earliest-date),
   }
 
   #price-card .price-card__amount {
-    font-size: 40px;
+    font-size: 2.5rem;
   }
 
   #price-card .price-card__currency {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   #price-card .price-card__sub {
@@ -2533,9 +2647,9 @@ p:has(#earliest-date),
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
-  margin-left: 6px;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-left: 0.375rem;
   border: 1px solid #c9c9c9;
   border-radius: var(--Radius-MD);
   background: var(--White);
@@ -2578,7 +2692,7 @@ p:has(#earliest-date),
   font-size: var(--Font-Size-Base);
   font-weight: var(--Font-Weight-Bold);
   line-height: var(--Line-Height-Button);
-  padding: 12px 22px;
+  padding: 0.75rem 1.375rem;
   border: none;
   border-radius: var(--Radius-MD);
   cursor: pointer;
@@ -2816,6 +2930,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
      ============================================ */
 
   .signup__page .hero {
+    position: absolute;
     padding: var(--Spacing-Hero-Padding) var(--Spacing-Base) 0 var(--Spacing-Base);
     flex-wrap: wrap;
     gap: var(--Spacing-SM);
@@ -2823,7 +2938,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   }
 
   .signup__page .hero img {
-    max-width: var(--Max-Width-Logo-Mobile);
+    max-width: 5.5rem;
     height: auto;
   }
 
@@ -2851,7 +2966,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   }
 
   .topnav ul li a {
-    font-size: 16px;
+    font-size: var(--Font-Size-MD);
     font-family: 'Aptly', 'Gamay Narrow', sans-serif;
     text-transform: uppercase;
     padding: var(--Spacing-MD) var(--Spacing-MD);
@@ -2859,7 +2974,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   }
 
   .topnav ul li:nth-child(1) a {
-    padding-left: calc(var(--Spacing-Base) + 18px + var(--Spacing-SM));
+    padding-left: calc(var(--Spacing-Base) + 1.125rem + var(--Spacing-SM));
   }
 
   /* ============================================
@@ -2891,7 +3006,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 
   .signup__summary>section h3,
   .signup__summary .summary-price-section h3 {
-    font-size: 1rem;
+    font-size: var(--Font-Size-MD);
   }
 
   .signup__electrical_additional_products .addon-group-section h4 {
@@ -2923,7 +3038,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   }
 
   .signup__payment .signup__payment_method_name.signup__form-field--radio label .signup__radio-text {
-    font-size: 1.125rem;
+    font-size: var(--Font-Size-LG);
   }
 
   /* ============================================
@@ -2962,31 +3077,33 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   }
 
   .signup__form-field--checkbox label {
-    gap: 12px;
+    gap: 0.75rem;
   }
 
 
   .signup__form-field--checkbox .signup__form-help {
-    margin-left: clamp(12px, calc(12px + var(--Checkbox-Size, 16px)), 28px);
+    margin-left: clamp(0.75rem, calc(0.75rem + var(--Checkbox-Size, 16px)), 1.75rem);
   }
 
   /* ============================================
      CARDS & SELECTORS
      ============================================ */
 
-  .housing-type-selector {
-    flex-direction: column;
+  .housing-type-selector,
+  .situation-type-selector {
+    flex-direction: row;
     align-items: stretch;
     gap: var(--Selector-Gap-Mobile);
+    flex-wrap: wrap;
   }
 
   .housing-type-selector>div,
   .situation-option-card,
   .housing-option-card {
     min-width: auto;
-    max-width: 100%;
-    width: 100%;
-    flex: 1 1 100%;
+    max-width: calc(50% - var(--Spacing-Base));
+    width: calc(50% - var(--Spacing-Base));
+    flex: 1 1 calc(50% - var(--Spacing-Base));
   }
 
   .situation-option-card,
@@ -3112,7 +3229,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   .signup__situation_move_start_date .signup__form-field input[type="date"],
   .signup__situation_cos_start_date .signup__form-field input[type="text"],
   .signup__situation_move_start_date .signup__form-field input[type="text"] {
-    font-size: 16px;
+    font-size: var(--Font-Size-MD);
   }
 
   .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit,
@@ -3125,7 +3242,7 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   .signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-day-field,
   .signup__situation_cos_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-year-field,
   .signup__situation_move_start_date .signup__form-field input[type="date"]::-webkit-datetime-edit-year-field {
-    font-size: 16px;
+    font-size: var(--Font-Size-MD);
   }
 
   /* ============================================
@@ -3165,18 +3282,21 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 
   #next-button {
     margin-left: 0;
-    flex: 1;
+    flex: none;
+    max-width: 11.5rem;
   }
 
   #back-button {
-    flex: 1;
+    flex: none;
+    max-width: 11.5rem;
   }
 
   .actions input[type="submit"],
   #back-button,
   #next-button {
     width: auto;
-    flex: 1;
+    flex: none;
+    max-width: 11.5rem;
   }
 
   /* ============================================
@@ -3253,14 +3373,60 @@ body:has(.signup__section--electrical_product) .actions #next-button {
      ============================================ */
 
   #price-card {
+    position: static;
     width: auto;
     min-width: auto;
+    margin: var(--Spacing-XL) 0;
+    text-align: center;
   }
+
+}
+
+/* Extra small screens */
+@media only screen and (max-width: 640px) {
+  .signup__page .hero img {
+    max-width: 4rem;
+  }
+
+  .actions input[type="submit"],
+  #back-button,
+  #next-button {
+    max-width: 8rem;
+    font-size: var(--Font-Size-XS);
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* Very small screens (phones) */
+@media only screen and (max-width: 375px) {
+  .actions input[type="submit"],
+  #back-button,
+  #next-button {
+    max-width: 6.5rem;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+/* Small screens (tablets) */
+@media only screen and (max-width: 768px) and (min-width: 641px) {
+  .signup__page .hero img {
+    max-width: 4.5rem;
+  }
+
+  .actions input[type="submit"],
+  #back-button,
+  #next-button {
+    max-width: 11rem;
+  }
+}
 
   #price-card .price-card__inner {
     min-width: auto;
     width: auto;
-    max-width: calc(100vw - (var(--Spacing-Base) * 2));
+    max-width: 18rem;
+    margin: 0 auto;
+    display: inline-block;
   }
 
   /* ============================================
@@ -3269,7 +3435,250 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 
   .wrapper-top .tp-widget-reviews {
     font-size: var(--Font-Size-Base);
-    min-width: 200px;
+    min-width: 12.5rem;
+  }
+
+/* ============================================
+   SMOOTH TRANSITIONS FOR STEP CHANGES
+   ============================================ */
+
+/* Optimized step transitions with GPU acceleration */
+.signup__group-container {
+  transition: opacity var(--Transition-Fast), transform var(--Transition-Fast);
+  will-change: transform, opacity;
+  contain: layout style; /* Performance optimization */
+}
+
+/* Step entering animation - single optimized animation */
+.signup__group-container:not(.signup__group-container--loading) {
+  animation: slideInRightOptimized 0.35s ease-out;
+  will-change: transform, opacity;
+}
+
+@keyframes slideInRightOptimized {
+  from {
+    opacity: 0;
+    transform: translate3d(1.875rem, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
- 
+
+/* Step exiting animation */
+.signup__group-container--loading {
+  animation: slideOutLeftGPU 0.25s ease-in forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes slideOutLeftGPU {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-1.875rem, 0, 0);
+  }
+}
+
+/* Radio fields that get hidden/shown */
+.signup__form-field--radio {
+  transition: opacity var(--Transition-Fast), transform var(--Transition-Fast), visibility var(--Transition-Fast);
+}
+
+/* Date sections that slide in/out */
+.signup__situation_cos_start_date,
+.signup__situation_move_start_date {
+  transition: opacity var(--Transition-Base), transform var(--Transition-Base), visibility var(--Transition-Base);
+}
+
+/* Next button fade transitions */
+#next-button {
+  transition: opacity var(--Transition-Fast), pointer-events var(--Transition-Fast);
+}
+
+/* Original form fields - hide immediately to prevent flash of original elements */
+.signup__electrical_product_name,
+.signup__situation .signup__form-field--radio,
+.signup__gas_product .signup__form-field--radio,
+.signup__installation_address_select .signup__form-field--radio {
+  display: none !important; /* Hide immediately on load */
+  transition: opacity var(--Transition-Fast), transform var(--Transition-Fast), visibility var(--Transition-Fast);
+}
+
+/* Optimized stagger animations - GPU accelerated */
+.signup__form-field:nth-child(1),
+.signup__form-group:nth-child(1) {
+  animation: fadeInUpGPU 0.25s ease-out;
+  will-change: transform, opacity;
+}
+
+.signup__form-field:nth-child(2),
+.signup__form-group:nth-child(2) {
+  animation: fadeInUpGPU 0.25s ease-out 0.06s both;
+  will-change: transform, opacity;
+}
+
+.signup__form-field:nth-child(3),
+.signup__form-group:nth-child(3) {
+  animation: fadeInUpGPU 0.25s ease-out 0.12s both;
+  will-change: transform, opacity;
+}
+
+.signup__form-field:nth-child(4),
+.signup__form-group:nth-child(4) {
+  animation: fadeInUpGPU 0.25s ease-out 0.18s both;
+  will-change: transform, opacity;
+}
+
+.signup__form-field:nth-child(5),
+.signup__form-group:nth-child(5) {
+  animation: fadeInUpGPU 0.25s ease-out 0.24s both;
+  will-change: transform, opacity;
+}
+
+.signup__form-field:nth-child(6),
+.signup__form-group:nth-child(6) {
+  animation: fadeInUpGPU 0.25s ease-out 0.3s both;
+  will-change: transform, opacity;
+}
+
+.signup__form-field:nth-child(7),
+.signup__form-group:nth-child(7) {
+  animation: fadeInUpGPU 0.25s ease-out 0.36s both;
+  will-change: transform, opacity;
+}
+
+.signup__form-field,
+.signup__form-group {
+  animation-fill-mode: both;
+}
+
+/* Clean up will-change after animations complete */
+.signup__form-field:not(:nth-child(n)),
+.signup__form-group:not(:nth-child(n)) {
+  animation: none;
+  will-change: auto;
+}
+
+/* Optimized card stagger animations - GPU accelerated */
+.housing-option-card:nth-child(1),
+.situation-option-card:nth-child(1),
+.gas-option-card:nth-child(1),
+.installation-option-card:nth-child(1) {
+  animation: fadeInUpGPU 0.25s ease-out;
+  will-change: transform, opacity;
+}
+
+.housing-option-card:nth-child(2),
+.situation-option-card:nth-child(2),
+.gas-option-card:nth-child(2),
+.installation-option-card:nth-child(2) {
+  animation: fadeInUpGPU 0.25s ease-out 0.08s both;
+  will-change: transform, opacity;
+}
+
+.housing-option-card:nth-child(3),
+.situation-option-card:nth-child(3),
+.gas-option-card:nth-child(3),
+.installation-option-card:nth-child(3) {
+  animation: fadeInUpGPU 0.25s ease-out 0.16s both;
+  will-change: transform, opacity;
+}
+
+.housing-option-card,
+.situation-option-card,
+.gas-option-card,
+.installation-option-card {
+  animation-fill-mode: both;
+}
+
+@keyframes fadeInUpGPU {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Hover effects with smooth transitions */
+.housing-option-card:hover,
+.situation-option-card:hover,
+.gas-option-card:hover,
+.installation-option-card:hover {
+  transform: translateY(-2px);
+  transition: transform var(--Transition-Fast);
+}
+
+/* Loading state for step transitions */
+.signup__group-container--loading {
+  opacity: 0.7;
+  pointer-events: none;
+  transition: opacity var(--Transition-Base);
+}
+
+/* Progress bar smooth transitions */
+#progress-bar {
+  transition: width 0.5s ease-in-out, background-color var(--Transition-Base);
+}
+
+/* Progress container fade in */
+#progress-container {
+  animation: fadeInDownGPU 0.3s ease-out;
+  will-change: transform, opacity;
+}
+
+@keyframes fadeInDownGPU {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -1.25rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Pulse animation for loading indicators */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Gas disclaimer text styling */
+.gas-disclaimer-text {
+  font-family: 'Gamay', sans-serif;
+  font-size: 0.75rem; /* 12px */
+  font-weight: 200;
+  line-height: 150%;
+  color: var(--Black);
+  text-align: center;
+  margin-top: 2rem;
+  padding: 0 0.25rem;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gas-disclaimer-text strong {
+  font-weight: 800;
+}
+
+
+  

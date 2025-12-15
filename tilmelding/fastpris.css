@@ -1329,3 +1329,27 @@ label[for="ev_charger_previously_at_monta"] .signup__checkbox-text {
     height: clamp(60px, 15vw, 90px);
   }
 }
+
+/* Gas disclaimer text styling */
+.gas-disclaimer-text {
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 0.625rem; /* 10px */
+  font-weight: 200;
+  line-height: 150%;
+  color: #666;
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0 1rem;
+}
+
+/* Summary disclaimer text styling */
+.summary-disclaimer-text {
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 0.625rem; /* 10px */
+  font-weight: 200;
+  line-height: 150%;
+  color: #666;
+  text-align: left;
+  margin: 1rem 0;
+  padding: 0 1rem;
+}

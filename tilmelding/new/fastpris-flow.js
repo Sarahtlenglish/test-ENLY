@@ -16,9 +16,9 @@ const CONFIG = {
   PRODUCT_ID_APARTMENT: 1991,
 
 
-  DELAY_BUTTON_CLICK: 100,
-  DELAY_BUTTON_STATE_UPDATE: 50,
-  DELAY_REORGANIZE: 100,
+  DELAY_BUTTON_CLICK: 30,
+  DELAY_BUTTON_STATE_UPDATE: 20,
+  DELAY_REORGANIZE: 30,
   
   SELECTOR_ELECTRICAL_PRODUCT: '.signup__electrical_product',
   SELECTOR_NEXT_BUTTON: '#next-button',
@@ -30,13 +30,16 @@ const CONFIG = {
   TOOLTIP_TEXT_NO_CHARGER: 'Vælg denne hvis du ikke har noget som helst der bruger ekstra strøm i din bolig.',
   TITLE_CHARGING: 'Jeg skal kunne lade hjemme',
   DESC_CHARGING_LINE1: 'Hvis du har ladestander er der et tillæg til din faste pris.',
-  DESC_CHARGING_LINE2: 'Tilgængeld får du også en <strong>højere forbrugsgrænse</strong> på 250 kWh ekstra om måneden*',
-  SUBHEADING_SOLUTION: 'Vælg din løsning',
+  DESC_CHARGING_LINE2: 'Tilgængeld får du også en <strong>højere forbrugsgrænse</strong> på 333 kWh ekstra om måneden*',
+  CHARGING_INCLUSION_TEXT: '*Inkluderer 333 kWh/md., svarende til ca. 20.000 km/år afhængigt af din elbil, kørestil, samt kørsels- og vejrforhold. Ved beregningen er forudsat et gennemsnitligt forbrug på 5-5,2 km/kWh. Inkluderede kWh, som i en måned ikke forbruges, overføres ikke til forbrug i næste måned.',
+  SUBHEADING_SOLUTION: 'Skal du have en ladeboks?',
   TITLE_NO_CHARGER: 'Jeg lader ikke elbil hjemme',
   DESC_NO_CHARGER: 'Nix. Ingen elbil hjemme hos mig. Videre til min aftale.',
   MOVE_DATE_LABEL: 'Angiv din indflytningsdato.',
-  
-  KEYWORD_NO_CHARGER: ['ikke ladestander', 'har ikke']
+
+  KEYWORD_NO_CHARGER: ['ikke ladestander', 'har ikke'],
+
+  GAS_DISCLAIMER_TEXT: 'Hvis du har elvarme eller varmepumpe i din bolig og/eller oplader elbil hjemme, hæves forbrugsgrænsen med <strong>333 kWh </strong> pr. måned pr. løsning, og der opkræves et fast tillæg på <strong>499 kr.</strong> pr. måned pr. løsning. Du har pligt til at oplyse, hvis du har elvarme/varmepumpe, eller hvis du oplader el-bil på ejendommen. ENLY er berettiget til at opkræve tillæggene med tilbagevirkende kraft fra tidspunktet, hvor du fik elvarme/varmepumpe og/eller elbil, som du oplader hjemme.'
 };
 
 CONFIG.PRICE_MAP = new Map([
@@ -98,6 +101,7 @@ function computeMonthlyPrice() {
 }
 
 (function() {
+  // Autocomplete detection and handling - fixed to not cause JSON responses
   let autocompleteActive = false;
   let blockedSubmissions = [];
   let observer = null;
@@ -115,8 +119,9 @@ function computeMonthlyPrice() {
 
       mutations.forEach(function(mutation) {
         if (mutation.type === 'attributes' &&
-            mutation.attributeName === 'data-com-*-autofill' &&
-            mutation.target.matches('input')) {
+            (mutation.attributeName === 'value' ||
+             mutation.attributeName.startsWith('data-com-') ||
+             mutation.target.matches('input'))) {
           hasAutofillChange = true;
         }
       });
@@ -141,6 +146,7 @@ function computeMonthlyPrice() {
       });
     });
 
+    // Safety timeout - if autocomplete doesn't complete naturally, allow submissions
     setTimeout(() => {
       if (autocompleteActive) {
         autocompleteActive = false;
@@ -162,8 +168,13 @@ function computeMonthlyPrice() {
     const latestSubmission = blockedSubmissions[blockedSubmissions.length - 1];
     blockedSubmissions = [];
 
+    // Instead of clicking next button (which causes JSON response),
+    // just allow the form to submit naturally after a small delay
     setTimeout(() => {
-      latestSubmission.form.submit();
+      if (latestSubmission.form) {
+        // Remove any preventDefault that was applied
+        latestSubmission.form.submit();
+      }
     }, 100);
   }
 
@@ -173,8 +184,9 @@ function computeMonthlyPrice() {
     }
   }, true);
 
+  // Only block submissions if autocomplete is definitely active
   document.addEventListener('submit', function(e) {
-    if (autocompleteActive) {
+    if (autocompleteActive && checkAutofillStatus()) {
       e.preventDefault();
       e.stopImmediatePropagation();
 
@@ -187,45 +199,10 @@ function computeMonthlyPrice() {
     }
   }, true);
 
-  document.addEventListener('click', function(e) {
-    if (e.target.matches('input[type="submit"], button[type="submit"]') && autocompleteActive) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      return false;
-    }
-  }, true);
-
+  // Don't block button clicks when autocomplete is active
+  // Let the backend handle it naturally
 })();
 
-// Log alle navigation events og form submits med timing
-document.addEventListener('submit', function(e) {
-  console.log('🚨 FORM SUBMIT DETEKTERET:', new Date().toLocaleTimeString());
-  console.log('🎯 FORM ACTION:', e.target.action);
-  console.log('📝 FORM METHOD:', e.target.method);
-
-  const formData = new FormData(e.target);
-  console.log('📦 FORM DATA FØR SYNC:');
-  let dataCount = 0;
-  for (let [key, value] of formData.entries()) {
-    console.log(`  ${key}: "${value}"`);
-    dataCount++;
-  }
-  console.log(`📊 TOTAL FELTER: ${dataCount}`);
-
-  // Check for browser autocomplete state
-  const inputs = e.target.querySelectorAll('input');
-  const autofillInputs = Array.from(inputs).filter(input =>
-    input.matches(':-webkit-autofill') ||
-    input.hasAttribute('data-autocomplete-active')
-  );
-  if (autofillInputs.length > 0) {
-    console.warn('⚠️ AUTOFILL DETEKTERET på følgende felter:');
-    autofillInputs.forEach(input => {
-      console.log(`  ${input.name}: "${input.value}"`);
-    });
-  }
-
-}, true);
 
 
 
@@ -316,6 +293,9 @@ document.addEventListener('group:loaded', function(e) {
     // Create wrapper for the image selector UI
     const imgWrapper = document.createElement('div');
     imgWrapper.className = 'housing-type-selector';
+
+    // Create all cards first, then add them all at once to prevent staggered animation timing issues
+    const cards = [];
 
     options.forEach(opt => {
         const radio = allRadios.find(r => (r.dataset.productId || r.value) == opt.id);
@@ -453,9 +433,11 @@ document.addEventListener('group:loaded', function(e) {
         optionContainer.appendChild(img);
         optionContainer.appendChild(label);
         if (help) optionContainer.appendChild(help);
-        imgWrapper.appendChild(optionContainer);
+        cards.push(optionContainer);
     });
 
+    // Add all cards at once to DOM
+    cards.forEach(card => imgWrapper.appendChild(card));
     container.appendChild(imgWrapper);
 
     // Initial sync: respect any prechecked radio (from server / persisted form)
@@ -511,6 +493,9 @@ function initSituationSelector(root) {
     // Create wrapper for the image selector UI
     const situationWrapper = document.createElement('div');
     situationWrapper.className = 'situation-type-selector';
+
+    // Create all cards first, then add them all at once to prevent staggered animation timing issues
+    const situationCards = [];
 
     situationOptions.forEach(opt => {
         // Prøv forskellige måder at finde radio button på
@@ -598,8 +583,11 @@ function initSituationSelector(root) {
         optionCard.appendChild(img);
         optionCard.appendChild(label);
         
-        situationWrapper.appendChild(optionCard);
+        situationCards.push(optionCard);
     });
+
+    // Add all cards at once to DOM
+    situationCards.forEach(card => situationWrapper.appendChild(card));
 
     // Find insert point - after section title, but ensure date/checkbox sections come AFTER cards
     const sectionTitle = situationContainer.querySelector('.signup__section-title');
@@ -682,6 +670,9 @@ document.addEventListener('group:loaded', function() {
 
     // Find alle radio buttons og deres labels
     const allRadios = gasContainer.querySelectorAll('input[type="radio"][name*="gas"]');
+    
+    // Create all cards first, then add them all at once to prevent staggered animation timing issues
+    const gasCards = [];
     
     allRadios.forEach((radio, index) => {
         // Find label tekst
@@ -774,12 +765,15 @@ document.addEventListener('group:loaded', function() {
         });
         optionCard.appendChild(label);
         
-        gasWrapper.appendChild(optionCard);
+        gasCards.push(optionCard);
     });
+
+    // Add all cards at once to DOM
+    gasCards.forEach(card => gasWrapper.appendChild(card));
 
     // Find insert point - after section title
     const sectionTitle = gasContainer.querySelector('.signup__section-title');
-    
+
     // Insert after title
     if (sectionTitle) {
         if (sectionTitle.nextSibling) {
@@ -790,6 +784,18 @@ document.addEventListener('group:loaded', function() {
     } else {
         // Insert at beginning if no title
         gasContainer.insertBefore(gasWrapper, gasContainer.firstChild);
+    }
+
+    // Add gas disclaimer text AFTER the gas wrapper (not inside it)
+    const gasDisclaimer = document.createElement('div');
+    gasDisclaimer.className = 'gas-disclaimer-text';
+    gasDisclaimer.innerHTML = CONFIG.GAS_DISCLAIMER_TEXT;
+
+    // Insert after gasWrapper
+    if (gasWrapper.nextSibling) {
+        gasContainer.insertBefore(gasDisclaimer, gasWrapper.nextSibling);
+    } else {
+        gasContainer.appendChild(gasDisclaimer);
     }
 });
 
@@ -832,6 +838,9 @@ document.addEventListener('group:loaded', function() {
     // Create wrapper for the button selector UI
     const installationWrapper = document.createElement('div');
     installationWrapper.className = 'installation-type-selector';
+    
+    // Create all cards first, then add them all at once to prevent staggered animation timing issues
+    const installationCards = [];
     
     allRadios.forEach((radio, index) => {
         // Find label tekst
@@ -907,8 +916,11 @@ document.addEventListener('group:loaded', function() {
         });
         optionCard.appendChild(label);
         
-        installationWrapper.appendChild(optionCard);
+        installationCards.push(optionCard);
     });
+
+    // Add all cards at once to DOM
+    installationCards.forEach(card => installationWrapper.appendChild(card));
 
     // Find insert point - after section title or form group
     const sectionTitle = installationContainer.querySelector('.signup__section-title');
@@ -1007,6 +1019,7 @@ function ensureCalendarIconsVisible() {
     });
 }
 
+
 // Reorganize COS and Move section elements to correct order
 function reorganizeSituationElements() {
     // COS section: Checkbox -> Date picker -> Legal text
@@ -1095,7 +1108,7 @@ document.addEventListener('change', function(e) {
                 dateSection.style.opacity = '0';
             }
             // Update button state after toggle
-            setTimeout(updateNextButtonState, 100);
+            setTimeout(updateNextButtonState, 50);
         }
     }
     
@@ -1376,7 +1389,7 @@ function organizeAddOnProducts(root) {
   // Add inclusion text at the very bottom after all addon groups
   const inclusionText = document.createElement('p');
   inclusionText.className = 'inclusion-text';
-  inclusionText.textContent = 'Inkluderer 250 kWh/md., svarende til ca. 15.000 km/år afhængigt af din elbil, kørestil, samt kørsels- og vejrforhold. Ved beregningen er forudsat et gennemsnitligt forbrug på 5-5,2 km/kWh. Inkluderede kWh, som i en måned ikke forbruges, overføres ikke til forbrug i næste måned.';
+  inclusionText.textContent = CONFIG.CHARGING_INCLUSION_TEXT;
   container.appendChild(inclusionText);
 }
 
@@ -1566,6 +1579,43 @@ document.addEventListener('group:loaded', (e) => {
       childList: true
     });
   }
+});
+
+// Simple Enter key handler for customer step to prevent navigation issues
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        const customerContainer = document.querySelector('.signup__section--customer');
+        const isInCustomer = customerContainer && customerContainer.contains(e.target);
+
+        if (isInCustomer && e.target.tagName === 'INPUT') {
+            // Prevent default form submission that might cause wrong navigation
+            e.preventDefault();
+
+            // Small delay to let autocomplete finish, then click next button
+            setTimeout(() => {
+                const nextButton = document.querySelector('#next-button');
+                if (nextButton && !nextButton.disabled) {
+                    console.log('🔑 Enter pressed on customer step - clicking next button');
+                    nextButton.click();
+                }
+            }, 50);
+        }
+    }
+}, true);
+
+// Fix: Prevent autocomplete from causing wrong form submission on customer step
+document.addEventListener('group:loaded', function(e) {
+    const groupName = e?.detail?.completedGroup;
+    if (groupName === 'customer') {
+        // Add novalidate to form to prevent browser validation interference with autocomplete
+        const customerContainer = document.querySelector('.signup__section--customer');
+        if (customerContainer) {
+            const form = customerContainer.querySelector('form');
+            if (form && !form.hasAttribute('novalidate')) {
+                form.setAttribute('novalidate', '');
+            }
+        }
+    }
 });
 
 window.addOnCart = window.addOnCart || {};
@@ -1783,28 +1833,6 @@ document.addEventListener('DOMContentLoaded', initializeTooltipHandles);
 // Also initialize when group:loaded event fires (for dynamically loaded content)
 document.addEventListener('group:loaded', initializeTooltipHandles);
 
-// Ensure input values are synced before form submission
-document.addEventListener('submit', (e) => {
-    console.log('🚀 SUBMIT EVENT - Form data before sync:');
-    const formData = new FormData(e.target);
-    for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-    }
-
-    // Sync all input values with their value attributes before submission
-    const allInputs = e.target.querySelectorAll('input, select, textarea');
-    allInputs.forEach(input => {
-        if (input.value !== undefined) {
-            input.setAttribute('value', input.value);
-        }
-    });
-
-    console.log('📤 SUBMIT EVENT - Form data after sync:');
-    const formDataAfter = new FormData(e.target);
-    for (let [key, value] of formDataAfter.entries()) {
-        console.log(`${key}: ${value}`);
-    }
-}, true);
 
 // Price-card
 (function () {
@@ -1824,7 +1852,14 @@ document.addEventListener('submit', (e) => {
         <div class="price-card__sub">Pr. måned alt inkluderet</div>
       </div>
     `;
-    document.body.appendChild(card);
+    // Find Trustpilot widget and place price card before it
+    const trustpilotWidget = document.querySelector('.tp-widget-reviews');
+    if (trustpilotWidget) {
+      trustpilotWidget.parentNode.insertBefore(card, trustpilotWidget);
+    } else {
+      // Fallback to body if Trustpilot widget not found
+      document.body.appendChild(card);
+    }
   }
 
   function getCheckedElectricalRadio() {
@@ -1891,17 +1926,16 @@ document.addEventListener('submit', (e) => {
   }
 
 
-  function updatePriceSection() {
-    const summary = document.querySelector('.signup__summary');
-    if (!summary) {
-      // Summary not yet rendered, try again later
-      setTimeout(updatePriceSection, 200);
-      return;
-    }
-    
-    
-    const priceSection = ensurePriceSection();
-    if (!priceSection) return;
+function updatePriceSection() {
+  const summary = document.querySelector('.signup__summary');
+  if (!summary) {
+    // Summary not yet rendered, try again later
+    setTimeout(updatePriceSection, 100);
+    return;
+  }
+
+  const priceSection = ensurePriceSection();
+  if (!priceSection) return;
     
     const valueEl = priceSection.querySelector('#summary-price-value');
     if (!valueEl) return;
@@ -2016,14 +2050,12 @@ document.addEventListener('submit', (e) => {
     
     // If this is the permissions group, wait a bit longer for summary to render
     const groupName = event.detail?.groupName || event.detail?.completedGroup;
-    const delay = groupName === 'permissions' ? 500 : 100; // Longer delay for permissions
+    const delay = groupName === 'permissions' ? 300 : 50; // Longer delay for permissions
 
     // For permissions group, also ensure price card is updated
     if (groupName === 'permissions') {
       console.log('Permissions group loaded - updating price card');
-      setTimeout(() => {
-        updatePriceCard();
-      }, 200);
+      updatePriceCard();
     }
 
     setTimeout(() => {
@@ -2061,12 +2093,12 @@ document.addEventListener('submit', (e) => {
     if (groupName === 'permissions') {
       setTimeout(() => {
         updatePriceSection();
-      }, 500);
+      }, 300);
     } else if (groupName === 'electrical_product') {
       // Update summary price when electrical product is selected
       setTimeout(() => {
         updatePriceSection();
-      }, 200);
+      }, 100);
     } else if (groupName === 'permissions') {
       // Update price card and summary when permissions are completed
       console.log('Permissions step completed - updating prices');
@@ -2074,7 +2106,7 @@ document.addEventListener('submit', (e) => {
         console.log('Updating price card and section for permissions');
         updatePriceCard();
         updatePriceSection();
-      }, 500);
+      }, 300);
     } else {
       updatePriceSection();
     }
@@ -2163,10 +2195,10 @@ document.addEventListener('submit', (e) => {
             observer.disconnect();
             observerActive = false;
           }
-        }, 500);
+        }, 300);
       }
       summaryUpdateTimeout = null;
-    }, 300);
+    }, 200);
   });
 
   // Start observing when DOM is ready, but only watch for summary container
