@@ -744,9 +744,16 @@ document.addEventListener('group:loaded', function() {
                 const wasDisabled = nextButton.disabled;
                 if (wasDisabled) nextButton.disabled = false;
                 setTimeout(() => {
-                    nextButton.click();
-                    if (wasDisabled) {
-                        setTimeout(() => { nextButton.disabled = wasDisabled; }, CONFIG.DELAY_BUTTON_CLICK);
+                    try {
+                        nextButton.click();
+                        if (wasDisabled) {
+                            setTimeout(() => { nextButton.disabled = wasDisabled; }, CONFIG.DELAY_BUTTON_CLICK);
+                        }
+                    } catch (error) {
+                        console.error('Auto-advance failed on gas step:', error);
+                        // Fallback: reset button state if click failed
+                        nextButton.style.display = 'none'; // Keep hidden as per design
+                        if (wasDisabled) nextButton.disabled = wasDisabled;
                     }
                 }, CONFIG.DELAY_BUTTON_CLICK);
             }

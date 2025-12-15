@@ -2820,6 +2820,11 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 }
 
 /* Dawa autocomplete */
+.signup__dawa_autocomplete {
+  overflow: visible;
+  z-index: 2000;
+}
+
 .signup__dawa_autocomplete label>span {
   display: none;
 }
@@ -2830,6 +2835,10 @@ body:has(.signup__section--electrical_product) .actions #next-button {
   background: var(--White);
   box-shadow: 0 var(--Radius-MD) var(--Font-Size-XS) rgba(0, 0, 0, var(--Opacity-Shadow-Medium));
   border: 1px solid var(--Gray-Light);
+  z-index: 2000;
+  position: relative;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .signup__dawa_autocomplete .dawa-autocomplete-suggestions .dawa-autocomplete-suggestion {
@@ -2887,6 +2896,10 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 
 .disabled {
   background-color: var(--Disabled-Gray);
+}
+
+.col-md-10 .signup__form-help {
+  margin-left: 0;
 }
 
 /* Responsive */
