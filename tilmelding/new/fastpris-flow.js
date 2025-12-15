@@ -3,14 +3,24 @@
 const CONFIG = {
   TYPEKIT_URL: 'https://use.typekit.net',
   TYPEKIT_P_URL: 'https://p.typekit.net',
-  GITHUB_IMAGE_BASE: 'https://sarahtlenglish.github.io/test-ENLY/img',
-  GITHUB_RAW_BASE: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img',
-  VERCEL_IMAGE_BASE: 'https://h8nip4886wtjcobp.public.blob.vercel-storage.com',
-  
-  IMAGE_HOUSE_OFF: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/house_off.webp',
-  IMAGE_HOUSE_ON: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/house_on.webp',
-  IMAGE_FLAT_OFF: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/flat_off.webp',
-  IMAGE_FLAT_ON: 'https://raw.githubusercontent.com/Sarahtlenglish/test-ENLY/main/img/flat_on.webp',
+  // Firebase Storage base URL
+  FIREBASE_IMAGE_BASE: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o',
+
+  // Boligtype billeder
+  IMAGE_HOUSE_OFF: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/house_off.webp?alt=media',
+  IMAGE_HOUSE_ON: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/house_on.webp?alt=media',
+  IMAGE_FLAT_OFF: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/flat_off.webp?alt=media',
+  IMAGE_FLAT_ON: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/flat_on.webp?alt=media',
+
+  // Situation billeder
+  IMAGE_CHANGE_SUPPLIER: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/house_with_man.png?alt=media',
+  IMAGE_MOVE_HOUSE: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/hus_og_bil.png?alt=media',
+
+  // Ekstra billeder klar til brug
+  IMAGE_AMOUNT: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/amount.png?alt=media',
+  IMAGE_CAR: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/car.png?alt=media',
+  IMAGE_EAST: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/east.png?alt=media',
+  IMAGE_WEST: 'https://firebasestorage.googleapis.com/v0/b/enly-beregner.firebasestorage.app/o/west.png?alt=media',
   
   PRODUCT_ID_HOUSE: 2024,
   PRODUCT_ID_APARTMENT: 1991,
@@ -476,12 +486,12 @@ function initSituationSelector(root) {
     const situationOptions = [
         {
             value: 'change_of_supplier',
-            image: `${CONFIG.VERCEL_IMAGE_BASE}/house_with_man.png`,
+            image: CONFIG.IMAGE_CHANGE_SUPPLIER,
             label: 'Jeg ønsker at skifte elleverandør'
         },
         {
             value: 'move',
-            image: `${CONFIG.VERCEL_IMAGE_BASE}/hus_og_bil.png`,
+            image: CONFIG.IMAGE_MOVE_HOUSE,
             label: 'Jeg skal flytte eller er lige flyttet ind'
         }
     ];
