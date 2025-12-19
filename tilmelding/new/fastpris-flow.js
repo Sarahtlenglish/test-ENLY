@@ -49,6 +49,10 @@ const CONFIG = {
 
   KEYWORD_NO_CHARGER: ['ikke ladestander', 'har ikke'],
 
+  ELECTRICAL_DISCLAIMER_TEXT: 'Overforbrug regnes til spotpris. Hus op til 500 kWh. Lejlighed op til 250 kWh. Overforbrug afregnes til spotpris plus 1 øre/kWh samt transport og afgifter.',
+
+  PAYMENT_ACCEPTANCE_TEXT: 'Ved at indtaste mine betalingsoplysninger accepterer jeg, at ENLY A/S løbende må trække den månedlige abonnementsbetaling og eventuelle overforbrug. Ved at trykke godkendt, accepterer jeg, at der er indgået en endelig abonnementsaftale mellem mig og ENLY A/S.',
+
   GAS_DISCLAIMER_TEXT: 'Hvis du har elvarme eller varmepumpe i din bolig og/eller oplader elbil hjemme, hæves forbrugsgrænsen med <strong>333 kWh </strong> pr. måned pr. løsning, og der opkræves et fast tillæg på <strong>499 kr.</strong> pr. måned pr. løsning. Du har pligt til at oplyse, hvis du har elvarme/varmepumpe, eller hvis du oplader el-bil på ejendommen. ENLY er berettiget til at opkræve tillæggene med tilbagevirkende kraft fra tidspunktet, hvor du fik elvarme/varmepumpe og/eller elbil, som du oplader hjemme.'
 };
 
@@ -449,6 +453,18 @@ document.addEventListener('group:loaded', function(e) {
     // Add all cards at once to DOM
     cards.forEach(card => imgWrapper.appendChild(card));
     container.appendChild(imgWrapper);
+
+    // Add electrical disclaimer text AFTER the housing selector
+    const electricalDisclaimer = document.createElement('div');
+    electricalDisclaimer.className = 'electrical-disclaimer-text';
+    electricalDisclaimer.innerHTML = CONFIG.ELECTRICAL_DISCLAIMER_TEXT;
+
+    // Insert after imgWrapper
+    if (imgWrapper.nextSibling) {
+        container.insertBefore(electricalDisclaimer, imgWrapper.nextSibling);
+    } else {
+        container.appendChild(electricalDisclaimer);
+    }
 
     // Initial sync: respect any prechecked radio (from server / persisted form)
     const initiallyChecked = allRadios.find(r => r.checked);
@@ -1463,6 +1479,57 @@ function updateNextButtonState() {
   nextButton.disabled = false;
 }
 
+// Add payment acceptance text after payment section
+function addPaymentAcceptanceText() {
+  const paymentSection = document.querySelector('.signup__payment');
+  if (!paymentSection) return;
+
+  // Check if acceptance text already exists
+  if (paymentSection.parentNode.querySelector('.payment-acceptance-text')) return;
+
+  const acceptanceText = document.createElement('div');
+  acceptanceText.className = 'payment-acceptance-text';
+  acceptanceText.innerHTML = CONFIG.PAYMENT_ACCEPTANCE_TEXT;
+
+  // Insert after the payment section
+  if (paymentSection.nextSibling) {
+    paymentSection.parentNode.insertBefore(acceptanceText, paymentSection.nextSibling);
+  } else {
+    paymentSection.parentNode.appendChild(acceptanceText);
+  }
+}
+
+// Add electrical disclaimer to summary
+function addElectricalDisclaimerToSummary(summary) {
+  if (!summary) return;
+
+  // Check if disclaimer already exists
+  if (summary.querySelector('.electrical-summary-disclaimer')) return;
+
+  const electricalDisclaimer = document.createElement('div');
+  electricalDisclaimer.className = 'electrical-summary-disclaimer';
+  electricalDisclaimer.innerHTML = CONFIG.ELECTRICAL_DISCLAIMER_TEXT;
+
+  // Use timeout to ensure all sections are loaded
+  setTimeout(() => {
+    // Find all sections and place disclaimer after the last one
+    const sections = summary.querySelectorAll('section');
+    const lastSection = sections[sections.length - 1];
+
+    if (lastSection) {
+      // Insert after the last section
+      if (lastSection.nextSibling) {
+        summary.insertBefore(electricalDisclaimer, lastSection.nextSibling);
+      } else {
+        summary.appendChild(electricalDisclaimer);
+      }
+    } else {
+      // Fallback: append to summary
+      summary.appendChild(electricalDisclaimer);
+    }
+  }, 500);
+}
+
 // Make payment method cards fully clickable by handling clicks on the container
 function movePaymentInputsToContainer(root) {
   const scope = root || document;
@@ -1558,6 +1625,7 @@ document.addEventListener('group:loaded', e => {
   annotateAddOnCheckboxes(container);
   movePaymentInputsToContainer(container);
   setupPaymentMethodClickTracking(container);
+  addPaymentAcceptanceText();
   updateNextButtonState();
 });
 
@@ -1637,14 +1705,42 @@ document.addEventListener('group:loaded', function(e) {
 
 window.addOnCart = window.addOnCart || {};
 
+// Get all cart items (main product + add-ons)
 function getAllCartItems() {
   const main = window.selectedProduct ? [window.selectedProduct] : [];
   const addons = Object.values(window.addOnCart || {});
-  const all = [...main, ...addons];
-  return all.map(item => ({
-    ...item,
-    item_id: String(item.item_id)
-  }));
+  return [...main, ...addons];
+}
+
+// Normalize items for GA4 (convert electricalProductSubscriptionPrice to price, validate numbers)
+function getNormalizedCartItems() {
+  const rawItems = getAllCartItems();
+  
+  const normalizedItems = rawItems.map(item => {
+    const rawPrice = item.electricalProductSubscriptionPrice;
+    const price = Number(rawPrice);
+
+    if (!Number.isFinite(price)) {
+      console.warn("Invalid GA4 item price:", rawPrice, item);
+      return null; // drop invalid items
+    }
+    
+    // Remove electricalProductSubscriptionPrice and use it as price
+    const { electricalProductSubscriptionPrice, ...rest } = item;
+
+    return {
+      ...rest,
+      item_id: String(item.item_id),
+      price: price,
+      quantity: Number(item.quantity) || 1
+    };
+  }).filter(Boolean); // remove invalid items
+
+  if (!normalizedItems.length) {
+    console.warn("No valid GA4 items to send");
+  }
+
+  return normalizedItems;
 }
 
 // GTM Events
@@ -1659,12 +1755,10 @@ document.addEventListener('group:completed', async function(event) {
     event: "checkout_progress",
     ecommerce: {
       checkout_step: stepNumber,
-      checkout_option: { step_name: groupName }
+      checkout_option: { step_name: groupName },
+      items: getNormalizedCartItems()
     }
   };
- 
-  // Tilføj alle items til payload efterfølgende
-  payload.ecommerce.items = getAllCartItems();
  
   // Berig payload med ekstra info
   if (groupName === "situation") {
@@ -1676,15 +1770,7 @@ document.addEventListener('group:completed', async function(event) {
   }
  
   dataLayer.push(payload);
- 
-  // Log customer info when available
-  if (groupName === "customer") {
-    const hashedEmail = "abcd1234"; // brug sha256 i prod
-    dataLayer.push({
-      event: "user_identifier",
-      hashed_email: hashedEmail
-    });
-  }
+
  
   // Log product added to cart using productMap
   if (groupName === "electrical_product") {
@@ -1721,22 +1807,24 @@ document.addEventListener('group:completed', async function(event) {
           step_name: groupName,
           option: container.situation
         },
-        items: [window.selectedProduct]
-      },
-      hashed_email: "abcd1234" // brug sha256 i prod
+        items: getNormalizedCartItems()
+      }
     });
   }
  
   // Log payment info + view_cart når man når payment-step
   if (groupName === "payment") {
-    const mainItems = window.selectedProduct ? [window.selectedProduct] : [];
-    const addOnItems = Object.values(window.addOnCart || {});
-    const allItems = [...mainItems, ...addOnItems];
+    const normalizedItems = getNormalizedCartItems();
+    const totalValue = Number(event.detail.totalSubscriptionPrice || 0);
  
     // Skyd view_cart på payment-step
     dataLayer.push({
       event: "view_cart",
-      ecommerce: { items: allItems }
+      ecommerce: {
+        currency: "DKK",
+        value: totalValue,
+        items: normalizedItems
+      }
     });
  
     // Skyd payment event
@@ -1744,26 +1832,42 @@ document.addEventListener('group:completed', async function(event) {
       event: "add_payment_info",
       ecommerce: {
         payment_type: container.payment_type,
-        items: allItems
+        currency: "DKK",
+        value: totalValue,
+        items: normalizedItems
       }
     });
   }
  
   // Purchase på permissions-step
   if (groupName === "permissions") {
-    const mainItems = window.selectedProduct ? [window.selectedProduct] : [];
-    const addOnItems = Object.values(window.addOnCart || {});
-    const allItems = [...mainItems, ...addOnItems];
-    const totalValue = allItems.reduce((sum, it) => sum + (parseFloat(it.price) || 0), 0);
- 
+    const normalizedItems = getNormalizedCartItems();
+
+    if (!normalizedItems.length) {
+      return;
+    }
+
+    const rawTotalValue = event.detail.totalSubscriptionPrice;
+    const totalValue = Number(rawTotalValue);
+    const transactionId = container.id;
+
+    if (!transactionId || !Number.isFinite(totalValue)) {
+      console.warn("Invalid GA4 purchase payload", {
+        transactionId,
+        rawTotalValue
+      });
+      return;
+    }
+    
+    console.log("normalizedItems", normalizedItems);
     dataLayer.push({
       event: "purchase",
       ecommerce: {
-        transaction_id: container.signup_id || "unknown",
+        transaction_id: transactionId,
         affiliation: container.affiliate || "ENLY.dk",
         value: totalValue,
         currency: "DKK",
-        items: allItems
+        items: normalizedItems
       }
     });
   }
@@ -1848,7 +1952,10 @@ function initializeTooltipHandles() {
 document.addEventListener('DOMContentLoaded', initializeTooltipHandles);
 
 // Also initialize when group:loaded event fires (for dynamically loaded content)
-document.addEventListener('group:loaded', initializeTooltipHandles);
+document.addEventListener('group:loaded', () => {
+  initializeTooltipHandles();
+  addPaymentAcceptanceText();
+});
 
 
 // Price-card
@@ -1953,7 +2060,7 @@ function updatePriceSection() {
 
   const priceSection = ensurePriceSection();
   if (!priceSection) return;
-    
+
     const valueEl = priceSection.querySelector('#summary-price-value');
     if (!valueEl) return;
     
@@ -2010,6 +2117,9 @@ function updatePriceSection() {
 
     valueEl.textContent = priceText;
     priceSection.style.display = '';
+
+    // Add electrical disclaimer to summary
+    addElectricalDisclaimerToSummary(summary);
   }
 
   function updatePriceCard() {
@@ -2200,9 +2310,9 @@ function updatePriceSection() {
             }
           }
         }
-        
+
         updatePriceSection();
-        
+
         // Stop observing once summary is found and price is updated
         // Check if price was successfully set
         setTimeout(() => {

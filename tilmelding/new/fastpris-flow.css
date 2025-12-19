@@ -1183,7 +1183,6 @@ body {
   font-family: Gamay, sans-serif;
   font-size: var(--Font-Size-Base);
   font-style: normal;
-  font-weight: var(--Font-Weight-Bold);
   line-height: 120%;
   margin-left: 0.75rem;
   flex: 1;
@@ -3672,6 +3671,75 @@ body:has(.signup__section--electrical_product) .actions #next-button {
 
 .loading-pulse {
   animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Electrical disclaimer text styling */
+.electrical-disclaimer-text {
+  font-family: 'Gamay', sans-serif;
+  font-size: 0.75rem; /* 12px */
+  font-weight: 200;
+  line-height: 150%;
+  color: var(--Black);
+  text-align: center;
+  margin-top: 2rem;
+  padding: 0 0.25rem;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.electrical-disclaimer-text strong {
+  font-weight: 800;
+}
+
+/* Electrical summary disclaimer styling */
+.electrical-summary-disclaimer {
+  grid-column: 1 / -1; /* Span all grid columns */
+  grid-row: auto; /* Let it flow naturally */
+  order: 10; /* Place it after all other sections */
+  font-family: 'Gamay', sans-serif;
+  font-size: 0.75rem; /* 12px */
+  font-weight: 200;
+  line-height: 150%;
+  color: var(--Black);
+  text-align: center;
+  margin-top: 0.5rem;
+  padding: 0 0.25rem;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.electrical-summary-disclaimer strong {
+  font-weight: 800;
+}
+
+/* Payment acceptance text styling */
+.payment-acceptance-text {
+  font-family: 'Gamay', sans-serif;
+  font-size: 0.75rem; /* 12px */
+  font-weight: 200;
+  line-height: 150%;
+  color: var(--Black);
+  text-align: left;
+  margin-top: 0.2rem;
+  padding: 0 0.25rem;
+  max-width: 37.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.payment-acceptance-text strong {
+  font-weight: 800;
+}
+
+/* Specific styling for electrical disclaimer in summary/confirmation step */
+.signup__summary .electrical-summary-disclaimer {
+  text-align: left;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
 }
 
 /* Gas disclaimer text styling */
