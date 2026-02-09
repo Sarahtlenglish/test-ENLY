@@ -6,17 +6,24 @@ const COLLECTION_ID = "6964e1d9d7780ca7d22ba2ba";
 const API_KEY = "92f1f5489acfaf730449d39af84386d521d68a80688a8f4e09b1a2808c417c9bbbaf71351e65357278634aaf9b48331037978cd7ca10503fdd6a5ebdb0b29c14";
 const API_URL = "https://kunde.gronelforsyning.dk/api/v1/daily-average-prices";
 
-// Get current month
+// Get previous full month (avoid partial current month)
+const formatDateLocal = (date) => {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+};
+
 const today = new Date();
-const year = today.getFullYear();
-const month = today.getMonth();
-const firstDay = new Date(year, month, 1);
-const lastDay = new Date(year, month + 1, 0);
+const currentYear = today.getFullYear();
+const currentMonthIndex = today.getMonth();
+const firstDay = new Date(currentYear, currentMonthIndex - 1, 1);
+const lastDay = new Date(currentYear, currentMonthIndex, 0);
 
 const currentMonth = {
-  startDate: firstDay.toISOString().split("T")[0],
-  endDate: lastDay.toISOString().split("T")[0],
-  yearMonth: `${year}${(month + 1).toString().padStart(2, "0")}`,
+  startDate: formatDateLocal(firstDay),
+  endDate: formatDateLocal(lastDay),
+  yearMonth: `${firstDay.getFullYear()}${(firstDay.getMonth() + 1).toString().padStart(2, "0")}`,
   monthName: firstDay.toLocaleDateString("da-DK", { month: "long", year: "numeric" })
 };
 
