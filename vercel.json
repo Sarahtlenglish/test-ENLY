@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api-update-prices.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api-update-prices.js"
+    }
+  ],
+  "functions": {
+    "api-update-prices.js": {
+      "maxDuration": 30
+    }
+  }
+}
